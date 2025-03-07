@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "8000:8000"
+    networks:
+      - app_network
+    restart: no
+
+networks:
+  app_network:
+    driver: bridge

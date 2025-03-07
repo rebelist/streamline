@@ -1,0 +1,7 @@
+README.md
+LICENSE
+Dockerfile
+docker-compose.yaml
+tests
+poetry.toml
+.venv
