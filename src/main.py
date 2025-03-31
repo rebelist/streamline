@@ -2,15 +2,12 @@
 
 from fastapi import FastAPI
 
-fastapi = FastAPI()
+app = FastAPI()
 
 # Register backend routes
 # fastapi.include_router(user.router)
 
-#
-# @ui.page('/')
-# def main_page():
-#     ui.label('Welcome to NiceGUI + FastAPI!')
-#     ui.markdown('##Welcome to NiceGUI + FastAPI!')
-#
-# ui.run_with(fastapi)
+
+@app.get('/')
+async def root():
+    return {'message': 'Hello World'}

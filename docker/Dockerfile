@@ -7,7 +7,7 @@ FROM python:${PYTHON_VERSION}-slim AS builder
 ARG POETRY_VERSION
 
 WORKDIR /app
-COPY pyproject.toml poetry.lock /app/
+COPY ../pyproject.toml poetry.lock /app/
 
 RUN pip install --no-cache-dir poetry==${POETRY_VERSION} \
     && poetry config virtualenvs.create false  \
@@ -25,7 +25,7 @@ RUN addgroup -S rebelist && adduser -S streamline -G rebelist
 USER streamline
 WORKDIR /home/streamline/app
 
-COPY --chown=streamline:rebelist src/ .
+COPY --chown=streamline:rebelist ../src .
 COPY --from=builder /app/requirements.txt ./requirements.txt
 
 RUN pip install --no-cache-dir --user -r requirements.txt

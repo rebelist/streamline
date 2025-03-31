@@ -1,15 +1,74 @@
 services:
-  app:
+  api:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: app
+      dockerfile: ./docker/Dockerfile
+    container_name: rebelist-streamline-api
     ports:
       - "8000:8000"
     networks:
-      - app_network
+      - streamline
     restart: no
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    image: mongodb/mongodb-community-server:8.0.5-ubi8
+    container_name: rebelist-streamline-db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    volumes:
+      - db_data:/data/db
+    networks:
+      - streamline
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    container_name: rebelist-streamline-grafana
+    ports:
+      - "80:3000"
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_BASIC_ENABLED: false
+      GF_DASHBOARDS_PROVIDERS_0_NAME: default
+      GF_DASHBOARDS_PROVIDERS_0_ORG_ID: "1"
+      GF_DASHBOARDS_PROVIDERS_0_FOLDER: /etc/grafana/datasources/dashboards
+      GF_DASHBOARDS_PROVIDERS_0_TYPE: file
+      GF_DASHBOARDS_PROVIDERS_0_DISABLE_SANDBOXING: "true" # Required for file-based dashboard datasources in some cases
+      GF_DATASOURCES_PROVIDERS_0_NAME: default
+      GF_DATASOURCES_PROVIDERS_0_ORG_ID: "1"
+      GF_DATASOURCES_PROVIDERS_0_FOLDER: /etc/grafana/datasources/datasources
+      GF_DATASOURCES_PROVIDERS_0_TYPE: file
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/api/health" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/datasources:/etc/grafana/datasources/datasources
+      - ./docker/grafana/dashboards:/etc/grafana/datasources/dashboards
+    networks:
+      - streamline
+    depends_on:
+      - api
+
+volumes:
+  db_data:
+  grafana_data:
 
 networks:
-  app_network:
+  streamline:
     driver: bridge

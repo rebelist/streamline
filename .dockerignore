@@ -1,6 +1,6 @@
 README.md
 LICENSE
-Dockerfile
+docker/Dockerfile
 docker-compose.yaml
 tests
 poetry.toml
