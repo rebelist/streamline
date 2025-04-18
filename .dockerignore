@@ -1,7 +1,7 @@
 README.md
 LICENSE
 docker/Dockerfile
-docker-compose.yaml
+docker-compose.yml
 tests
 poetry.toml
 .venv

@@ -47,6 +47,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+coverage
 
 # Translations
 *.mo
@@ -108,4 +109,6 @@ cython_debug/
 .poetry
 
 #Docker
-docker-compose.override.yaml
+docker-compose.override.yml
+# Ignore dynaconf secret files
+.secrets.*

@@ -8,7 +8,7 @@ ARG POETRY_VERSION
 
 WORKDIR /app
 COPY ../pyproject.toml poetry.lock /app/
-
+# @todo Do we need poetry?
 RUN pip install --no-cache-dir poetry==${POETRY_VERSION} \
     && poetry config virtualenvs.create false  \
     && poetry install --without dev --no-ansi --no-interaction \

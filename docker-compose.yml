@@ -11,6 +11,7 @@ services:
     restart: no
     env_file:
       - .env
+    profiles: ["production"]
     depends_on:
       - db
 
@@ -28,6 +29,7 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    profiles: ["production", "development"]
     volumes:
       - db_data:/data/db
     networks:
@@ -56,14 +58,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 3
+    profiles: ["production", "development"]
     volumes:
       - grafana_data:/var/lib/grafana
       - ./docker/grafana/datasources:/etc/grafana/datasources/datasources
       - ./docker/grafana/dashboards:/etc/grafana/datasources/dashboards
     networks:
       - streamline
-    depends_on:
-      - api
 
 volumes:
   db_data:
