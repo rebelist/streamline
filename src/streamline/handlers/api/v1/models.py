@@ -16,14 +16,6 @@ class TimeUnit(Enum):
     NONE = 'none'
 
 
-class TimeSeriesData(BaseModel):
-    """Represents a single time series metric with unit information."""
-
-    name: str = Field(description='Name of the time series')
-    datapoints: List[TimeDataPoint] = Field(description='List of data points for the time series')
-    unit: TimeUnit = Field(default=TimeUnit.NONE, description="Unit of the 'value' field")
-
-
 class TimeSeriesResponse(BaseModel):
     """Response model for an API endpoint that returns time series data n a format suitable for Grafana."""
 

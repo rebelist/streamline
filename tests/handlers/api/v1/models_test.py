@@ -2,7 +2,7 @@ import pytest
 from pydantic import ValidationError
 
 from streamline.application.compute.models import TimeDataPoint
-from streamline.handlers.api.v1.models import TimeSeriesData, TimeSeriesResponse, TimeUnit
+from streamline.handlers.api.v1.models import TimeSeriesResponse, TimeUnit
 
 
 class TestTimeUnit:
@@ -15,22 +15,6 @@ class TestTimeUnit:
         assert TimeUnit.DAYS.value == 'days'
         assert TimeUnit.MINUTES.value == 'minutes'
         assert TimeUnit.NONE.value == 'none'
-
-
-class TestTimeSeriesData:
-    """Tests the instantiation and attributes of the TimeSeriesData model."""
-
-    def test_time_series_data_model_instantiation(self) -> None:
-        """Verify that a TimeSeriesData instance is correctly created with all required fields."""
-        datapoints = [
-            TimeDataPoint(value=3.25, timestamp=1700000000, label='Sprint A'),
-            TimeDataPoint(value=4.75, timestamp=1700001000, label='Sprint B'),
-        ]
-        ts_data = TimeSeriesData(name='Lead Time', datapoints=datapoints, unit=TimeUnit.DAYS)
-
-        assert ts_data.name == 'Lead Time'
-        assert ts_data.datapoints == datapoints
-        assert ts_data.unit == TimeUnit.DAYS
 
 
 class TestTimeSeriesResponse:
