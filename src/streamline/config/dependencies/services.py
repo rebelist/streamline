@@ -9,7 +9,7 @@ from workalendar.registry import registry
 
 from streamline.application.compute import PerformanceService
 from streamline.application.compute.use_cases import GetAllSprintCycleTimesUseCase
-from streamline.config.settings import settings as app_settings
+from streamline.config import settings as app_settings
 from streamline.domain.metrics.performance import CycleTimeCalculator
 from streamline.domain.services import CalendarService
 from streamline.infrastructure.jira import JiraSprintRepository

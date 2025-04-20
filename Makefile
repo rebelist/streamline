@@ -2,13 +2,13 @@
 
 development:
 	@echo "\nRunning Streamline in development mode..."
-	colima start --profile streamline --network-address
+	#colima start --profile streamline --network-address
 	docker-compose --profile development up -d
 	fastapi dev src/streamline/handlers/api/main.py
 
 start:
 	@echo "\nRunning Streamline..."
-	colima start --profile streamline
+	colima start --profile streamline --network-address
 	docker-compose --profile production up -d
 
 shutdown:
