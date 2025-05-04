@@ -31,4 +31,4 @@ COPY --from=builder /app/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir --user -r requirements.txt
 
 EXPOSE 8000
-ENTRYPOINT ["python", "-m", "fastapi", "run", "main.py", "--port", "8000"]
+ENTRYPOINT ["python", "-m", "fastapi", "run", "src/streamline/handlers/api", "--port", "8000"]

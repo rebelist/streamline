@@ -11,12 +11,12 @@ services:
     restart: no
     env_file:
       - .env
-    profiles: ["production"]
+    profiles: [ "production" ]
     depends_on:
       - db
 
   db:
-    image: mongodb/mongodb-community-server:8.0.5-ubi8
+    image: mongodb/mongodb-community-server:8.0.9-ubi8
     container_name: rebelist-streamline-db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
@@ -29,20 +29,24 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
-    profiles: ["production", "development"]
+    profiles: [ "production", "development" ]
     volumes:
-      - db_data:/data/db
+      - ./docker/mongo/db:/data/db
+      - ./docker/mongo/mongod.conf:/etc/mongod.conf:ro
+      - ./docker/mongo/mongosh.conf:/etc/mongosh.conf:ro
     networks:
       - streamline
 
   grafana:
-    image: grafana/grafana:11.6.0
+    image: grafana/grafana:11.6.1
     container_name: rebelist-streamline-grafana
     ports:
       - "80:3000"
     environment:
-      GF_AUTH_ANONYMOUS_ENABLED: "true"
-      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_ANONYMOUS_ENABLED: false
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_DISABLE_INITIAL_ADMIN_PASSWORD_CHANGE: true
       GF_AUTH_BASIC_ENABLED: false
       GF_DASHBOARDS_PROVIDERS_0_NAME: default
       GF_DASHBOARDS_PROVIDERS_0_ORG_ID: "1"
@@ -58,17 +62,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 3
-    profiles: ["production", "development"]
+    profiles: [ "production", "development" ]
     volumes:
-      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/data:/var/lib/grafana
       - ./docker/grafana/datasources:/etc/grafana/datasources/datasources
       - ./docker/grafana/dashboards:/etc/grafana/datasources/dashboards
     networks:
       - streamline
-
-volumes:
-  db_data:
-  grafana_data:
 
 networks:
   streamline:

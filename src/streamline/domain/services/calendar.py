@@ -28,7 +28,7 @@ class CalendarService:
         self.__workday_ends_at = workday_ends_at
         self.__workday_duration = workday_duration
 
-    def get_working_hours_delta(self, start_at: datetime, end_at: datetime) -> int:
+    def get_working_days_delta(self, start_at: datetime, end_at: datetime) -> float:
         """Calculates working hours between two datetimes."""
         start_date = start_at.date()
         end_date = end_at.date()
@@ -46,7 +46,7 @@ class CalendarService:
             working_days -= 1
 
         total_hours = (working_days * self.__workday_duration) + partial_hours
-        return round(total_hours)
+        return round(total_hours / self.__workday_duration, 2)
 
     def __calculate_partial_day_hours(self, dt: datetime, reference_time: time, is_start: bool) -> float:
         """Calculates worked hours for a partial day."""

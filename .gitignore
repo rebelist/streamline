@@ -110,5 +110,8 @@ cython_debug/
 
 #Docker
 docker-compose.override.yml
+docker/mongo/db
+docker/grafana/data
+
 # Ignore dynaconf secret files
 .secrets.*

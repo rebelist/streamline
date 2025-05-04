@@ -4,17 +4,17 @@ development:
 	@echo "\nRunning Streamline in development mode..."
 	#colima start --profile streamline --network-address
 	docker-compose --profile development up -d
-	fastapi dev src/streamline/handlers/api/main.py
+	fastapi dev src/streamline/handlers/api
 
 start:
 	@echo "\nRunning Streamline..."
-	colima start --profile streamline --network-address
+	# colima start --profile streamline --network-address
 	docker-compose --profile production up -d
 
 shutdown:
 	@echo "\nStopping Streamline..."
-	docker-compose down
-	colima stop --profile streamline
+	docker-compose --profile development down
+	# colima stop --profile streamline
 
 check:
 	@echo "\nRunning pre-commit all or a specific hook..."

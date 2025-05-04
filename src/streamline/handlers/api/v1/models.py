@@ -1,9 +1,9 @@
 from enum import Enum
-from typing import List
+from typing import Generic, TypeVar
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field
 
-from streamline.application.compute.models import TimeDataPoint
+T = TypeVar('T')
 
 
 class TimeUnit(Enum):
@@ -16,12 +16,18 @@ class TimeUnit(Enum):
     NONE = 'none'
 
 
-class TimeSeriesResponse(BaseModel):
-    """Response model for an API endpoint that returns time series data n a format suitable for Grafana."""
+class TimeSeriesMetadata(BaseModel):
+    """Metadata for a time series metric."""
 
-    target: str = Field(description='Target metric name')
-    datapoints: List[TimeDataPoint] = Field(description='List of data points for the time series')
-    type: str = Field(default='timeseries', description="Type of data ('timeseries' or 'table')")
-    unit: TimeUnit = Field(default=TimeUnit.HOURS, description='Unit of the data')
+    metric: str = Field(description='Name of the metric')
+    unit: TimeUnit = Field(default=TimeUnit.DAYS, description='Unit of the datapoint')
+    description: str = Field(description='Human-readable description of the metric')
 
-    model_config = ConfigDict(frozen=True)
+
+class TimeSeriesResponse(BaseModel, Generic[T]):
+    """Generic response model for time series data in a format suitable for Grafana."""
+
+    datapoints: list[T] = Field(description='List of data points for the time series')
+    meta: TimeSeriesMetadata = Field(description='Additional metadata about the response')
+
+    model_config = {'frozen': True}

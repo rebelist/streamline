@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List
 
 from streamline.domain.ticket import Ticket
 
@@ -9,8 +8,7 @@ from streamline.domain.ticket import Ticket
 class Sprint:
     """Represents an agile iteration."""
 
-    id: str
     name: str
     opened_at: datetime
     closed_at: datetime
-    tickets: List[Ticket]
+    tickets: list[Ticket]

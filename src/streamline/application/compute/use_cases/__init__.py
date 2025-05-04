@@ -1,3 +1,3 @@
-from streamline.application.compute.use_cases.performance import GetAllSprintCycleTimesUseCase
+from streamline.application.compute.use_cases.performance import GetCycleTimesUseCase
 
-__all__ = ['GetAllSprintCycleTimesUseCase']
+__all__ = ['GetCycleTimesUseCase']

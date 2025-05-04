@@ -1,3 +1,3 @@
-from streamline.domain.metrics.performance.cycle_time import CycleTime, CycleTimeCalculator
+from streamline.domain.metrics.performance.calculators import CycleTimeCalculator
 
-__all__ = ['CycleTimeCalculator', 'CycleTime']
+__all__ = ['CycleTimeCalculator']

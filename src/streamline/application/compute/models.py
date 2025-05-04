@@ -3,11 +3,12 @@ from typing import Annotated
 from pydantic import BaseModel, ConfigDict, Field
 
 
-class TimeDataPoint(BaseModel):
+class CycleTimeDataPoint(BaseModel):
     """Represent a metric data point."""
 
     model_config = ConfigDict(frozen=True)
 
-    value: Annotated[float, Field(description='Data point value')]
-    timestamp: Annotated[int, Field(description='Epoch timestamp in milliseconds')]
-    label: Annotated[str, Field(description='Data point identifier')]
+    duration: Annotated[float, Field(description='Ticket cycle time')]
+    resolved_at: Annotated[int, Field(description='Epoch timestamp in seconds')]
+    ticket: Annotated[str, Field(description='Ticket identifier')]
+    sprint: Annotated[str, Field(description='Sprint in which the ticket was started.')]

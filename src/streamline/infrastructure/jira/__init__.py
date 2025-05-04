@@ -1,3 +1,3 @@
-from streamline.infrastructure.jira.repositories import JiraSprintRepository
+from streamline.infrastructure.jira.gateway import JiraGateway
 
-__all__ = ['JiraSprintRepository']
+__all__ = ['JiraGateway']
