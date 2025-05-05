@@ -42,7 +42,7 @@ class JobRepository:
 
     COLLECTION_NAME: Final[str] = 'jobs'
 
-    def __init__(self, database: Database[Mapping[str, Any]]):
+    def __init__(self, database: Database[Mapping[str, Any]]) -> None:
         self.__collection: Collection[Mapping[str, Any]] = database.get_collection(JobRepository.COLLECTION_NAME)
 
     def save(self, job: Job) -> None:

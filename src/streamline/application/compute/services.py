@@ -3,11 +3,11 @@ from streamline.application.compute.use_cases import GetCycleTimesUseCase
 
 
 class PerformanceService:
-    """Service that implements use cases for performance metrics."""
+    """Service that implements use cases for workflow metrics."""
 
     __slots__ = '__cycle_time_use_case'
 
-    def __init__(self, cycle_time_use_case: GetCycleTimesUseCase):
+    def __init__(self, cycle_time_use_case: GetCycleTimesUseCase) -> None:
         self.__cycle_time_use_case = cycle_time_use_case
 
     def get_cycle_times(self, team: str) -> list[CycleTimeDataPoint]:

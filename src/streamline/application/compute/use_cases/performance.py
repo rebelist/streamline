@@ -1,5 +1,5 @@
 from streamline.application.compute.models import CycleTimeDataPoint
-from streamline.domain.metrics.performance import CycleTimeCalculator
+from streamline.domain.metrics.workflow import CycleTimeCalculator
 from streamline.domain.sprint import SprintRepository
 
 
@@ -8,7 +8,7 @@ class GetCycleTimesUseCase:
 
     __slots__ = ('__calculator', '__repository')
 
-    def __init__(self, calculator: CycleTimeCalculator, sprint_repository: SprintRepository):
+    def __init__(self, calculator: CycleTimeCalculator, sprint_repository: SprintRepository) -> None:
         self.__calculator = calculator
         self.__repository = sprint_repository
 

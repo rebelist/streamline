@@ -16,7 +16,7 @@ from streamline.application.compute import PerformanceService
 from streamline.application.compute.use_cases import GetCycleTimesUseCase
 from streamline.application.ingestion.jobs import SprintJob, TicketJob
 from streamline.config.settings import Settings, load_settings
-from streamline.domain.metrics.performance import CycleTimeCalculator
+from streamline.domain.metrics.workflow import CycleTimeCalculator
 from streamline.domain.services import CalendarService
 from streamline.infrastructure.jira import JiraGateway
 from streamline.infrastructure.mongo.jira_sprint import MongoSprintDocumentRepository, MongoSprintRepository

@@ -9,7 +9,7 @@ class MongoTicketDocumentRepository:
 
     COLLECTION_NAME: Final[str] = 'jira_tickets'
 
-    def __init__(self, database: Database[Mapping[str, Any]]):
+    def __init__(self, database: Database[Mapping[str, Any]]) -> None:
         self.__collection: Collection[Mapping[str, Any]] = database.get_collection(
             MongoTicketDocumentRepository.COLLECTION_NAME
         )

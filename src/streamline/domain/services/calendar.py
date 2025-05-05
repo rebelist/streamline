@@ -47,8 +47,15 @@ class CalendarService:
         # Handle same day case separately
         if start_date == end_date:
             if self.__is_working_day(start_date):
-                partial_hours = self.__get_partial_hours(end_at, False) - self.__get_partial_hours(start_at, True)
-                return round(max(0.0, partial_hours) / self.__workday_duration, 2)
+                work_start = datetime.combine(start_date, self.__workday_starts_at, tzinfo=start_at.tzinfo)
+                work_end = datetime.combine(start_date, self.__workday_ends_at, tzinfo=start_at.tzinfo)
+
+                effective_start = max(start_at, work_start)
+                effective_end = min(end_at, work_end)
+
+                duration_seconds = max(0.0, (effective_end - effective_start).total_seconds())
+                partial_hours = duration_seconds / self.HOUR_IN_SECONDS
+                return round(partial_hours / self.__workday_duration, 2)
             else:
                 return 0.0
 

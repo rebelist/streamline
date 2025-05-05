@@ -22,7 +22,7 @@ check:
 
 tests:
 	@echo "\nRunning tests..."
-	@poetry run pytest -vv --color=yes --durations=5 --maxfail=1 --failed-first
+	@poetry run pytest -vv --color=yes --no-header --maxfail=1 --failed-first
 
 coverage:
 	@echo "\nGenerating test coverage..."

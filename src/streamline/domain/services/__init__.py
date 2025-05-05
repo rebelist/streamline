@@ -1,3 +1,3 @@
-from streamline.domain.services.calendar import CalendarService
+from streamline.domain.services.calendar import CalendarService, WorkCalendarProtocol
 
-__all__ = ['CalendarService']
+__all__ = ['CalendarService', 'WorkCalendarProtocol']

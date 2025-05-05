@@ -1,3 +1,3 @@
-from streamline.infrastructure.jira.gateway import JiraGateway
+from streamline.infrastructure.jira.gateway import IssueNotStartedError, JiraGateway
 
-__all__ = ['JiraGateway']
+__all__ = ['JiraGateway', 'IssueNotStartedError']

@@ -13,7 +13,7 @@ settings = container.settings()
 @click.group()
 @click.version_option(settings.app.version, prog_name=settings.app.name)
 @click.pass_context
-def console(context: Context):
+def console(context: Context) -> None:
     """Provides commands for executing Streamline workflows and utilities."""
     context.obj = container
 

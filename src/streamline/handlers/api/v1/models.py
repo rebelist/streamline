@@ -19,6 +19,8 @@ class TimeUnit(Enum):
 class TimeSeriesMetadata(BaseModel):
     """Metadata for a time series metric."""
 
+    model_config = {'frozen': True}
+
     metric: str = Field(description='Name of the metric')
     unit: TimeUnit = Field(default=TimeUnit.DAYS, description='Unit of the datapoint')
     description: str = Field(description='Human-readable description of the metric')
@@ -27,7 +29,7 @@ class TimeSeriesMetadata(BaseModel):
 class TimeSeriesResponse(BaseModel, Generic[T]):
     """Generic response model for time series data in a format suitable for Grafana."""
 
+    model_config = {'frozen': True}
+
     datapoints: list[T] = Field(description='List of data points for the time series')
     meta: TimeSeriesMetadata = Field(description='Additional metadata about the response')
-
-    model_config = {'frozen': True}

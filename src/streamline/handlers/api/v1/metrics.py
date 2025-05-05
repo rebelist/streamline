@@ -12,7 +12,7 @@ from streamline.handlers.api.v1.models import TimeSeriesMetadata, TimeSeriesResp
 router = APIRouter()
 
 
-@router.get('/performance/cycle-time')
+@router.get('/workflow/cycle-time')
 @inject
 def cycle_time(
     settings: Annotated[Settings, Depends(Provide[Container.settings])],

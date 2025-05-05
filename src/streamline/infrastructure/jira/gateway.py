@@ -19,7 +19,7 @@ class IssueNotStartedError(Exception):
 class JiraGateway:
     """Jira gateway is a service that fetches raw sprints and issues."""
 
-    def __init__(self, jira: JIRA, settings: JiraSettings):
+    def __init__(self, jira: JIRA, settings: JiraSettings) -> None:
         self.__jira: JIRA = jira
         self.__settings = settings
 

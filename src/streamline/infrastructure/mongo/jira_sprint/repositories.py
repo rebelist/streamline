@@ -13,7 +13,7 @@ class MongoSprintRepository(SprintRepository):
 
     COLLECTION_NAME: Final[str] = 'jira_sprints'
 
-    def __init__(self, database: Database[Mapping[str, Any]]):
+    def __init__(self, database: Database[Mapping[str, Any]]) -> None:
         self.__collection: Collection[Mapping[str, Any]] = database.get_collection(
             MongoSprintRepository.COLLECTION_NAME
         )
@@ -61,7 +61,7 @@ class MongoSprintDocumentRepository:
 
     COLLECTION_NAME: Final[str] = 'jira_sprints'
 
-    def __init__(self, database: Database[Mapping[str, Any]]):
+    def __init__(self, database: Database[Mapping[str, Any]]) -> None:
         self.__collection: Collection[Mapping[str, Any]] = database.get_collection(
             MongoSprintDocumentRepository.COLLECTION_NAME
         )
