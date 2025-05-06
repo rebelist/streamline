@@ -1,3 +1,3 @@
-from streamline.infrastructure.mongo.job.repositories import JobRepository
+from streamline.infrastructure.mongo.job.repositories import Job, JobRepository
 
-__all__ = ['JobRepository']
+__all__ = ['JobRepository', 'Job']

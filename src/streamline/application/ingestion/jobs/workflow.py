@@ -4,9 +4,9 @@ from typing import Final
 from streamline.application.ingestion.models import Executable
 from streamline.config.settings import JiraSettings
 from streamline.infrastructure.jira.gateway import JiraGateway
-from streamline.infrastructure.mongo.jira_sprint import MongoSprintDocumentRepository
-from streamline.infrastructure.mongo.jira_ticket import MongoTicketDocumentRepository
 from streamline.infrastructure.mongo.job.repositories import Job, JobRepository
+from streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository
+from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
 class SprintJob(Executable):
@@ -27,7 +27,7 @@ class SprintJob(Executable):
         self.__settings = settings
 
     def execute(self) -> None:
-        """Execute jira_sprint data synchronization."""
+        """Execute sprint data synchronization."""
         team = self.__settings.team
         job = self.__job_repository.find(SprintJob.JOB_NAME, team)
 
@@ -65,7 +65,7 @@ class TicketJob(Executable):
         self.__settings = settings
 
     def execute(self) -> None:
-        """Execute jira_sprint data synchronization."""
+        """Execute sprint data synchronization."""
         team = self.__settings.team
         job = self.__job_repository.find(TicketJob.JOB_NAME, team)
 

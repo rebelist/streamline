@@ -13,7 +13,7 @@ class GetCycleTimesUseCase:
         self.__repository = sprint_repository
 
     def __call__(self, team: str) -> list[CycleTimeDataPoint]:
-        """Compute a jira_sprint cycle time for a given team."""
+        """Compute a sprint cycle time for a given team."""
         datapoints: list[CycleTimeDataPoint] = []
         for sprint in self.__repository.find_by_team_name(team):
             for ticket in sprint.tickets:

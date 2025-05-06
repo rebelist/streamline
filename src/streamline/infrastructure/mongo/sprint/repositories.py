@@ -5,7 +5,7 @@ from pymongo.synchronous.database import Database
 
 from streamline.domain.sprint import Sprint, SprintRepository
 from streamline.domain.ticket import Ticket
-from streamline.infrastructure.mongo.jira_ticket import MongoTicketDocumentRepository
+from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
 class MongoSprintRepository(SprintRepository):

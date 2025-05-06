@@ -1,4 +1,4 @@
-from streamline.infrastructure.mongo.jira_sprint.repositories import (
+from streamline.infrastructure.mongo.sprint.repositories import (
     MongoSprintDocumentRepository,
     MongoSprintRepository,
 )

@@ -37,6 +37,6 @@ class Command(ABC):
                 layout.add_row(progress)
                 layout.add_row(summary)
                 live.update(layout)
-                sleep(1)
+                sleep(0.5)
                 action(item)
             progress.update(task, advance=1)

@@ -5,9 +5,9 @@ from pytest_mock import MockerFixture
 from streamline.application.ingestion.jobs import SprintJob, TicketJob
 from streamline.config.settings import JiraSettings
 from streamline.infrastructure.jira.gateway import JiraGateway
-from streamline.infrastructure.mongo.jira_sprint import MongoSprintDocumentRepository
-from streamline.infrastructure.mongo.jira_ticket import MongoTicketDocumentRepository
 from streamline.infrastructure.mongo.job.repositories import Job, JobRepository
+from streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository
+from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
 class TestSprintJob:

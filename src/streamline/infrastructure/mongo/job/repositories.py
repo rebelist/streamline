@@ -33,12 +33,12 @@ class Job:
             name=cast(str, data.get('name')),
             team=cast(str, data.get('team')),
             executed_at=data.get('executed_at'),
-            metadata=data.get('metadata', None),
+            metadata=cast(dict[str, Any], data.get('metadata', {})),  # Provide default {}
         )
 
 
 class JobRepository:
-    """Sprint document repository to store raw jira jira_sprint documents."""
+    """Sprint document repository to store raw jira sprint documents."""
 
     COLLECTION_NAME: Final[str] = 'jobs'
 

@@ -19,9 +19,9 @@ from streamline.config.settings import Settings, load_settings
 from streamline.domain.metrics.workflow import CycleTimeCalculator
 from streamline.domain.services import CalendarService
 from streamline.infrastructure.jira import JiraGateway
-from streamline.infrastructure.mongo.jira_sprint import MongoSprintDocumentRepository, MongoSprintRepository
-from streamline.infrastructure.mongo.jira_ticket import MongoTicketDocumentRepository
 from streamline.infrastructure.mongo.job import JobRepository
+from streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository, MongoSprintRepository
+from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
 class Container(DeclarativeContainer):

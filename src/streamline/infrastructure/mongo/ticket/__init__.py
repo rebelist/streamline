@@ -1,4 +1,4 @@
-from streamline.infrastructure.mongo.jira_ticket.repositories import (
+from streamline.infrastructure.mongo.ticket.repositories import (
     MongoTicketDocumentRepository,
 )
 
