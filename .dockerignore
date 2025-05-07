@@ -5,3 +5,5 @@ docker-compose.yml
 tests
 poetry.toml
 .venv
+.pre-commit-config.yaml
+.gitignore

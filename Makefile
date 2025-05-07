@@ -29,6 +29,10 @@ coverage:
 	@poetry run coverage run -m pytest --no-summary --quiet
 	@poetry run coverage html -d coverage
 
+build:
+	@echo "\nBuilding api image..."
+	docker-compose --profile production build
+
 # Avoid treating the argument as a target
 %:
 	@:
