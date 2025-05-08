@@ -10,4 +10,5 @@ class CycleTimeCalculator:
 
     def calculate(self, ticket: Ticket) -> float:
         """Calculate cycletime, returns the number of working days."""
+        print(ticket)
         return self.__calendar.get_working_days_delta(ticket.started_at, ticket.resolved_at)

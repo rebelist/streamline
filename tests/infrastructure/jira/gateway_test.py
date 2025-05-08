@@ -82,7 +82,8 @@ def test_jira_gateway_find_tickets_success(mock_jira_client: MagicMock, mock_jir
     mock_issue.raw = {'key': 'TEST-2', 'fields': {'summary': 'Test Ticket'}}
     mock_issue.changelog = MagicMock()
     mock_issue.changelog.histories = [
-        MagicMock(created='2025-05-05T09:00:00.000+0000', items=[MagicMock(field='status', toString='In Progress')])
+        MagicMock(created='2025-05-05T09:00:00.000+0000', items=[MagicMock(field='status', toString='In Progress')]),
+        MagicMock(created='2025-05-05T12:00:00.000+0000', items=[MagicMock(field='status', toString='Done')]),
     ]
 
     mock_jira_client.search_issues.return_value = [mock_issue]
@@ -94,7 +95,7 @@ def test_jira_gateway_find_tickets_success(mock_jira_client: MagicMock, mock_jir
     assert tickets[0]['key'] == 'TEST-2'
     assert tickets[0]['team'] == 'TestTeam'
     assert tickets[0]['started_at'] == datetime(2025, 5, 5, 9, 0, tzinfo=tzutc())
-    assert tickets[0]['resolved_at'] == datetime(2025, 5, 10, 0, 0, tzinfo=tzutc())
+    assert tickets[0]['resolved_at'] == datetime(2025, 5, 5, 12, 0, tzinfo=tzutc())
     mock_jira_client.search_issues.assert_called_once()
 
 
@@ -107,7 +108,8 @@ def test_jira_gateway_find_tickets_no_done_at(mock_jira_client: MagicMock, mock_
     mock_issue.raw = {'key': 'TEST-3', 'fields': {'summary': 'Another Ticket'}}
     mock_issue.changelog = MagicMock()
     mock_issue.changelog.histories = [
-        MagicMock(created='2025-05-07T10:00:00.000+0000', items=[MagicMock(field='status', toString='In Progress')])
+        MagicMock(created='2025-05-07T10:00:00.000+0000', items=[MagicMock(field='status', toString='In Progress')]),
+        MagicMock(created='2025-05-07T11:00:00.000+0000', items=[MagicMock(field='status', toString='Done')]),
     ]
 
     mock_jira_client.search_issues.return_value = [mock_issue]

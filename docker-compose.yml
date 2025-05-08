@@ -67,8 +67,6 @@ services:
       - grafana_data:/var/lib/grafana
     networks:
       - streamline
-    depends_on:
-      - api
 
 volumes:
   mongo_data:

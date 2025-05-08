@@ -246,7 +246,7 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
-            "axisPlacement": "hidden",
+            "axisPlacement": "auto",
             "fillOpacity": 75,
             "gradientMode": "none",
             "hideFrom": {
@@ -284,9 +284,9 @@
       },
       "id": 2,
       "options": {
-        "barRadius": 0,
-        "barWidth": 0.6,
-        "colorByField": "Duration",
+        "barRadius": 0.2,
+        "barWidth": 0.54,
+        "colorByField": "Ticket",
         "fullHighlight": true,
         "groupWidth": 0.7,
         "legend": {
@@ -306,8 +306,8 @@
           "sort": "none"
         },
         "xField": "Ticket",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
+        "xTickLabelRotation": 90,
+        "xTickLabelSpacing": -100
       },
       "pluginVersion": "11.6.1",
       "targets": [
@@ -365,6 +365,6 @@
   "timezone": "browser",
   "title": "Workflow Performance",
   "uid": "deksp9xemrksga",
-  "version": 17,
+  "version": 3,
   "weekStart": ""
 }

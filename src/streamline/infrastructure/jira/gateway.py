@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any
 
 from dateutil import parser as date_parser
-from jira.client import JIRA
+from jira.client import JIRA, ResultList
 from jira.resources import Issue
 
 from streamline.config.settings import JiraSettings
@@ -13,6 +13,14 @@ class IssueNotStartedError(Exception):
 
     def __init__(self, issue: Issue) -> None:
         message = f"Ticket with ID '{issue.key}' has never been in progress."
+        super().__init__(message)
+
+
+class IssueNotFinishedError(Exception):
+    """Exception raised when an issue has never been set to  done."""
+
+    def __init__(self, issue: Issue) -> None:
+        message = f"Ticket with ID '{issue.key}' has never set to done."
         super().__init__(message)
 
 
@@ -76,34 +84,54 @@ class JiraGateway:
 
         issues = self.__jira.search_issues(
             jql_str=jql,
-            fields='key, summary, changelog, resolutiondate',
+            fields='key, summary, changelog',
             expand='changelog',
             maxResults=False,
         )
 
         for issue in issues:
             try:
-                started_at = self.__class__.__get_started_at(issue)
-            except IssueNotStartedError:
+                started_at, resolved_at = self.__get_started_and_resolved(issue)
+            except (IssueNotStartedError, IssueNotFinishedError):
                 continue
 
             document = issue.raw
             document['team'] = self.__settings.team
             document['started_at'] = started_at
-            document['resolved_at'] = date_parser.parse(issue.fields.resolutiondate)
+            document['resolved_at'] = resolved_at
             documents.append(document)
         return documents
 
     @staticmethod
-    def __get_started_at(issue: Issue) -> datetime:
-        changelog = issue.changelog
+    def __get_started_and_resolved(issue: Issue) -> tuple[datetime, datetime]:
+        changelog = sorted(issue.changelog.histories, key=lambda h: h.created)
+        in_progress_times: list[tuple[str, int]] = []
+        done_times: list[tuple[str, int]] = []
 
-        for history in changelog.histories:
+        for i, history in enumerate(changelog):
             for item in history.items:
-                if item.field == 'status' and item.toString == 'In Progress':
-                    return date_parser.parse(history.created)
+                if item.field != 'status':
+                    continue
+                if item.toString == 'In Progress':
+                    in_progress_times.append((history.created, i))
+                elif item.toString == 'Done':
+                    done_times.append((history.created, i))
 
-        raise IssueNotStartedError(issue)
+        if not in_progress_times:
+            raise IssueNotStartedError(issue)
+        if not done_times:
+            raise IssueNotFinishedError(issue)
+
+        last_in_progress_created, last_in_progress_index = in_progress_times[-1]
+
+        for done_created, done_index in done_times:
+            if done_index > last_in_progress_index:
+                return (
+                    date_parser.parse(last_in_progress_created),
+                    date_parser.parse(done_created),
+                )
+
+        raise IssueNotFinishedError(issue)
 
     def __get_statuses_as_string(self) -> str:
         return ', '.join(f'"{status}"' for status in self.__settings.issue_statuses)
