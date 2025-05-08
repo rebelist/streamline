@@ -17,7 +17,7 @@ services:
 
   mongo:
     image: mongodb/mongodb-community-server:8.0.9-ubi8
-    container_name: rebelist-streamline-db
+    container_name: rebelist-streamline-mongo
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=admin
       - MONGODB_INITDB_ROOT_PASSWORD=admin
@@ -29,7 +29,7 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
-    profiles: [ "production", "development" ]
+    profiles: [ ]
     volumes:
       - mongo_data:/data/db
       - ./docker/mongo/mongod.conf:/etc/mongod.conf:ro
@@ -62,7 +62,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 3
-    profiles: [ "production", "development" ]
+    profiles: [ ]
     volumes:
       - grafana_data:/var/lib/grafana
     networks:

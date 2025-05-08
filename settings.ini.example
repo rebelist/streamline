@@ -1,6 +1,6 @@
 [app]
 name = Streamline
-version = 0.2.0
+version = 0.3.0
 region = DE
 
 [workflow]
@@ -9,7 +9,7 @@ workday_ends_at = 18:00
 workday_duration = 8
 
 [jira]
-team = Thor
+team = Loki
 project = HIVE
 board_id = 533
 sprint_start_at = 30
