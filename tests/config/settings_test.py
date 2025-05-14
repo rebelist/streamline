@@ -58,31 +58,31 @@ class TestJiraSettings:
             project='PROJ',
             board_id=123,
             sprint_start_at=100,
-            issue_statuses=['To Do', 'In Progress'],
+            issue_types=['To Do', 'In Progress'],
         )
         assert settings.team == 'Development'
         assert settings.project == 'PROJ'
         assert settings.board_id == 123
         assert settings.sprint_start_at == 100
-        assert settings.issue_statuses == ['To Do', 'In Progress']
+        assert settings.issue_types == ['To Do', 'In Progress']
 
     def test_jira_settings_team_capitalization(self: 'TestJiraSettings') -> None:
         """Tests that the 'team' field is automatically capitalized."""
         settings = JiraSettings(
-            team='operations', project='OPS', board_id=456, sprint_start_at=200, issue_statuses=['Open', 'Closed']
+            team='operations', project='OPS', board_id=456, sprint_start_at=200, issue_types=['Open', 'Closed']
         )
         assert settings.team == 'Operations'
 
     def test_jira_settings_split_issue_statuses_from_list(self: 'TestJiraSettings') -> None:
         """Tests handling issue_statuses when it's already a list."""
         statuses = ['Blocked', 'Review']
-        settings = JiraSettings(team='ux', project='UI', board_id=101, sprint_start_at=400, issue_statuses=statuses)
-        assert settings.issue_statuses == statuses
+        settings = JiraSettings(team='ux', project='UI', board_id=101, sprint_start_at=400, issue_types=statuses)
+        assert settings.issue_types == statuses
 
     def test_jira_settings_immutability(self: 'TestJiraSettings') -> None:
         """Tests that a JiraSettings instance is immutable."""
         settings = JiraSettings(
-            team='design', project='DESIGN', board_id=222, sprint_start_at=500, issue_statuses=['Idea', 'Refinement']
+            team='design', project='DESIGN', board_id=222, sprint_start_at=500, issue_types=['Idea', 'Refinement']
         )
         with pytest.raises(ValidationError):
             settings.project = 'NEW_PROJ'
@@ -98,7 +98,7 @@ class TestSettings:
             workday_starts_at=time(8, 0), workday_ends_at=time(16, 0), workday_duration=8
         )
         jira_settings = JiraSettings(
-            team='backend', project='BE', board_id=555, sprint_start_at=600, issue_statuses=['Backlog', 'Dev']
+            team='backend', project='BE', board_id=555, sprint_start_at=600, issue_types=['Backlog', 'Dev']
         )
         settings = Settings(app=app_settings, workflow=workflow_settings, jira=jira_settings)
         assert settings.app == app_settings
@@ -112,7 +112,7 @@ class TestSettings:
             workday_starts_at=time(9, 0), workday_ends_at=time(18, 0), workday_duration=9
         )
         jira_settings = JiraSettings(
-            team='frontend', project='FE', board_id=666, sprint_start_at=700, issue_statuses=['Planned', 'Coding']
+            team='frontend', project='FE', board_id=666, sprint_start_at=700, issue_types=['Planned', 'Coding']
         )
         settings = Settings(app=app_settings, workflow=workflow_settings, jira=jira_settings)
         with pytest.raises(ValidationError):
@@ -140,7 +140,7 @@ class TestLoadSettings:
         project = ANALYTICS
         board_id = 999
         sprint_start_at = 800
-        issue_statuses = Open, In Review
+        issue_types = Open, In Review
         """
         config_file = tmp_path / 'settings.ini'
         config_file.write_text(config_content)
@@ -155,7 +155,7 @@ class TestLoadSettings:
             project='ANALYTICS',
             board_id=999,
             sprint_start_at=800,
-            issue_statuses=['Open', 'In Review'],
+            issue_types=['Open', 'In Review'],
         )
 
     def test_load_settings_missing_file(self, tmp_path: Path) -> None:
@@ -180,7 +180,7 @@ class TestLoadSettings:
         project = INVALID
         board_id = abc
         sprint_start_at = 1000
-        issue_statuses = One
+        issue_types = One
         """
         config_file = tmp_path / 'invalid.ini'
         config_file.write_text(config_content)
@@ -201,7 +201,7 @@ class TestLoadSettings:
         project = PART
         board_id = 111
         sprint_start_at = 900
-        issue_statuses = Yes
+        issue_types = Yes
         """
         config_file = tmp_path / 'partial.ini'
         config_file.write_text(config_content)
@@ -226,7 +226,7 @@ class TestLoadSettings:
         project = OTHER
         board_id = 222
         sprint_start_at = 1100
-        issue_statuses = Two
+        issue_types = Two
         """
         config_file = tmp_path / 'missing_field.ini'
         config_file.write_text(config_content)

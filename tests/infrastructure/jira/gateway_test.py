@@ -24,7 +24,7 @@ def mock_jira_settings() -> MagicMock:
     settings.board_id = 123
     settings.project = 'TEST'
     settings.team = 'TestTeam'
-    settings.issue_statuses = ['Task', 'Bug']
+    settings.issue_types = ['Task', 'Bug']
     return settings
 
 

@@ -32,6 +32,7 @@ class JiraGateway:
         self.__jira: JIRA = jira
         self.__settings = settings
         self.__logger = logger
+        self.__issue_types = ', '.join(f'"{status}"' for status in self.__settings.issue_types)
 
     def find_sprints(self, start_at: int = 0) -> list[dict[str, Any]]:
         """Find all sprints."""
@@ -47,7 +48,7 @@ class JiraGateway:
                 f'AND status = Done '
                 f'AND project = {self.__settings.project} '
                 f'AND Teams = {self.__settings.team} '
-                f'AND issuetype IN ({self.__get_statuses_as_string()}) '
+                f'AND issuetype IN ({self.__issue_types}) '
                 f'AND NOT status WAS "In Progress" BEFORE {opened_at:%Y-%m-%d} '
                 f'AND status CHANGED TO "In Progress" DURING ({opened_at:%Y-%m-%d}, {closed_at:%Y-%m-%d})'
             )
@@ -83,7 +84,7 @@ class JiraGateway:
             f'project = {self.__settings.project} '
             f'AND status = Done '
             f'AND Teams = {self.__settings.team} '
-            f'AND issuetype IN ({self.__get_statuses_as_string()}) '
+            f'AND issuetype IN ({self.__issue_types}) '
             f'{filter_done_at} '
             'ORDER BY created ASC'
         )
@@ -143,6 +144,3 @@ class JiraGateway:
                 )
 
         raise IssueNotFinishedError(issue)
-
-    def __get_statuses_as_string(self) -> str:
-        return ', '.join(f'"{status}"' for status in self.__settings.issue_statuses)

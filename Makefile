@@ -1,17 +1,23 @@
-.PHONY: development start shutdown check tests coverage
+.PHONY: init dev start shutdown check tests coverage
 
-development:
+init:
+	@echo "\nInitializing files..."
+	@cp .env.example .env
+	@cp settings.ini.example settings.ini
+
+dev:
 	@echo "\nRunning Streamline in development mode..."
-	docker-compose up -d
+	@docker-compose up -d
 	fastapi dev src/streamline/handlers/api
 
 start:
 	@echo "\nRunning Streamline..."
-	docker-compose --profile production up -d
+	@docker-compose --profile production up -d
+	@open http://localhost/login
 
 shutdown:
 	@echo "\nStopping Streamline..."
-	docker-compose --profile production down
+	@docker-compose --profile production down
 
 check:
 	@echo "\nRunning pre-commit all or a specific hook..."
@@ -28,7 +34,7 @@ coverage:
 
 build:
 	@echo "\nBuilding api image..."
-	docker-compose --profile production build
+	@docker-compose --profile production build
 
 # Avoid treating the argument as a target
 %:

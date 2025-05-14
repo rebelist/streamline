@@ -36,7 +36,7 @@ class JiraSettings(BaseModel):
     project: str
     board_id: int
     sprint_start_at: int
-    issue_statuses: list[str]
+    issue_types: list[str]
 
     @field_validator('team')
     @classmethod
@@ -44,9 +44,9 @@ class JiraSettings(BaseModel):
         """Ensure 'team' is always capitalized."""
         return value.capitalize()
 
-    @field_validator('issue_statuses', mode='before')
+    @field_validator('issue_types', mode='before')
     @classmethod
-    def split_issue_statuses(cls, value: str | list[str]) -> list[str]:
+    def split_issue_types(cls, value: str | list[str]) -> list[str]:
         """Parses a comma-separated string into a list of statuses."""
         if isinstance(value, str):
             return [item.strip() for item in value.split(',')]

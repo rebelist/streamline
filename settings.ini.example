@@ -9,8 +9,8 @@ workday_ends_at = 18:00
 workday_duration = 8
 
 [jira]
-team = Loki
+team = Thor
 project = HIVE
 board_id = 533
 sprint_start_at = 30
-issue_statuses = Bug, User Story, Spike, Technical Story
+issue_types = Bug, User Story, Spike, Technical Story
