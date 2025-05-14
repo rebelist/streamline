@@ -2,10 +2,11 @@ from datetime import datetime
 from typing import Any
 
 from dateutil import parser as date_parser
-from jira.client import JIRA, ResultList
+from jira.client import JIRA
 from jira.resources import Issue
 
 from streamline.config.settings import JiraSettings
+from streamline.infrastructure.monitoring import Logger
 
 
 class IssueNotStartedError(Exception):
@@ -27,29 +28,34 @@ class IssueNotFinishedError(Exception):
 class JiraGateway:
     """Jira gateway is a service that fetches raw sprints and issues."""
 
-    def __init__(self, jira: JIRA, settings: JiraSettings) -> None:
+    def __init__(self, jira: JIRA, settings: JiraSettings, logger: Logger) -> None:
         self.__jira: JIRA = jira
         self.__settings = settings
+        self.__logger = logger
 
     def find_sprints(self, start_at: int = 0) -> list[dict[str, Any]]:
         """Find all sprints."""
         sprints = self.__jira.sprints(self.__settings.board_id, startAt=start_at, maxResults=False, state='closed')
         documents: list[dict[str, Any]] = []
+        self.__logger.info(f'Found {len(sprints)} sprints.')
 
         for sprint in sprints:
             opened_at = date_parser.parse(sprint.startDate)
             closed_at = date_parser.parse(sprint.completeDate)
+            jql_str = (
+                f'Sprint = {sprint.id} '
+                f'AND status = Done '
+                f'AND project = {self.__settings.project} '
+                f'AND Teams = {self.__settings.team} '
+                f'AND issuetype IN ({self.__get_statuses_as_string()}) '
+                f'AND NOT status WAS "In Progress" BEFORE {opened_at:%Y-%m-%d} '
+                f'AND status CHANGED TO "In Progress" DURING ({opened_at:%Y-%m-%d}, {closed_at:%Y-%m-%d})'
+            )
+
+            self.__logger.info(f'Querying sprints tickets to JIRA: {jql_str}')
 
             issues = self.__jira.search_issues(
-                jql_str=f"""
-                Sprint = {sprint.id}
-                AND status = Done
-                AND project = {self.__settings.project}
-                AND Teams = {self.__settings.team}
-                AND issuetype IN ({self.__get_statuses_as_string()})
-                AND NOT status WAS "In Progress" BEFORE {opened_at:%Y-%m-%d}
-                AND status CHANGED TO "In Progress" DURING ({opened_at:%Y-%m-%d}, {closed_at:%Y-%m-%d})
-                """,
+                jql_str=jql_str,
                 fields='key',
             )
 
@@ -73,17 +79,19 @@ class JiraGateway:
         documents: list[dict[str, Any]] = []
         filter_done_at = f'AND status changed to Done AFTER "{done_at:%Y-%m-%d}"' if done_at else ''
 
-        jql = f"""
-        project = {self.__settings.project}
-        AND status = Done
-        AND Teams = {self.__settings.team}
-        AND issuetype IN ({self.__get_statuses_as_string()})
-        {filter_done_at}
-        ORDER BY created ASC
-        """
+        jql_str = (
+            f'project = {self.__settings.project} '
+            f'AND status = Done '
+            f'AND Teams = {self.__settings.team} '
+            f'AND issuetype IN ({self.__get_statuses_as_string()}) '
+            f'{filter_done_at} '
+            'ORDER BY created ASC'
+        )
+
+        self.__logger.info(f'Querying tickets to JIRA: {jql_str}')
 
         issues = self.__jira.search_issues(
-            jql_str=jql,
+            jql_str=jql_str,
             fields='key, summary, changelog',
             expand='changelog',
             maxResults=False,
@@ -100,6 +108,9 @@ class JiraGateway:
             document['started_at'] = started_at
             document['resolved_at'] = resolved_at
             documents.append(document)
+
+        self.__logger.info(f'Found {len(documents)} tickets.')
+
         return documents
 
     @staticmethod

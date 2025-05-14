@@ -7,6 +7,7 @@ from dependency_injector.containers import DeclarativeContainer, WiringConfigura
 from dependency_injector.providers import Configuration, Singleton, ThreadSafeSingleton
 from dotenv import dotenv_values
 from jira import JIRA
+from loguru import logger
 from pymongo import MongoClient
 from pymongo.synchronous.database import Database
 from workalendar.core import Calendar as WorkCalendar
@@ -22,6 +23,7 @@ from streamline.infrastructure.jira import JiraGateway
 from streamline.infrastructure.mongo.job import JobRepository
 from streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository, MongoSprintRepository
 from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
+from streamline.infrastructure.monitoring import Logger
 
 
 class Container(DeclarativeContainer):
@@ -69,11 +71,14 @@ class Container(DeclarativeContainer):
     )
 
     ### Private Services ###
+
+    __logger = Singleton(Logger, logger)
+
     __jira_client = Singleton(JIRA, server=config.jira_host, token_auth=config.jira_token)
 
     __mongo_client = Singleton(MongoClient, host=config.mongo_uri, tz_aware=True)
 
-    __jira_gateway = Singleton(JiraGateway, __jira_client, settings.provided.jira)
+    __jira_gateway = Singleton(JiraGateway, __jira_client, settings.provided.jira, __logger)
 
     __calendar_service = Singleton(_get_calendar, settings.provided)
 

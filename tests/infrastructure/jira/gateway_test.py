@@ -8,6 +8,7 @@ from jira.resources import Issue
 
 from streamline.config.settings import JiraSettings
 from streamline.infrastructure.jira.gateway import JiraGateway
+from streamline.infrastructure.monitoring import Logger
 
 
 @pytest.fixture
@@ -27,7 +28,16 @@ def mock_jira_settings() -> MagicMock:
     return settings
 
 
-def test_jira_gateway_find_sprints_success(mock_jira_client: MagicMock, mock_jira_settings: MagicMock) -> None:
+@pytest.fixture
+def mock_logger() -> MagicMock:
+    """Mock the Jira settings."""
+    logger = MagicMock(spec=Logger)
+    return logger
+
+
+def test_jira_gateway_find_sprints_success(
+    mock_jira_client: MagicMock, mock_jira_settings: MagicMock, mock_logger: MagicMock
+) -> None:
     """Test finding sprints successfully."""
     mock_sprint = MagicMock()
     mock_sprint.id = 1
@@ -48,7 +58,7 @@ def test_jira_gateway_find_sprints_success(mock_jira_client: MagicMock, mock_jir
     mock_jira_client.sprints.return_value = [mock_sprint]
     mock_jira_client.search_issues.return_value = [mock_issue]
 
-    gateway = JiraGateway(mock_jira_client, mock_jira_settings)
+    gateway = JiraGateway(mock_jira_client, mock_jira_settings, mock_logger)
     sprints = gateway.find_sprints()
 
     assert len(sprints) == 1
@@ -57,23 +67,29 @@ def test_jira_gateway_find_sprints_success(mock_jira_client: MagicMock, mock_jir
     assert sprints[0]['closed_at'] == datetime(2025, 5, 15, 0, 0, tzinfo=timezone.utc)
     assert sprints[0]['team'] == 'TestTeam'
     assert sprints[0]['tickets'] == ['TEST-1']
+    assert mock_logger.info.call_count == 2
     mock_jira_client.sprints.assert_called_once()
     mock_jira_client.search_issues.assert_called_once()
 
 
-def test_jira_gateway_find_sprints_empty(mock_jira_client: MagicMock, mock_jira_settings: MagicMock) -> None:
+def test_jira_gateway_find_sprints_empty(
+    mock_jira_client: MagicMock, mock_jira_settings: MagicMock, mock_logger: MagicMock
+) -> None:
     """Test finding no sprints."""
     mock_jira_client.sprints.return_value = []
 
-    gateway = JiraGateway(mock_jira_client, mock_jira_settings)
+    gateway = JiraGateway(mock_jira_client, mock_jira_settings, mock_logger)
     sprints = gateway.find_sprints()
 
     assert not sprints
     mock_jira_client.sprints.assert_called_once()
     mock_jira_client.search_issues.assert_not_called()
+    mock_logger.info.assert_called_once()
 
 
-def test_jira_gateway_find_tickets_success(mock_jira_client: MagicMock, mock_jira_settings: MagicMock) -> None:
+def test_jira_gateway_find_tickets_success(
+    mock_jira_client: MagicMock, mock_jira_settings: MagicMock, mock_logger: MagicMock
+) -> None:
     """Test finding tickets successfully."""
     mock_issue = MagicMock(spec=Issue)
     mock_issue.key = 'TEST-2'
@@ -88,7 +104,7 @@ def test_jira_gateway_find_tickets_success(mock_jira_client: MagicMock, mock_jir
 
     mock_jira_client.search_issues.return_value = [mock_issue]
 
-    gateway = JiraGateway(mock_jira_client, mock_jira_settings)
+    gateway = JiraGateway(mock_jira_client, mock_jira_settings, mock_logger)
     tickets = gateway.find_tickets(done_at=datetime(2025, 5, 1, tzinfo=timezone.utc))
 
     assert len(tickets) == 1
@@ -96,10 +112,13 @@ def test_jira_gateway_find_tickets_success(mock_jira_client: MagicMock, mock_jir
     assert tickets[0]['team'] == 'TestTeam'
     assert tickets[0]['started_at'] == datetime(2025, 5, 5, 9, 0, tzinfo=tzutc())
     assert tickets[0]['resolved_at'] == datetime(2025, 5, 5, 12, 0, tzinfo=tzutc())
+    assert mock_logger.info.call_count == 2
     mock_jira_client.search_issues.assert_called_once()
 
 
-def test_jira_gateway_find_tickets_no_done_at(mock_jira_client: MagicMock, mock_jira_settings: MagicMock) -> None:
+def test_jira_gateway_find_tickets_no_done_at(
+    mock_jira_client: MagicMock, mock_jira_settings: MagicMock, mock_logger: MagicMock
+) -> None:
     """Test finding tickets without a done_at filter."""
     mock_issue = MagicMock(spec=Issue)
     mock_issue.key = 'TEST-3'
@@ -114,15 +133,16 @@ def test_jira_gateway_find_tickets_no_done_at(mock_jira_client: MagicMock, mock_
 
     mock_jira_client.search_issues.return_value = [mock_issue]
 
-    gateway = JiraGateway(mock_jira_client, mock_jira_settings)
+    gateway = JiraGateway(mock_jira_client, mock_jira_settings, mock_logger)
     tickets = gateway.find_tickets()
 
     assert len(tickets) == 1
+    assert mock_logger.info.call_count == 2
     mock_jira_client.search_issues.assert_called_once()
 
 
 def test_jira_gateway_find_tickets_issue_not_started(
-    mock_jira_client: MagicMock, mock_jira_settings: MagicMock
+    mock_jira_client: MagicMock, mock_jira_settings: MagicMock, mock_logger: MagicMock
 ) -> None:
     """Test handling of an issue that was never in progress."""
     mock_issue = MagicMock(spec=Issue)
@@ -137,8 +157,9 @@ def test_jira_gateway_find_tickets_issue_not_started(
 
     mock_jira_client.search_issues.return_value = [mock_issue]
 
-    gateway = JiraGateway(mock_jira_client, mock_jira_settings)
+    gateway = JiraGateway(mock_jira_client, mock_jira_settings, mock_logger)
     tickets = gateway.find_tickets()
 
     assert not tickets
+    assert mock_logger.info.call_count == 2
     mock_jira_client.search_issues.assert_called_once()
