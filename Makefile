@@ -2,7 +2,7 @@
 
 development:
 	@echo "\nRunning Streamline in development mode..."
-	docker-compose --profile development up -d
+	docker-compose up -d
 	fastapi dev src/streamline/handlers/api
 
 start:
@@ -11,7 +11,7 @@ start:
 
 shutdown:
 	@echo "\nStopping Streamline..."
-	docker-compose --profile development down
+	docker-compose --profile production down
 
 check:
 	@echo "\nRunning pre-commit all or a specific hook..."
