@@ -1,4 +1,4 @@
-.PHONY: init dev start shutdown check tests coverage
+.PHONY: init dev start shutdown check tests coverage enter
 
 init:
 	@echo "\nInitializing files..."
@@ -12,12 +12,12 @@ dev:
 
 start:
 	@echo "\nRunning Streamline..."
-	@docker-compose --profile production up -d
+	@docker-compose --profile prod up -d
 	@open http://localhost/login
 
 shutdown:
 	@echo "\nStopping Streamline..."
-	@docker-compose --profile production down
+	@docker-compose --profile prod down
 
 check:
 	@echo "\nRunning pre-commit all or a specific hook..."
@@ -34,7 +34,10 @@ coverage:
 
 build:
 	@echo "\nBuilding api image..."
-	@docker-compose --profile production build
+	@docker-compose --profile prod build
+
+enter:
+	@docker-compose --profile prod exec -it api sh
 
 # Avoid treating the argument as a target
 %:

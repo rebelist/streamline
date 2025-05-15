@@ -16,7 +16,7 @@ into team health, workload patterns, and the results of decisions over time. Ins
 scattered reports, the platform helps everyone, developers, leads, and managers, make better calls based on real data.
 In the end, it’s a tool to support smarter decisions, continuous improvement, and a more transparent way of working.
 
-### How to run Streamline
+### 1. How to run Streamline
 
 1. Run `make init`
 2. Add `JIRA_HOST` and `JIRA_TOKEN` to the **.env** file.
@@ -29,7 +29,13 @@ In the end, it’s a tool to support smarter decisions, continuous improvement, 
 4. Run `make build`
 5. Run `make start`
 
-### How to configure Grafana & Disaply the Charts
+### 2. How to run fetch data
+
+1. Run `make enter`
+2. Now in the api container, run `bin/console database:synchronize`
+3. It will take a few seconds, then the data will be populated in the mongo instance.
+
+### 3. How to configure Grafana & Disaply the Charts
 
 1. Login to Grafana using _admin/admin_.
 2. Click _Skip_.
@@ -45,6 +51,14 @@ In the end, it’s a tool to support smarter decisions, continuous improvement, 
 12. Select **streamline-datasource** datasource.
 13. You can now visualize the cycle time, for the team selected.
 
-### How to shudown Streamline
+### Optional: How to delete all the data
+
+This applies to cases where you want to delete all data from the collections.
+
+1. Run `make enter`
+2. Now in the api container, run `bin/console database:clear`
+3. All the collections are empty now.
+
+### Optional: How to shudown Streamline
 
 Run `make shutdown`

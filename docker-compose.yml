@@ -11,9 +11,12 @@ services:
     restart: no
     env_file:
       - .env
-    profiles: [ "production" ]
+    profiles: [ "prod" ]
     depends_on:
       - mongo
+    volumes:
+      - ./settings.ini:/home/streamline/app/settings.ini
+      - ./.env:/home/streamline/app/.env
 
   mongo:
     image: mongodb/mongodb-community-server:8.0.9-ubi8
