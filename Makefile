@@ -13,7 +13,8 @@ dev:
 start:
 	@echo "\nRunning Streamline..."
 	@docker-compose --profile prod up -d
-	@open http://localhost/login
+	@sleep 3
+	@open http://localhost/dashboards
 
 shutdown:
 	@echo "\nStopping Streamline..."

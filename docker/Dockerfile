@@ -20,13 +20,14 @@ FROM python:${PYTHON_VERSION}-alpine AS runtime
 LABEL mantainer="Fran <rebelist.software@icloud.com>"
 
 ENV PYTHONUNBUFFERED=1
+ENV TERM=xterm-256color
 RUN addgroup -S rebelist && adduser -S streamline -G rebelist
 
 USER streamline
 WORKDIR /home/streamline/app
 
-COPY --chown=streamline:rebelist ../ .
 COPY --from=builder /app/requirements.txt ./requirements.txt
+COPY --chown=streamline:rebelist ../ .
 
 RUN pip install --no-cache-dir --user -r requirements.txt
 
