@@ -43,7 +43,7 @@ In the end, it’s a tool to support smarter decisions, continuous improvement, 
 10. Click **Dashboards** -> **New** -> _Import_
 11. Choose to upload the file _docker/grafana/dashboards/workflow_performance.json_
 12. Select **streamline-datasource** datasource.
-13. You should be able to visualize the cycle time, for the team selected.
+13. You can now visualize the cycle time, for the team selected.
 
 ### How to shudown Streamline
 

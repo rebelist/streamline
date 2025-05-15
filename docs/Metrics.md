@@ -1,9 +1,6 @@
-**Note: **The category indicates the type of data collected to create the metric. Every metric is fundamentally
-quantitative, and qualitative data must be converted into a numerical format to allow for time-based comparisons.
-
 # Overview
 
-In modern software organizations, measuring both ***engineering team performance*** and ***management effectiveness ***
+In modern software organizations, measuring both **engineering team performance** and **management effectiveness**
 is crucial for building high-performing, healthy, and impactful teams. While engineering metrics provide insights into
 technical execution and delivery efficiency, management metrics ensure that leadership promotes an environment of
 innovation, transparency, growth and collaboration.
@@ -124,7 +121,7 @@ Tracks how effectively leadership enables experimentation and adoption of new te
 | **Adoption Rate of New Technologies/Processes** | Quantitative | The percentage of teams or individuals successfully integrating new tools, frameworks, or workflows and processes.   | Survey | Helps assess how well teams adapt to change and whether new solutions are actually being utilized effectively.                    |
 | **Time to Implement Strategic Changes**         | Quantitative | The time taken from proposing a strategic change (e.g., process improvement, reorganization) to full implementation. | Manual | Helps measure the organization’s agility and ability to adapt to evolving business and technical landscapes.                      |
 
-## **Transparency & ****Collaboration**
+## **Transparency & Collaboration**
 
 Measures openness in communication and whether teams feel safe to share ideas and concerns.
 
