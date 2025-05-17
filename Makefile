@@ -3,6 +3,7 @@
 init:
 	@echo "\nInitializing files..."
 	@if [ ! -f ".env" ]; then cp ".env.example" ".env"; fi
+	@if [ ! -f ".env.prod" ]; then cp ".env.example" ".env.prod"; fi
 	@if [ ! -f "settings.ini" ]; then cp "settings.ini.example" "settings.ini"; fi
 
 dev:
