@@ -79,6 +79,7 @@ __pypackages__/
 # Environments
 .env
 .env.test
+.env.prod
 .venv
 env/
 venv/

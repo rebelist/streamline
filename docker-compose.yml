@@ -16,7 +16,7 @@ services:
       - mongo
     volumes:
       - ./settings.ini:/home/streamline/app/settings.ini
-      - ./.env:/home/streamline/app/.env
+      - ./.env.prod:/home/streamline/app/.env
 
   mongo:
     image: mongodb/mongodb-community-server:8.0.9-ubi8
