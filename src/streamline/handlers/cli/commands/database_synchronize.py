@@ -2,12 +2,12 @@ import rich_click as click
 from click import Context
 
 from streamline.application.ingestion.models import Executable
-from streamline.handlers.cli.commands.command import Command
+from streamline.handlers.cli.commands.command import Command, CommandTask
 
 
 @click.command(name='database:synchronize')
 @click.pass_context
-def synchronizer(context: Context) -> None:
+def database_synchronize(context: Context) -> None:
     """Downloads data from different sources and saves it to the database."""
     container = context.obj
 
@@ -15,6 +15,18 @@ def synchronizer(context: Context) -> None:
     command.register(container.sprint_job())
     command.register(container.ticket_job())
     command.run()
+
+
+class SyncTask:
+    """Tasks to execute a synchronizer job."""
+
+    def __init__(self, job: Executable) -> None:
+        self.job = job
+        self.description = str(job.__doc__)
+
+    def execute(self) -> None:
+        """Execute a job."""
+        self.job.execute()
 
 
 class Synchronizer(Command):
@@ -29,4 +41,5 @@ class Synchronizer(Command):
 
     def run(self) -> None:
         """Run command."""
-        Command._render_progress(lambda item: item.execute(), lambda item: item.__doc__, self.__jobs, 'Job')
+        tasks: list[CommandTask] = [SyncTask(job) for job in self.__jobs]
+        self._execute_tasks(tasks)

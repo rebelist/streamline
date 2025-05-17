@@ -2,8 +2,10 @@
 
 init:
 	@echo "\nInitializing files..."
-	@cp .env.example .env
-	@cp settings.ini.example settings.ini
+	@if [ ! -f ".env" ]; then cp ".env.example" ".env"; fi
+	@if [ ! -f "settings.ini" ]; then cp "settings.ini.example" "settings.ini"; fi
+	@docker-compose --profile prod up -d
+	@docker-compose --profile prod exec -t api bin/console database:index
 
 dev:
 	@echo "\nRunning Streamline in development mode..."
@@ -26,7 +28,7 @@ check:
 
 tests:
 	@echo "\nRunning tests..."
-	@poetry run pytest -vv --color=yes --no-header --maxfail=1 --failed-first
+	@poetry run pytest -vv  --cache-clear --color=yes --no-header --maxfail=1 --failed-first
 
 coverage:
 	@echo "\nGenerating test coverage..."

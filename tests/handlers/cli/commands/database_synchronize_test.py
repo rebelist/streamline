@@ -5,7 +5,7 @@ from click.testing import CliRunner
 from pytest_mock import MockerFixture
 
 from streamline.application.ingestion.models import Executable
-from streamline.handlers.cli.commands.synchronizer import Synchronizer, synchronizer
+from streamline.handlers.cli.commands.database_synchronize import Synchronizer, database_synchronize
 
 
 @pytest.fixture
@@ -27,7 +27,7 @@ def test_synchronizer_command(runner: CliRunner, mock_container: MagicMock, mock
     """Test the 'database:synchronize' command."""
     mock_synchronizer_run = mocker.patch.object(Synchronizer, 'run')
 
-    result = runner.invoke(synchronizer, obj=mock_container)
+    result = runner.invoke(database_synchronize, obj=mock_container)
 
     assert result.exit_code == 0
     mock_container.sprint_job.assert_called_once()

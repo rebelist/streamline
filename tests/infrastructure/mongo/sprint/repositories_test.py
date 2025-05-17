@@ -88,6 +88,7 @@ def test_mongo_sprint_document_repository_save(mocker: MockerFixture) -> None:
     sprint_document: dict[str, Any] = {
         'id': 123,
         'name': 'Sprint X',
+        'team': 'Bimbo',
         'startDate': '2025-05-08T00:00:00.000+0000',
         'completeDate': '2025-05-22T00:00:00.000+0000',
         'tickets': ['KEY-101', 'KEY-102'],
@@ -95,5 +96,5 @@ def test_mongo_sprint_document_repository_save(mocker: MockerFixture) -> None:
     repository.save(sprint_document)
 
     mock_database.get_collection.assert_called_once_with(MongoSprintDocumentRepository.COLLECTION_NAME)
-    mock_collection.delete_one.assert_called_once_with({'id': 123})
+    mock_collection.delete_one.assert_called_once_with({'id': 123, 'team': 'Bimbo'})
     mock_collection.insert_one.assert_called_once_with(sprint_document)

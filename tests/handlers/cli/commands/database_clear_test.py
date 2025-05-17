@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from click.testing import CliRunner
 
-from streamline.handlers.cli.commands.clear import DatabaseEraser, clear
+from streamline.handlers.cli.commands.database_clear import DatabaseEraser, database_clear
 
 
 @pytest.fixture
@@ -22,9 +22,9 @@ def mock_container():
 
 def test_clear_command_yes(runner: CliRunner, mock_container: MagicMock) -> None:
     """Test the 'database:clear' command when the user confirms."""
-    with patch('streamline.handlers.cli.commands.clear.click.confirm', return_value=True) as mock_confirm:
+    with patch('streamline.handlers.cli.commands.database_clear.click.confirm', return_value=True) as mock_confirm:
         with patch.object(DatabaseEraser, 'run') as mock_database_eraser_run:
-            result = runner.invoke(clear, obj=mock_container, input='y\n')  # Simulate 'yes' input
+            result = runner.invoke(database_clear, obj=mock_container, input='y\n')  # Simulate 'yes' input
 
             assert result.exit_code == 0
             mock_confirm.assert_called_once()
@@ -34,9 +34,9 @@ def test_clear_command_yes(runner: CliRunner, mock_container: MagicMock) -> None
 
 def test_clear_command_no(runner: CliRunner, mock_container: MagicMock) -> None:
     """Test the 'database:clear' command when the user declines."""
-    with patch('streamline.handlers.cli.commands.clear.click.confirm', return_value=False) as mock_confirm:
+    with patch('streamline.handlers.cli.commands.database_clear.click.confirm', return_value=False) as mock_confirm:
         with patch.object(DatabaseEraser, 'run') as mock_database_eraser_run:
-            result = runner.invoke(clear, obj=mock_container, input='n\n')  # Simulate 'no' input
+            result = runner.invoke(database_clear, obj=mock_container, input='n\n')  # Simulate 'no' input
 
             assert result.exit_code == 0
             mock_confirm.assert_called_once()

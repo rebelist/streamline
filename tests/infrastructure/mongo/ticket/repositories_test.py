@@ -18,11 +18,12 @@ def test_mongo_ticket_document_repository_save(mocker: MockerFixture) -> None:
     ticket_document: dict[str, Any] = {
         'id': 'TEST-123',
         'key': 'TEST-123',
+        'team': 'Tito',
         'fields': {'summary': 'Some test ticket'},
         'changelog': {'histories': []},
     }
     repository.save(ticket_document)
 
     mock_database.get_collection.assert_called_once_with(MongoTicketDocumentRepository.COLLECTION_NAME)
-    mock_collection.delete_one.assert_called_once_with({'id': 'TEST-123'})
+    mock_collection.delete_one.assert_called_once_with({'id': 'TEST-123', 'team': 'Tito'})
     mock_collection.insert_one.assert_called_once_with(ticket_document)

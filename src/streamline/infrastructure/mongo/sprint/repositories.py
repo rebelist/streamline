@@ -68,5 +68,5 @@ class MongoSprintDocumentRepository:
 
     def save(self, sprint_document: Mapping[str, Any]) -> None:
         """Adds a jira sprint document."""
-        self.__collection.delete_one({'id': sprint_document['id']})
+        self.__collection.delete_one({'id': sprint_document['id'], 'team': sprint_document['team']})
         self.__collection.insert_one(sprint_document)

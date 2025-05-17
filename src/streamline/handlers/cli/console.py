@@ -4,7 +4,7 @@ import rich_click as click
 from click import Command, Context
 
 from streamline.config.container import Container
-from streamline.handlers.cli.commands import clear, synchronizer
+from streamline.handlers.cli.commands import database_clear, database_index, database_synchronize
 
 container = Container.create()
 settings = container.settings()
@@ -18,9 +18,11 @@ def console(context: Context) -> None:
     context.obj = container
 
 
-synchronizer: Command = cast(Command, synchronizer)
-clear: Command = cast(Command, clear)
+synchronizer: Command = cast(Command, database_synchronize)
+clear: Command = cast(Command, database_clear)
+index: Command = cast(Command, database_index)
 
 console.container = container
-console.add_command(synchronizer)
+console.add_command(index)
 console.add_command(clear)
+console.add_command(synchronizer)

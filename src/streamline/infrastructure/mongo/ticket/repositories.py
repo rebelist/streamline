@@ -16,5 +16,5 @@ class MongoTicketDocumentRepository:
 
     def save(self, ticket_document: Mapping[str, Any]) -> None:
         """Adds a jira ticket document."""
-        self.__collection.delete_one({'id': ticket_document['id']})
+        self.__collection.delete_one({'id': ticket_document['id'], 'team': ticket_document['team']})
         self.__collection.insert_one(ticket_document)

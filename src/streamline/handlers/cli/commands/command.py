@@ -1,11 +1,22 @@
 from abc import ABC, abstractmethod
 from time import sleep
-from typing import Any, Callable
+from typing import Protocol, runtime_checkable
 
 from rich.live import Live
 from rich.panel import Panel
 from rich.progress import BarColumn, Progress, TimeElapsedColumn
 from rich.table import Table
+
+
+@runtime_checkable
+class CommandTask(Protocol):
+    """Command task protocol to execute with a progress bar."""
+
+    description: str
+
+    def execute(self) -> None:
+        """Execute as task."""
+        ...
 
 
 class Command(ABC):
@@ -17,21 +28,19 @@ class Command(ABC):
         ...
 
     @staticmethod
-    def _render_progress(
-        action: Callable[[Any], None], description: Callable[[Any], str], items: list[Any], title: str
-    ) -> None:
-        """Renders the command execution in the console."""
+    def _execute_tasks(tasks: list[CommandTask]) -> None:
+        """Execute tasks."""
         progress = Progress(BarColumn(), TimeElapsedColumn())
-        task = progress.add_task('', total=len(items) + 1)
+        rich_task = progress.add_task('', total=len(tasks) + 1)
 
         with Live(console=progress.console) as live:
-            for item in items:
-                summary = Panel(f'[yellow]{description(item)}', title=title)
-                progress.update(task, advance=1)
+            for task in tasks:
+                summary = Panel(f'[yellow]{task.description}', title='Action')
+                progress.update(rich_task, advance=1)
                 layout = Table.grid()
                 layout.add_row(progress)
                 layout.add_row(summary)
                 live.update(layout)
                 sleep(0.5)
-                action(item)
-            progress.update(task, advance=1)
+                task.execute()
+            progress.update(rich_task, advance=1)
