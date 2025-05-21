@@ -1298,14 +1298,14 @@ files = [
 
 [[package]]
 name = "pbs-installer"
-version = "2025.4.9"
+version = "2025.5.17"
 description = "Installer for Python Build Standalone"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "pbs_installer-2025.4.9-py3-none-any.whl", hash = "sha256:af110b398248584422f46760ce1e3793622fe3fbcde47aacd22e35baf8c3db1d"},
-    {file = "pbs_installer-2025.4.9.tar.gz", hash = "sha256:15755bc94769a544af5dda155f973c70caf76f0e70b21f3c8a8ed506f102f88f"},
+    {file = "pbs_installer-2025.5.17-py3-none-any.whl", hash = "sha256:a235e6665efb4369e04267bbc6e547bbb8181cf405975fbbe9fe5c1c59452da6"},
+    {file = "pbs_installer-2025.5.17.tar.gz", hash = "sha256:8e319b17662ae583e607d5fd46900cb2a7b31ee9ae0c695126c1b9b38e6a78a0"},
 ]
 
 [package.dependencies]
@@ -2086,14 +2086,14 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "rich-click"
-version = "1.8.8"
+version = "1.8.9"
 description = "Format click help output nicely with rich"
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
 files = [
-    {file = "rich_click-1.8.8-py3-none-any.whl", hash = "sha256:205aabd5a98e64ab2c105dee9e368be27480ba004c7dfa2accd0ed44f9f1550e"},
-    {file = "rich_click-1.8.8.tar.gz", hash = "sha256:547c618dea916620af05d4a6456da797fbde904c97901f44d2f32f89d85d6c84"},
+    {file = "rich_click-1.8.9-py3-none-any.whl", hash = "sha256:c3fa81ed8a671a10de65a9e20abf642cfdac6fdb882db1ef465ee33919fbcfe2"},
+    {file = "rich_click-1.8.9.tar.gz", hash = "sha256:fd98c0ab9ddc1cf9c0b7463f68daf28b4d0033a74214ceb02f761b3ff2af3136"},
 ]
 
 [package.dependencies]
