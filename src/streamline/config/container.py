@@ -18,7 +18,7 @@ from streamline.application.compute.use_cases import GetCycleTimesUseCase
 from streamline.application.ingestion.jobs import SprintJob, TicketJob
 from streamline.config.settings import Settings, load_settings
 from streamline.domain.metrics.workflow import CycleTimeCalculator
-from streamline.domain.services import CalendarService
+from streamline.domain.time import WorkTimeCalculator
 from streamline.infrastructure.jira import JiraGateway
 from streamline.infrastructure.mongo.job import JobRepository
 from streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository, MongoSprintRepository
@@ -47,7 +47,7 @@ class Container(DeclarativeContainer):
         return client.get_default_database()
 
     @staticmethod
-    def _get_calendar(settings: Settings) -> CalendarService:
+    def _get_calendar(settings: Settings) -> WorkTimeCalculator:
         """Provides a work_calendar instance for specific country."""
         calendar_class = cast(Type[WorkCalendar], registry.get(settings.app.region))
 
@@ -58,7 +58,7 @@ class Container(DeclarativeContainer):
         workday_ends_at = settings.workflow.workday_ends_at
         workday_duration = settings.workflow.workday_duration
 
-        return CalendarService(calendar_class(), workday_starts_at, workday_ends_at, workday_duration)
+        return WorkTimeCalculator(calendar_class(), workday_starts_at, workday_ends_at, workday_duration)
 
     ### Configuration ###
     config = Configuration(strict=True)

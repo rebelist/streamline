@@ -14,7 +14,7 @@ class WorkCalendarProtocol(Protocol):
         ...
 
 
-class CalendarService:
+class WorkTimeCalculator:
     """Service to calculate working day durations between two datetimes."""
 
     HOUR_IN_SECONDS: Final[int] = 3600
