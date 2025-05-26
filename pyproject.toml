@@ -3,7 +3,7 @@ name = "rebelist-streamline"
 version = "0.1.0"
 description = "A free and open-source platform for collecting, visualizing, and analyzing engineering metrics, allowing teams to track performance, improve processes, and make data-driven decisions."
 authors = [
-    { name = "Fran", email = "engineering.lamadrid@icloud.com" }
+    { name = "Fran", email = "rebelist.software@icloud.com" }
 ]
 readme = "README.md"
 requires-python = ">=3.13,<4.0"
@@ -16,7 +16,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
 poetry-core = "^2.1.3"
-jira = {url = "https://github.com/pycontribs/jira/releases/download/3.10.1/jira-3.10.1-py3-none-any.whl"}
+jira = { url = "https://github.com/pycontribs/jira/releases/download/3.10.1/jira-3.10.1-py3-none-any.whl" }
 dependency-injector = "^4.46.0"
 python-dotenv = "^1.1.0"
 workalendar = "^17.0.0"
@@ -28,7 +28,6 @@ fastapi-cli = "^0.0.7"
 loguru = "^0.7.3"
 pydantic-settings = "^2.9.1"
 pydantic = "^2.11.4"
-poetry = "^2.1.3"
 
 [tool.poetry]
 packages = [{ include = "streamline", from = "src" }]
