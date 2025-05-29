@@ -27,11 +27,13 @@ def test_mongo_sprint_repository_find_by_team_name(mocker: MockerFixture) -> Non
             'issues': [
                 {
                     'key': 'TEST-1',
+                    'created_at': datetime(2025, 4, 2, 9, 0),
                     'started_at': datetime(2025, 5, 2, 9, 0),
                     'resolved_at': datetime(2025, 5, 14, 17, 0),
                 },
                 {
                     'key': 'TEST-2',
+                    'created_at': datetime(2025, 3, 2, 9, 0),
                     'started_at': datetime(2025, 5, 3, 10, 0),
                     'resolved_at': datetime(2025, 5, 13, 16, 0),
                 },
@@ -45,6 +47,7 @@ def test_mongo_sprint_repository_find_by_team_name(mocker: MockerFixture) -> Non
             'issues': [
                 {
                     'key': 'TEST-3',
+                    'created_at': datetime(2025, 3, 17, 11, 0),
                     'started_at': datetime(2025, 5, 17, 11, 0),
                     'resolved_at': datetime(2025, 5, 29, 18, 0),
                 },
@@ -67,15 +70,21 @@ def test_mongo_sprint_repository_find_by_team_name(mocker: MockerFixture) -> Non
     assert sprint1.opened_at == datetime(2025, 5, 1, 0, 0)
     assert sprint1.closed_at == datetime(2025, 5, 15, 0, 0)
     assert len(sprint1.tickets) == 2
-    assert sprint1.tickets[0] == Ticket('TEST-1', datetime(2025, 5, 2, 9, 0), datetime(2025, 5, 14, 17, 0))
-    assert sprint1.tickets[1] == Ticket('TEST-2', datetime(2025, 5, 3, 10, 0), datetime(2025, 5, 13, 16, 0))
+    assert sprint1.tickets[0] == Ticket(
+        'TEST-1', datetime(2025, 4, 2, 9, 0), datetime(2025, 5, 2, 9, 0), datetime(2025, 5, 14, 17, 0)
+    )
+    assert sprint1.tickets[1] == Ticket(
+        'TEST-2', datetime(2025, 3, 2, 9, 0), datetime(2025, 5, 3, 10, 0), datetime(2025, 5, 13, 16, 0)
+    )
 
     sprint2 = sprints[1]
     assert sprint2.name == 'Sprint 2'
     assert sprint2.opened_at == datetime(2025, 5, 16, 0, 0)
     assert sprint2.closed_at == datetime(2025, 5, 30, 0, 0)
     assert len(sprint2.tickets) == 1
-    assert sprint2.tickets[0] == Ticket('TEST-3', datetime(2025, 5, 17, 11, 0), datetime(2025, 5, 29, 18, 0))
+    assert sprint2.tickets[0] == Ticket(
+        'TEST-3', datetime(2025, 3, 17, 11, 0), datetime(2025, 5, 17, 11, 0), datetime(2025, 5, 29, 18, 0)
+    )
 
 
 def test_mongo_sprint_document_repository_save(mocker: MockerFixture) -> None:

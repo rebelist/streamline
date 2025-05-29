@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from streamline.config.container import Container
-from streamline.handlers.api.v1.metrics import router as metrics_router
+from streamline.handlers.api.metrics.flow import router as metrics_router
 
 container = Container.create()
 settings = container.settings()

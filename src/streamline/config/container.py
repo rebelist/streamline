@@ -13,16 +13,19 @@ from pymongo.synchronous.database import Database
 from workalendar.core import Calendar as WorkCalendar
 from workalendar.registry import registry
 
-from streamline.application.compute import PerformanceService
+from streamline.application.compute import FlowMetricsService
 from streamline.application.compute.use_cases import GetCycleTimesUseCase
+from streamline.application.compute.use_cases.flow import GetLeadTimesUseCase
 from streamline.application.ingestion.jobs import SprintJob, TicketJob
 from streamline.config.settings import Settings, load_settings
 from streamline.domain.metrics.workflow import CycleTimeCalculator
+from streamline.domain.metrics.workflow.calculators import LeadTimeCalculator
 from streamline.domain.time import WorkTimeCalculator
 from streamline.infrastructure.jira import JiraGateway
 from streamline.infrastructure.mongo.job import JobRepository
 from streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository, MongoSprintRepository
 from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
+from streamline.infrastructure.mongo.ticket.repositories import MongoTicketRepository
 from streamline.infrastructure.monitoring import Logger
 
 
@@ -84,10 +87,14 @@ class Container(DeclarativeContainer):
 
     __cycle_time_calculator = Singleton(CycleTimeCalculator, __calendar_service)
 
+    __lead_time_calculator = Singleton(LeadTimeCalculator, __calendar_service)
+
     ### Public Services ###
     database = Singleton(_get_database, __mongo_client)
 
     sprint_repository = Singleton(MongoSprintRepository, database)
+
+    ticket_repository = Singleton(MongoTicketRepository, database)
 
     sprint_document_repository = Singleton(MongoSprintDocumentRepository, database)
 
@@ -95,7 +102,9 @@ class Container(DeclarativeContainer):
 
     get_cycle_time_use_case = Singleton(GetCycleTimesUseCase, __cycle_time_calculator, sprint_repository)
 
-    performance_service = Singleton(PerformanceService, get_cycle_time_use_case)
+    get_lead_time_use_case = Singleton(GetLeadTimesUseCase, __lead_time_calculator, ticket_repository)
+
+    flow_metrics_service = Singleton(FlowMetricsService, get_cycle_time_use_case, get_lead_time_use_case)
 
     job_repository = Singleton(JobRepository, database)
 

@@ -12,6 +12,7 @@ class MongoSprintRepository(SprintRepository):
     """Sprint repository."""
 
     COLLECTION_NAME: Final[str] = 'jira_sprints'
+    LIMIT_SPRINTS: Final[int] = 30
 
     def __init__(self, database: Database[Mapping[str, Any]]) -> None:
         self.__collection: Collection[Mapping[str, Any]] = database.get_collection(
@@ -36,18 +37,20 @@ class MongoSprintRepository(SprintRepository):
                     'opened_at': True,
                     'closed_at': True,
                     'issues.key': True,
+                    'issues.created_at': True,
                     'issues.started_at': True,
                     'issues.resolved_at': True,
                 }
             },
-            {'$sort': {'closed_at': 1}},
+            {'$sort': {'closed_at': -1}},
+            {'$limit': MongoSprintRepository.LIMIT_SPRINTS},
         ]
         documents = self.__collection.aggregate(pipeline)
 
         for document in documents:
             tickets: list[Ticket] = []
             for issue in document['issues']:
-                ticket = Ticket(issue['key'], issue['started_at'], issue['resolved_at'])
+                ticket = Ticket(issue['key'], issue['created_at'], issue['started_at'], issue['resolved_at'])
                 tickets.append(ticket)
 
             sprint = Sprint(document['name'], document['opened_at'], document['closed_at'], tickets)

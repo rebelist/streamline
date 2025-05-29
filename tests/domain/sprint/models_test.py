@@ -45,14 +45,15 @@ class TestSprint:
 
     def test_sprint_creation_with_mocker(self, mocker: MockerFixture) -> None:
         """Tests the successful creation of a Sprint instance using pytest-mock."""
+        created_at = datetime(2025, 4, 1, 0, 0, 0, tzinfo=timezone.utc)
         opened_at = datetime(2025, 5, 1, 0, 0, 0, tzinfo=timezone.utc)
-        closed_at = datetime(2025, 5, 15, 0, 0, 0, tzinfo=timezone.utc)
-        ticket_1 = Ticket(id='T-1', started_at=opened_at, resolved_at=closed_at)
-        ticket_2 = Ticket(id='T-2', started_at=opened_at, resolved_at=closed_at)
+        resolved_at = datetime(2025, 5, 15, 0, 0, 0, tzinfo=timezone.utc)
+        ticket_1 = Ticket('T-1', created_at, opened_at, resolved_at)
+        ticket_2 = Ticket('T-2', created_at, opened_at, resolved_at)
         tickets: List[Ticket] = [ticket_1, ticket_2]
-        sprint = Sprint(name='Sprint with Concrete', opened_at=opened_at, closed_at=closed_at, tickets=tickets)
+        sprint = Sprint(name='Sprint with Concrete', opened_at=opened_at, closed_at=resolved_at, tickets=tickets)
         assert sprint.name == 'Sprint with Concrete'
         assert sprint.opened_at == opened_at
-        assert sprint.closed_at == closed_at
+        assert sprint.closed_at == resolved_at
         assert sprint.tickets == tickets
         assert all(isinstance(t, Ticket) for t in sprint.tickets)

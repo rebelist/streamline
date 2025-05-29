@@ -4,7 +4,7 @@ import pytest
 from pydantic import BaseModel
 from pydantic_core import ValidationError
 
-from streamline.handlers.api.v1.models import TimeSeriesMetadata, TimeSeriesResponse, TimeUnit
+from streamline.handlers.api.metrics.models import TimeSeriesMetadata, TimeSeriesResponse, TimeUnit
 
 
 class DummyDataPoint(BaseModel):

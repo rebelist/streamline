@@ -69,7 +69,7 @@ Analyzes how time is allocated between planned work, unplanned tasks, and meetin
 | **New Work vs. Tech Debt**                | Quantitative | The distribution of work between rework (fixing past implementations), refactoring legacy code, and building completely new features.                                                                                                                                    | Jira   | Helps track how much time is spent improving vs. creating from scratch.                                      |
 | **Impact Aligned Work vs. Overhead Work** | Quantitative | The proportion of time spent on work that directly contributes to the team’s committed goals (e.g., product features, technical improvements aligned with objectives) versus everything else (e.g., meetings unrelated to core goals, side projects, ad hoc alignments). | Jira   | Ensures engineering efforts are focused on delivering business value rather than excessive process overhead. |
 
-## **Team** **Effectiveness**
+## **Flow**
 
 Evaluates speed and quality of software delivery (e.g., deployment frequency, PR merge time).
 

@@ -7,6 +7,6 @@ class TicketRepository(ABC):
     """Ticket repository."""
 
     @abstractmethod
-    def find(self, *keys: str) -> list[Ticket]:
-        """Find tickets by it one or more keys."""
+    def find_by_team_name(self, team: str) -> list[Ticket]:
+        """Find a;; tickets."""
         ...

@@ -93,7 +93,7 @@ class JiraGateway:
 
         issues = self.__jira.search_issues(
             jql_str=jql_str,
-            fields='key, summary, changelog',
+            fields='key, summary, changelog, created',
             expand='changelog',
             maxResults=False,
         )
@@ -106,6 +106,7 @@ class JiraGateway:
 
             document = issue.raw
             document['team'] = self.__settings.team
+            document['created_at'] = date_parser.parse(issue.fields.created)
             document['started_at'] = started_at
             document['resolved_at'] = resolved_at
             documents.append(document)

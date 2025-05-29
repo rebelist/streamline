@@ -33,7 +33,7 @@ tests:
 coverage:
 	@echo "\nGenerating test coverage..."
 	@poetry run coverage run -m pytest --no-summary --quiet
-	@poetry run coverage html -d coverage
+	@poetry run coverage html
 
 build:
 	@echo "\nBuilding api image..."

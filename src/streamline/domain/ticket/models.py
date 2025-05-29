@@ -7,5 +7,6 @@ class Ticket:
     """Represents an agile issue."""
 
     id: str
+    created_at: datetime
     started_at: datetime
     resolved_at: datetime
