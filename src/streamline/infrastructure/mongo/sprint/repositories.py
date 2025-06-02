@@ -31,6 +31,7 @@ class MongoSprintRepository(SprintRepository):
                     'as': 'issues',
                 }
             },
+            {'$match': {'issues': {'$elemMatch': {'team': team}}}},
             {
                 '$project': {
                     'name': True,
@@ -52,11 +53,7 @@ class MongoSprintRepository(SprintRepository):
             tickets: list[Ticket] = []
             for issue in document['issues']:
                 ticket = Ticket(
-                    issue['key'],
-                    issue['created_at'],
-                    issue['started_at'],
-                    issue['resolved_at'],
-                    issue['story_points']
+                    issue['key'], issue['created_at'], issue['started_at'], issue['resolved_at'], issue['story_points']
                 )
                 tickets.append(ticket)
 
