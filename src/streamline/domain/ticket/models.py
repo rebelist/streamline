@@ -10,3 +10,4 @@ class Ticket:
     created_at: datetime
     started_at: datetime
     resolved_at: datetime
+    story_points: int

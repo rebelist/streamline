@@ -93,7 +93,7 @@ class JiraGateway:
 
         issues = self.__jira.search_issues(
             jql_str=jql_str,
-            fields='key, summary, changelog, created',
+            fields='key, summary, changelog, created, customfield_10002',
             expand='changelog',
             maxResults=False,
         )
@@ -104,11 +104,18 @@ class JiraGateway:
             except (IssueNotStartedError, IssueNotFinishedError):
                 continue
 
+            try:
+                story_points = issue.fields.customfield_10002
+                story_points = int(story_points) if isinstance(story_points, float) else None
+            except (AttributeError, ValueError):
+                story_points = None
+
             document = issue.raw
             document['team'] = self.__settings.team
             document['created_at'] = date_parser.parse(issue.fields.created)
             document['started_at'] = started_at
             document['resolved_at'] = resolved_at
+            document['story_points'] = story_points or None
             documents.append(document)
 
         self.__logger.info(f'Found {len(documents)} tickets.')

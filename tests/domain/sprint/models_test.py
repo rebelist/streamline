@@ -48,8 +48,8 @@ class TestSprint:
         created_at = datetime(2025, 4, 1, 0, 0, 0, tzinfo=timezone.utc)
         opened_at = datetime(2025, 5, 1, 0, 0, 0, tzinfo=timezone.utc)
         resolved_at = datetime(2025, 5, 15, 0, 0, 0, tzinfo=timezone.utc)
-        ticket_1 = Ticket('T-1', created_at, opened_at, resolved_at)
-        ticket_2 = Ticket('T-2', created_at, opened_at, resolved_at)
+        ticket_1 = Ticket('T-1', created_at, opened_at, resolved_at, 1)
+        ticket_2 = Ticket('T-2', created_at, opened_at, resolved_at, 1)
         tickets: List[Ticket] = [ticket_1, ticket_2]
         sprint = Sprint(name='Sprint with Concrete', opened_at=opened_at, closed_at=resolved_at, tickets=tickets)
         assert sprint.name == 'Sprint with Concrete'

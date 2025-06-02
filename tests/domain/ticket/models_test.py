@@ -11,7 +11,7 @@ class TestTicket:
         created_at = datetime(2025, 4, 5, 10, 0, 0, tzinfo=timezone.utc)
         started_at = datetime(2025, 5, 5, 10, 0, 0, tzinfo=timezone.utc)
         resolved_at = datetime(2025, 5, 7, 12, 0, 0, tzinfo=timezone.utc)
-        ticket = Ticket(id='TASK-123', created_at=created_at, started_at=started_at, resolved_at=resolved_at)
+        ticket = Ticket('TASK-123', created_at, started_at, resolved_at, 1)
         assert ticket.id == 'TASK-123'
         assert ticket.started_at == started_at
         assert ticket.resolved_at == resolved_at
@@ -23,7 +23,7 @@ class TestTicket:
         created_at = datetime(2025, 4, 12, 8, 0, 0, tzinfo=tz_ny)
         started_at = datetime(2025, 5, 12, 8, 0, 0, tzinfo=tz_ny)
         resolved_at = datetime(2025, 5, 14, 16, 0, 0, tzinfo=tz_london)
-        ticket = Ticket(id='TICKET-789', created_at=created_at, started_at=started_at, resolved_at=resolved_at)
+        ticket = Ticket('TICKET-789', created_at, started_at, resolved_at, 1)
         assert ticket.started_at == started_at
         assert ticket.resolved_at == resolved_at
 
@@ -31,6 +31,6 @@ class TestTicket:
         """Tests the creation of a Ticket where started and resolved times are the same."""
         same_time = datetime(2025, 5, 15, 12, 30, 0, tzinfo=timezone.utc)
         same_time = datetime(2025, 5, 15, 12, 30, 0, tzinfo=timezone.utc)
-        ticket = Ticket(id='SAME-TIME-1', created_at=same_time, started_at=same_time, resolved_at=same_time)
+        ticket = Ticket('SAME-TIME-1', same_time, same_time, same_time, 1)
         assert ticket.started_at == same_time
         assert ticket.resolved_at == same_time

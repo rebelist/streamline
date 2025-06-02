@@ -19,6 +19,7 @@ class DummyTicket:
     def __init__(self, ticket_id: str, resolved_at: datetime):
         self.id: str = ticket_id
         self.resolved_at: datetime = resolved_at
+        self.story_points: datetime = 1
 
 
 class DummySprint:
@@ -89,8 +90,9 @@ class TestGetCycleTimesUseCase:
         datapoint: CycleTimeDataPoint = result[0]
 
         assert datapoint.duration == 5.5
-        assert datapoint.ticket == 'ABC-123'
+        assert datapoint.key == 'ABC-123'
         assert datapoint.sprint == 'Sprint 1'
+        assert datapoint.story_points == 1
         assert datapoint.resolved_at == int(resolved_at.timestamp() * 1000)
 
         cycle_time_calculator_mock.calculate.assert_called_once_with(dummy_ticket)
@@ -133,7 +135,8 @@ class TestGetLeadTimesUseCase:
         datapoint: LeadTimeDataPoint = result[0]
 
         assert datapoint.duration == 5.5
-        assert datapoint.ticket == 'ABC-123'
+        assert datapoint.key == 'ABC-123'
+        assert datapoint.story_points == 1
         assert datapoint.resolved_at == int(resolved_at.timestamp() * 1000)
 
         lead_time_calculator_mock.calculate.assert_called_once_with(dummy_ticket)

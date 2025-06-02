@@ -38,7 +38,13 @@ class MongoTicketRepository(TicketRepository):
         tickets: list[Ticket] = []
 
         for document in documents:
-            ticket = Ticket(document['key'], document['created_at'], document['started_at'], document['resolved_at'])
+            ticket = Ticket(
+                document['key'],
+                document['created_at'],
+                document['started_at'],
+                document['resolved_at'],
+                document['story_points']
+            )
             tickets.append(ticket)
 
         return tickets

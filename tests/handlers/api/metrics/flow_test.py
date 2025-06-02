@@ -48,8 +48,8 @@ class TestCycleTimeEndpoint:
         """Test that /workflow/cycle-time returns a valid mocked response."""
         # Arrange
         mock_flow_metrics_service.get_cycle_times.return_value = [
-            CycleTimeDataPoint(duration=5.5, resolved_at=1714924800, ticket='JIRA-123', sprint='Sprint 42'),
-            CycleTimeDataPoint(duration=3.2, resolved_at=1715011200, ticket='JIRA-456', sprint='Sprint 42'),
+            CycleTimeDataPoint(duration=5.5, resolved_at=1714924800, key='JIRA-123', sprint='Sprint 4', story_points=1),
+            CycleTimeDataPoint(duration=3.2, resolved_at=1715011200, key='JIRA-456', sprint='Sprint 4', story_points=1),
         ]
 
         client = TestClient(app)
@@ -67,7 +67,8 @@ class TestCycleTimeEndpoint:
         assert 'description' in data['meta']
 
         assert len(data['datapoints']) == 2
-        assert data['datapoints'][0]['ticket'] == 'JIRA-123'
+        assert data['datapoints'][0]['key'] == 'JIRA-123'
+        assert data['datapoints'][0]['story_points'] == 1
 
 
 class TestLeadTimeEndpoint:
@@ -102,8 +103,8 @@ class TestLeadTimeEndpoint:
     def test_cycle_time_returns_valid_response(self, app: FastAPI, mock_flow_metrics_service: Mock) -> None:
         """Test that /flow/cycle-time returns a valid mocked response."""
         mock_flow_metrics_service.get_lead_times.return_value = [
-            LeadTimeDataPoint(duration=5.5, resolved_at=1714924800, ticket='JIRA-123'),
-            LeadTimeDataPoint(duration=3.2, resolved_at=1715011200, ticket='JIRA-456'),
+            LeadTimeDataPoint(duration=5.5, resolved_at=1714924800, key='JIRA-123', story_points=1),
+            LeadTimeDataPoint(duration=3.2, resolved_at=1715011200, key='JIRA-456', story_points=1),
         ]
 
         client = TestClient(app)
@@ -121,4 +122,5 @@ class TestLeadTimeEndpoint:
         assert 'description' in data['meta']
 
         assert len(data['datapoints']) == 2
-        assert data['datapoints'][0]['ticket'] == 'JIRA-123'
+        assert data['datapoints'][0]['key'] == 'JIRA-123'
+        assert data['datapoints'][0]['story_points'] == 1

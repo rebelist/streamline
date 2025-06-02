@@ -16,8 +16,8 @@ class TestFlowMetricsService:
         mock_cycle_time = mocker.Mock(spec=GetCycleTimesUseCase)
         mock_lead_time = mocker.Mock(spec=GetLeadTimesUseCase)
         expected_data_points: List[CycleTimeDataPoint] = [
-            CycleTimeDataPoint(duration=5.0, resolved_at=1683004800, ticket='PROJ-101', sprint='Sprint 1'),
-            CycleTimeDataPoint(duration=7.5, resolved_at=1683177600, ticket='PROJ-102', sprint='Sprint 1'),
+            CycleTimeDataPoint(duration=5.0, resolved_at=1683004800, key='PROJ-101', sprint='Sprint 1', story_points=1),
+            CycleTimeDataPoint(duration=7.5, resolved_at=1683177600, key='PROJ-102', sprint='Sprint 1', story_points=3),
         ]
         mock_cycle_time.return_value = expected_data_points
         flow_metrics_service = FlowMetricsService(mock_cycle_time, mock_lead_time)
@@ -40,8 +40,8 @@ class TestFlowMetricsService:
         mock_cycle_time = mocker.Mock(spec=GetCycleTimesUseCase)
         mock_lead_time = mocker.Mock(spec=GetLeadTimesUseCase)
         expected_data_points: List[LeadTimeDataPoint] = [
-            LeadTimeDataPoint(duration=5.0, resolved_at=1683004800, ticket='PROJ-101'),
-            LeadTimeDataPoint(duration=7.5, resolved_at=1683177600, ticket='PROJ-102'),
+            LeadTimeDataPoint(duration=5.0, resolved_at=1683004800, key='PROJ-101', story_points=1),
+            LeadTimeDataPoint(duration=7.5, resolved_at=1683177600, key='PROJ-102', story_points=2),
         ]
         mock_lead_time.return_value = expected_data_points
         flow_metrics_service = FlowMetricsService(mock_cycle_time, mock_lead_time)

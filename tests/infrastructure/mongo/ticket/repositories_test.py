@@ -60,13 +60,14 @@ class TestMongoTicketRepository:
         """Should return a list of Ticket instances when documents are found for the team."""
         mock_collection: MagicMock = mock_database.get_collection.return_value
         team_name: str = 'Team Alpha'
-        mock_documents: list[dict[str, str]] = [
+        mock_documents: list[dict[str, Any]] = [
             {
                 'key': 'TICKET-1',
                 'created_at': '2023-01-01T00:00:00Z',
                 'started_at': '2023-01-02T00:00:00Z',
                 'resolved_at': '2023-01-05T00:00:00Z',
                 'team': team_name,
+                'story_points': 1,
             },
             {
                 'key': 'TICKET-2',
@@ -74,6 +75,7 @@ class TestMongoTicketRepository:
                 'started_at': '2023-01-04T00:00:00Z',
                 'resolved_at': '2023-01-06T00:00:00Z',
                 'team': team_name,
+                'story_points': 2,
             },
         ]
         mock_collection.find.return_value = mock_documents
@@ -84,7 +86,9 @@ class TestMongoTicketRepository:
         assert len(tickets) == 2
         assert all(isinstance(ticket, Ticket) for ticket in tickets)
         assert tickets[0].id == 'TICKET-1'
+        assert tickets[0].story_points == 1
         assert tickets[1].id == 'TICKET-2'
+        assert tickets[1].story_points == 2
         mock_collection.find.assert_called_once_with({'team': team_name})
 
     def test_find_by_team_name_returns_empty_list(self, mock_database: MagicMock) -> None:

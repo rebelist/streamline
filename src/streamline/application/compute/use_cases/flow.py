@@ -22,9 +22,10 @@ class GetCycleTimesUseCase:
                 duration = self.__calculator.calculate(ticket)
 
                 datapoint = CycleTimeDataPoint(
+                    key=ticket.id,
                     duration=duration,
                     resolved_at=int(ticket.resolved_at.timestamp() * 1000),
-                    ticket=ticket.id,
+                    story_points=ticket.story_points,
                     sprint=sprint.name,
                 )
 
@@ -49,9 +50,10 @@ class GetLeadTimesUseCase:
             duration = self.__calculator.calculate(ticket)
 
             datapoint = LeadTimeDataPoint(
+                key=ticket.id,
                 duration=duration,
                 resolved_at=int(ticket.resolved_at.timestamp() * 1000),
-                ticket=ticket.id,
+                story_points=ticket.story_points,
             )
 
             datapoints.append(datapoint)

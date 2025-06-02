@@ -37,6 +37,7 @@ class MongoSprintRepository(SprintRepository):
                     'opened_at': True,
                     'closed_at': True,
                     'issues.key': True,
+                    'issues.story_points': True,
                     'issues.created_at': True,
                     'issues.started_at': True,
                     'issues.resolved_at': True,
@@ -50,7 +51,13 @@ class MongoSprintRepository(SprintRepository):
         for document in documents:
             tickets: list[Ticket] = []
             for issue in document['issues']:
-                ticket = Ticket(issue['key'], issue['created_at'], issue['started_at'], issue['resolved_at'])
+                ticket = Ticket(
+                    issue['key'],
+                    issue['created_at'],
+                    issue['started_at'],
+                    issue['resolved_at'],
+                    issue['story_points']
+                )
                 tickets.append(ticket)
 
             sprint = Sprint(document['name'], document['opened_at'], document['closed_at'], tickets)
