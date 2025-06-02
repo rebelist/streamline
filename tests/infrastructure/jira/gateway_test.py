@@ -52,6 +52,7 @@ class TestGateway:
         settings.project = 'TEST'
         settings.team = 'TestTeam'
         settings.issue_types = ['Task', 'Bug']
+        settings.sprint_start_at = 30
         return settings
 
     @pytest.fixture
@@ -95,6 +96,7 @@ class TestGateway:
         assert mock_logger.info.call_count == 2
         mock_jira_client.sprints.assert_called_once()
         mock_jira_client.search_issues.assert_called_once()
+        mock_jira_client.sprints.assert_called_once()
 
     def test_jira_gateway_find_sprints_empty(
         self, mock_jira_client: MagicMock, mock_jira_settings: MagicMock, mock_logger: MagicMock

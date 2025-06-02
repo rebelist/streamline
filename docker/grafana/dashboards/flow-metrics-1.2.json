@@ -57,6 +57,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
+      "description": "Sorted chronologically. ",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -236,6 +237,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
+      "description": "Sorted chronologically. ",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -422,6 +424,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
+      "description": "Sorted by story points. ",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -617,10 +620,11 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
+      "description": "Sorted by duration.",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "palette-classic-by-name"
           },
           "custom": {
             "axisBorderShow": false,
@@ -704,6 +708,16 @@
               "selector": "key",
               "text": "Ticket",
               "type": "string"
+            },
+            {
+              "selector": "resolved_at",
+              "text": "Resolved At",
+              "type": "timestamp_epoch_s"
+            },
+            {
+              "selector": "sprint",
+              "text": "Sprint",
+              "type": "string"
             }
           ],
           "computed_columns": [],
@@ -730,6 +744,19 @@
         }
       ],
       "title": "Tickets Cycle Time",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Duration"
+              }
+            ]
+          }
+        }
+      ],
       "type": "barchart"
     },
     {
@@ -737,6 +764,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
+      "description": "Sorted by resolved date.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -824,6 +852,11 @@
               "selector": "key",
               "text": "Ticket",
               "type": "string"
+            },
+            {
+              "selector": "resolved_at",
+              "text": "Resolved At",
+              "type": "timestamp_epoch"
             }
           ],
           "computed_columns": [],
@@ -850,10 +883,23 @@
         }
       ],
       "title": "Tickets Lead Time",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "Resolved At"
+              }
+            ]
+          }
+        }
+      ],
       "type": "barchart"
     }
   ],
-  "refresh": "5s",
+  "refresh": "1h",
   "schemaVersion": 41,
   "tags": [],
   "templating": {
@@ -867,6 +913,6 @@
   "timezone": "browser",
   "title": "Flow Metrics",
   "uid": "deksp9xemrksga",
-  "version": 14,
+  "version": 9,
   "weekStart": ""
 }
