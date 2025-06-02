@@ -4,6 +4,7 @@ from unittest.mock import Mock
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from httpx import Response
 from pytest_mock import MockerFixture
 
 from streamline.application.compute import FlowMetricsService
@@ -53,7 +54,7 @@ class TestCycleTimeEndpoint:
         client: TestClient = TestClient(app)
 
         # Act
-        response = client.get('/flow/cycle-time')
+        response: Response = client.get('/flow/cycle-time')
         data = cast(dict[str, Any], response.json())
 
         # Assert
@@ -106,7 +107,7 @@ class TestLeadTimeEndpoint:
         client: TestClient = TestClient(app)
 
         # Act
-        response = client.get('/flow/lead-time')
+        response: Response = client.get('/flow/lead-time')
         data = cast(dict[str, Any], response.json())
 
         # Assert
