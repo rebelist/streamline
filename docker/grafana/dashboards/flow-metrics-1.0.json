@@ -21,13 +21,13 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "11.6.1"
+      "version": "12.0.0"
     },
     {
       "type": "datasource",
       "id": "yesoreyeram-infinity-datasource",
       "name": "Infinity",
-      "version": "3.2.0"
+      "version": "3.2.1"
     }
   ],
   "annotations": {
@@ -144,7 +144,7 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "p90"
+            "p80"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -163,7 +163,7 @@
         "xTickLabelRotation": 30,
         "xTickLabelSpacing": 0
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "columns": [
@@ -201,7 +201,7 @@
           "summarizeExpression": "",
           "type": "json",
           "uql": "parse-json",
-          "url": "/v1/metrics/workflow/cycle-time",
+          "url": "/v1/metrics/flow/cycle-time",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -262,7 +262,7 @@
               "mode": "off"
             }
           },
-          "fieldMinMax": false,
+          "fieldMinMax": true,
           "mappings": [],
           "thresholds": {
             "mode": "percentage",
@@ -291,7 +291,7 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "p90"
+            "p80"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -309,7 +309,7 @@
         "xTickLabelRotation": 90,
         "xTickLabelSpacing": -100
       },
-      "pluginVersion": "11.6.1",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "columns": [
@@ -341,7 +341,7 @@
           "summarizeExpression": "",
           "type": "json",
           "uql": "parse-json",
-          "url": "/v1/metrics/workflow/cycle-time",
+          "url": "/v1/metrics/flow/cycle-time",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -350,8 +350,129 @@
       ],
       "title": "Tickets Cycle Time",
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_STREAMLINE-DATASOURCE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-YlRd"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 75,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "d"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      },
+      "id": 3,
+      "options": {
+        "barRadius": 0.2,
+        "barWidth": 0.54,
+        "colorByField": "Ticket",
+        "fullHighlight": true,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "p80"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "Ticket",
+        "xTickLabelRotation": 90,
+        "xTickLabelSpacing": -100
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "duration",
+              "text": "Duration",
+              "timestampFormat": "day",
+              "type": "number"
+            },
+            {
+              "selector": "ticket",
+              "text": "Ticket",
+              "type": "string"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_STREAMLINE-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "as-is",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "datapoints",
+          "source": "url",
+          "summarizeBy": "Sprint",
+          "summarizeExpression": "",
+          "type": "json",
+          "uql": "parse-json",
+          "url": "/v1/metrics/flow/lead-time",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Tickets Lead Time",
+      "type": "barchart"
     }
   ],
+  "refresh": "5s",
   "schemaVersion": 41,
   "tags": [],
   "templating": {
@@ -365,6 +486,6 @@
   "timezone": "browser",
   "title": "Workflow Performance",
   "uid": "deksp9xemrksga",
-  "version": 3,
+  "version": 8,
   "weekStart": ""
 }
