@@ -320,7 +320,7 @@
               "type": "number"
             },
             {
-              "selector": "ticket",
+              "selector": "key",
               "text": "Ticket",
               "type": "string"
             }
@@ -440,7 +440,7 @@
               "type": "number"
             },
             {
-              "selector": "ticket",
+              "selector": "key",
               "text": "Ticket",
               "type": "string"
             }
@@ -484,8 +484,8 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Workflow Performance",
+  "title": "Flow Metrics",
   "uid": "deksp9xemrksga",
-  "version": 8,
+  "version": 11,
   "weekStart": ""
 }
