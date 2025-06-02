@@ -19,19 +19,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.10
+    - name: Set up Python 3.13
       uses: actions/setup-python@v3
       with:
-        python-version: "3.10"
+        python-version: "3.13"
     - name: Install dependencies
       run: |
         export POETRY_HOME=/opt/poetry
         python3 -m venv $POETRY_HOME
         $POETRY_HOME/bin/pip install poetry==2.0.0
         $POETRY_HOME/bin/poetry --version
+        poetry install
     - name: Lint with flake8
       run: |
         make check
     - name: Test with pytest
       run: |
         make tests
+    - name: Generate Coverage Report
+      run: |
+        poetry run pytest --cov=my_project --cov-report=xml
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage.xml
