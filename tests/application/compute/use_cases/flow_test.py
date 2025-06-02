@@ -19,7 +19,7 @@ class DummyTicket:
     def __init__(self, ticket_id: str, resolved_at: datetime):
         self.id: str = ticket_id
         self.resolved_at: datetime = resolved_at
-        self.story_points: datetime = 1
+        self.story_points: int = 1
 
 
 class DummySprint:

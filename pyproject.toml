@@ -111,4 +111,4 @@ show_missing = true
 skip_covered = true
 
 [tool.coverage.html]
-directory = "coverage"
+directory = "report"

@@ -18,29 +18,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.13
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.13"
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-      with:
-        version: 2.1.3
-    - name: Install dependencies
-      run: |
-        poetry install
-    - name: Lint with Ruff and Pyright
-      run: |
-        make check
-    - name: Test with pytest
-      run: |
-        make tests
-    - name: Generate Coverage Report
-      run: |
-        poetry run pytest --cov=my_project --cov-report=xml
-    - name: Upload Coverage Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: coverage-report
-        path: coverage.xml
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.13"
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 2.1.3
+      - name: Install dependencies
+        run: |
+          poetry install
+      - name: Run Pre-commit Checks
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files
+      - name: Test with pytest
+        run: |
+          poetry run pytest -vv  --cache-clear --color=yes --no-header --maxfail=1 --failed-first
+      - name: Run Tests with Coverage
+        run: |
+          coverage run -m pytest
+          coverage report
+          coverage xml
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml

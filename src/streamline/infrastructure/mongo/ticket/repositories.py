@@ -43,7 +43,7 @@ class MongoTicketRepository(TicketRepository):
                 document['created_at'],
                 document['started_at'],
                 document['resolved_at'],
-                document['story_points']
+                document['story_points'],
             )
             tickets.append(ticket)
 
