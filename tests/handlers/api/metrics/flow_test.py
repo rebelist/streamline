@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 from unittest.mock import Mock
 
 import pytest
@@ -54,7 +54,7 @@ class TestCycleTimeEndpoint:
 
         # Act
         response = client.get('/flow/cycle-time')
-        data: dict[Any, Any] = response.json()
+        data = cast(dict[str, Any], response.json())
 
         # Assert
         assert response.status_code == 200
@@ -107,7 +107,7 @@ class TestLeadTimeEndpoint:
 
         # Act
         response = client.get('/flow/lead-time')
-        data: dict[Any, Any] = response.json()
+        data = cast(dict[str, Any], response.json())
 
         # Assert
         assert response.status_code == 200
