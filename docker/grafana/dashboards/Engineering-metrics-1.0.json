@@ -59,6 +59,19 @@
   "links": [],
   "panels": [
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "panels": [],
+      "title": "Team - Flow Metrics",
+      "type": "row"
+    },
+    {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
@@ -150,7 +163,7 @@
         "h": 15,
         "w": 12,
         "x": 0,
-        "y": 0
+        "y": 1
       },
       "id": 1,
       "options": {
@@ -369,7 +382,7 @@
         "h": 15,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 1
       },
       "id": 4,
       "options": {
@@ -504,7 +517,7 @@
         "h": 14,
         "w": 6,
         "x": 0,
-        "y": 15
+        "y": 16
       },
       "id": 5,
       "options": {
@@ -617,7 +630,7 @@
         "h": 14,
         "w": 6,
         "x": 6,
-        "y": 15
+        "y": 16
       },
       "id": 7,
       "options": {
@@ -764,7 +777,7 @@
         "h": 14,
         "w": 12,
         "x": 12,
-        "y": 15
+        "y": 16
       },
       "id": 6,
       "options": {
@@ -961,7 +974,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 30
       },
       "id": 2,
       "options": {
@@ -1106,7 +1119,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 44
       },
       "id": 3,
       "options": {
@@ -1242,10 +1255,15 @@
     "from": "now-5m",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "hidden": true,
+    "refresh_intervals": [
+      "5m"
+    ]
+  },
   "timezone": "browser",
-  "title": "Flow Metrics",
+  "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 13,
-  "weekStart": ""
+  "version": 16,
+  "weekStart": "monday"
 }
