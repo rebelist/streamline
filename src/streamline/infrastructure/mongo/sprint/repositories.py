@@ -44,7 +44,7 @@ class MongoSprintRepository(SprintRepository):
                     'issues.resolved_at': True,
                 }
             },
-            {'$sort': {'closed_at': -1}},
+            {'$sort': {'closed_at': 1}},
             {'$limit': MongoSprintRepository.LIMIT_SPRINTS},
         ]
         documents = self.__collection.aggregate(pipeline)
