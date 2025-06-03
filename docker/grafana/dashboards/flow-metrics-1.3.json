@@ -67,7 +67,8 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "fixedColor": "dark-yellow",
+            "mode": "fixed"
           },
           "custom": {
             "axisBorderShow": false,
@@ -75,7 +76,7 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "axisSoftMax": 1,
+            "axisSoftMax": -7,
             "fillOpacity": 25,
             "gradientMode": "none",
             "hideFrom": {
@@ -91,6 +92,7 @@
               "mode": "dashed"
             }
           },
+          "decimals": 1,
           "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
@@ -159,7 +161,7 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "p90"
+            "p80"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -271,6 +273,13 @@
               "Sprint": {
                 "aggregations": [],
                 "operation": "groupby"
+              },
+              "round(Duration * 1.4)": {
+                "aggregations": [
+                  "median",
+                  "mean"
+                ],
+                "operation": "aggregate"
               }
             }
           }
@@ -920,6 +929,7 @@
               "mode": "off"
             }
           },
+          "decimals": 1,
           "fieldMinMax": true,
           "mappings": [],
           "thresholds": {
@@ -1077,6 +1087,7 @@
               "mode": "off"
             }
           },
+          "decimals": 1,
           "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
@@ -1235,6 +1246,6 @@
   "timezone": "browser",
   "title": "Flow Metrics",
   "uid": "deksp9xemrksga",
-  "version": 11,
+  "version": 13,
   "weekStart": ""
 }
