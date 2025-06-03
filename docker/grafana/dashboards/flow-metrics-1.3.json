@@ -107,7 +107,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Duration (median)"
+              "options": "Duration * 1.4 (median)"
             },
             "properties": [
               {
@@ -116,13 +116,17 @@
                   "fixedColor": "light-blue",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "displayName",
+                "value": "Cycle Time (median)"
               }
             ]
           },
           {
             "matcher": {
               "id": "byName",
-              "options": "Duration (mean)"
+              "options": "Duration * 1.4 (mean)"
             },
             "properties": [
               {
@@ -131,6 +135,10 @@
                   "fixedColor": "light-orange",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "displayName",
+                "value": "Cycle Time (mean)"
               }
             ]
           }
@@ -151,7 +159,7 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "p80"
+            "p90"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -218,10 +226,42 @@
       "title": "Sprints Cycle Time",
       "transformations": [
         {
+          "id": "calculateField",
+          "options": {
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Duration"
+                }
+              },
+              "operator": "*",
+              "right": {
+                "fixed": "1.4"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
           "id": "groupBy",
           "options": {
             "fields": {
               "Duration": {
+                "aggregations": []
+              },
+              "Duration * 1.4": {
+                "aggregations": [
+                  "mean",
+                  "median"
+                ],
+                "operation": "aggregate"
+              },
+              "Duration / 5": {
                 "aggregations": [
                   "mean",
                   "median"
@@ -705,7 +745,7 @@
             "properties": [
               {
                 "id": "unit",
-                "value": "d"
+                "value": "days"
               }
             ]
           }
@@ -852,11 +892,12 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Sorted by duration.",
+      "description": "Sorted by working days duration.",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic-by-name"
+            "fixedColor": "semi-dark-yellow",
+            "mode": "fixed"
           },
           "custom": {
             "axisBorderShow": false,
@@ -889,9 +930,22 @@
               }
             ]
           },
-          "unit": "d"
+          "unit": "days"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Duration"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Duration (working days)"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 18,
@@ -1117,12 +1171,48 @@
       "title": "Tickets Lead Time",
       "transformations": [
         {
+          "id": "calculateField",
+          "options": {
+            "alias": "Duration (calendar days)",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Duration"
+                }
+              },
+              "operator": "*",
+              "right": {
+                "fixed": "1.4"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Ticket",
+                "Duration (calendar days)",
+                "Resolved At"
+              ]
+            }
+          }
+        },
+        {
           "id": "sortBy",
           "options": {
             "fields": {},
             "sort": [
               {
-                "field": "Resolved At"
+                "desc": true,
+                "field": "Duration (calendar days)"
               }
             ]
           }
@@ -1145,6 +1235,6 @@
   "timezone": "browser",
   "title": "Flow Metrics",
   "uid": "deksp9xemrksga",
-  "version": 4,
+  "version": 8,
   "weekStart": ""
 }
