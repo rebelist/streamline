@@ -892,7 +892,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Sorted by working days duration.",
+      "description": "Sorted by working days duration asc.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -948,7 +948,7 @@
         ]
       },
       "gridPos": {
-        "h": 18,
+        "h": 14,
         "w": 24,
         "x": 0,
         "y": 29
@@ -1050,7 +1050,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Sorted by resolved date.",
+      "description": "Sorted by duration desc.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1092,10 +1092,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 18,
+        "h": 14,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 43
       },
       "id": 3,
       "options": {
@@ -1235,6 +1235,6 @@
   "timezone": "browser",
   "title": "Flow Metrics",
   "uid": "deksp9xemrksga",
-  "version": 8,
+  "version": 11,
   "weekStart": ""
 }
