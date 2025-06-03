@@ -364,7 +364,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Duration (mean)"
+              "options": "Points (sum)"
             },
             "properties": [
               {
@@ -373,6 +373,10 @@
                   "fixedColor": "light-orange",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "displayName",
+                "value": "Planned Story Points"
               }
             ]
           }
@@ -1283,6 +1287,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 20,
+  "version": 21,
   "weekStart": "monday"
 }
