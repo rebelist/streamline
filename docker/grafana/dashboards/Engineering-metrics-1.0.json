@@ -1021,7 +1021,8 @@
             {
               "selector": "resolved_at",
               "text": "Resolved At",
-              "type": "timestamp_epoch_s"
+              "timestampFormat": "Jan _2 15:04:05.000",
+              "type": "timestamp_epoch"
             },
             {
               "selector": "sprint",
@@ -1054,6 +1055,15 @@
       ],
       "title": "Tickets Cycle Time",
       "transformations": [
+        {
+          "id": "formatTime",
+          "options": {
+            "outputFormat": "DD.MM.YYYY HH:MM",
+            "timeField": "Resolved At",
+            "timezone": "Europe/Berlin",
+            "useTimezone": true
+          }
+        },
         {
           "id": "sortBy",
           "options": {
@@ -1230,6 +1240,15 @@
           }
         },
         {
+          "id": "formatTime",
+          "options": {
+            "outputFormat": "DD.MM.YYYY HH:MM",
+            "timeField": "Resolved At",
+            "timezone": "Europe/Berlin",
+            "useTimezone": true
+          }
+        },
+        {
           "id": "sortBy",
           "options": {
             "fields": {},
@@ -1264,6 +1283,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 16,
+  "version": 18,
   "weekStart": "monday"
 }
