@@ -1,5 +1,6 @@
 from typing import Any, Final, Mapping
 
+from pymongo import DESCENDING
 from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
 
@@ -34,7 +35,8 @@ class MongoTicketRepository(TicketRepository):
 
     def find_by_team_name(self, team: str) -> list[Ticket]:
         """Returns all tickets of a team."""
-        documents = self.__collection.find({'team': team})
+        limit: Final[int] = 200
+        documents = self.__collection.find({'team': team}).sort('resolved_at', DESCENDING).limit(limit)
         tickets: list[Ticket] = []
 
         for document in documents:

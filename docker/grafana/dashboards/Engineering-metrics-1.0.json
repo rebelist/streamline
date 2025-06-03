@@ -76,7 +76,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Last 25 sprints sorted chronologically. ",
+      "description": "Last 20 sprints sorted chronologically. ",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -305,7 +305,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Last 25 sprints sorted chronologically. ",
+      "description": "Last 20 sprints sorted chronologically. ",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -914,7 +914,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Sorted by working days duration asc.",
+      "description": "Last 20 sprint tickets, sorted by working days duration asc.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1053,7 +1053,7 @@
           }
         }
       ],
-      "title": "Tickets Cycle Time",
+      "title": "Sprint Tickets Cycle Time",
       "transformations": [
         {
           "id": "formatTime",
@@ -1083,7 +1083,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Sorted by duration desc.",
+      "description": "Last 200 resolved tickets, sorted by duration desc.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1283,6 +1283,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 18,
+  "version": 20,
   "weekStart": "monday"
 }

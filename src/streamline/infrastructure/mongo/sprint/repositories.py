@@ -1,5 +1,6 @@
 from typing import Any, Final, Mapping
 
+from pymongo import ASCENDING, DESCENDING
 from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
 
@@ -12,7 +13,7 @@ class MongoSprintRepository(SprintRepository):
     """Sprint repository."""
 
     COLLECTION_NAME: Final[str] = 'jira_sprints'
-    LIMIT_SPRINTS: Final[int] = 25
+    LIMIT_SPRINTS: Final[int] = 20
 
     def __init__(self, database: Database[Mapping[str, Any]]) -> None:
         self.__collection: Collection[Mapping[str, Any]] = database.get_collection(
@@ -44,9 +45,9 @@ class MongoSprintRepository(SprintRepository):
                     'issues.resolved_at': True,
                 }
             },
-            {'$sort': {'closed_at': -1}},
+            {'$sort': {'closed_at': DESCENDING}},
             {'$limit': MongoSprintRepository.LIMIT_SPRINTS},
-            {'$sort': {'closed_at': 1}},
+            {'$sort': {'closed_at': ASCENDING}},
         ]
         documents = self.__collection.aggregate(pipeline)
 

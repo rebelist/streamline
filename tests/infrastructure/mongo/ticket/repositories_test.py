@@ -2,6 +2,7 @@ from typing import Any, Generator
 from unittest.mock import MagicMock
 
 import pytest
+from pymongo import DESCENDING
 from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
 from pytest_mock import MockerFixture
@@ -57,9 +58,14 @@ class TestMongoTicketRepository:
         yield mock_db
 
     def test_find_by_team_name_returns_tickets(self, mock_database: MagicMock) -> None:
-        """Should return a list of Ticket instances when documents are found for the team."""
+        """Should return a list of Ticket instances sorted by resolved_at when documents are found for the team."""
         mock_collection: MagicMock = mock_database.get_collection.return_value
         team_name: str = 'Team Alpha'
+        mock_find_result = MagicMock()
+        mock_collection.find.return_value = mock_find_result
+        mock_sort_result = MagicMock()
+        mock_find_result.sort.return_value = mock_sort_result
+
         mock_documents: list[dict[str, Any]] = [
             {
                 'key': 'TICKET-1',
@@ -78,7 +84,7 @@ class TestMongoTicketRepository:
                 'story_points': 2,
             },
         ]
-        mock_collection.find.return_value = mock_documents
+        mock_sort_result.limit.return_value = mock_documents
 
         repo: MongoTicketRepository = MongoTicketRepository(mock_database)
         tickets: list[Ticket] = repo.find_by_team_name(team_name)
@@ -90,14 +96,20 @@ class TestMongoTicketRepository:
         assert tickets[1].id == 'TICKET-2'
         assert tickets[1].story_points == 2
         mock_collection.find.assert_called_once_with({'team': team_name})
+        mock_find_result.sort.assert_called_once_with('resolved_at', DESCENDING)
+        mock_sort_result.limit.assert_called_once()
 
     def test_find_by_team_name_returns_empty_list(self, mock_database: MagicMock) -> None:
         """Should return an empty list when no documents are found for the team."""
         mock_collection: MagicMock = mock_database.get_collection.return_value
-        mock_collection.find.return_value = []
+        mock_find_result = MagicMock()
+        mock_collection.find.return_value = mock_find_result
+        mock_find_result.sort.return_value.limit.return_value = []
 
         repo: MongoTicketRepository = MongoTicketRepository(mock_database)
         tickets: list[Ticket] = repo.find_by_team_name('GhostTeam')
 
         assert tickets == []
         mock_collection.find.assert_called_once_with({'team': 'GhostTeam'})
+        mock_find_result.sort.assert_called_once_with('resolved_at', DESCENDING)
+        mock_find_result.sort.return_value.limit.assert_called_once()
