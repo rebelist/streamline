@@ -30,6 +30,12 @@
       "version": "12.0.0"
     },
     {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
       "type": "datasource",
       "id": "yesoreyeram-infinity-datasource",
       "name": "Infinity",
@@ -492,6 +498,26 @@
       "type": "barchart"
     },
     {
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 10,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.0.0",
+      "type": "text"
+    },
+    {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
@@ -518,10 +544,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 14,
-        "w": 6,
+        "h": 12,
+        "w": 4,
         "x": 0,
-        "y": 16
+        "y": 18
       },
       "id": 5,
       "options": {
@@ -609,6 +635,126 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
+      "description": "Median duration of all tickets in working days.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "yellow",
+            "mode": "fixed"
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 12,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "days"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 4,
+        "x": 4,
+        "y": 18
+      },
+      "id": 9,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "story_points",
+              "text": "Points",
+              "type": "number"
+            },
+            {
+              "selector": "sprint",
+              "text": "Sprint",
+              "type": "string"
+            },
+            {
+              "selector": "duration",
+              "text": "Duration",
+              "type": "number"
+            },
+            {
+              "selector": "key",
+              "text": "Ticket",
+              "type": "string"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_STREAMLINE-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "as-is",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "datapoints",
+          "source": "url",
+          "summarizeBy": "Sprint",
+          "summarizeExpression": "",
+          "type": "json",
+          "uql": "parse-json",
+          "url": "/v1/metrics/flow/cycle-time",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Median Ticket Duration",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Duration": {
+                "aggregations": [
+                  "median"
+                ],
+                "operation": "aggregate"
+              },
+              "Ticket": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_STREAMLINE-DATASOURCE}"
+      },
       "description": "Maximum story points per sprint.",
       "fieldConfig": {
         "defaults": {
@@ -631,10 +777,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 14,
-        "w": 6,
-        "x": 6,
-        "y": 16
+        "h": 12,
+        "w": 4,
+        "x": 8,
+        "y": 18
       },
       "id": 7,
       "options": {
@@ -750,6 +896,7 @@
               "mode": "off"
             }
           },
+          "decimals": 1,
           "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
@@ -778,10 +925,10 @@
         ]
       },
       "gridPos": {
-        "h": 14,
+        "h": 12,
         "w": 12,
         "x": 12,
-        "y": 16
+        "y": 18
       },
       "id": 6,
       "options": {
@@ -1287,6 +1434,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 21,
+  "version": 23,
   "weekStart": "monday"
 }
