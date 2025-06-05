@@ -801,6 +801,28 @@
                 "value": "days"
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Points"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "null": {
+                        "index": 0,
+                        "text": "Non-estimated"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -880,22 +902,6 @@
       ],
       "title": "Median Cycle Time by Story Points",
       "transformations": [
-        {
-          "id": "filterByValue",
-          "options": {
-            "filters": [
-              {
-                "config": {
-                  "id": "isNotNull",
-                  "options": {}
-                },
-                "fieldName": "Points"
-              }
-            ],
-            "match": "any",
-            "type": "include"
-          }
-        },
         {
           "id": "groupBy",
           "options": {
@@ -1547,6 +1553,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 25,
+  "version": 26,
   "weekStart": "monday"
 }
