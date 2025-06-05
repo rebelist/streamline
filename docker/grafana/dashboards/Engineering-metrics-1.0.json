@@ -82,11 +82,11 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Last 20 sprints sorted chronologically. ",
+      "description": "Logarithmic representation of the median cycle time for the last 20 sprints, sorted chronologically.",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "dark-yellow",
+            "fixedColor": "light-yellow",
             "mode": "fixed"
           },
           "custom": {
@@ -95,7 +95,6 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "axisSoftMax": -7,
             "fillOpacity": 25,
             "gradientMode": "none",
             "hideFrom": {
@@ -105,7 +104,8 @@
             },
             "lineWidth": 1,
             "scaleDistribution": {
-              "type": "linear"
+              "log": 2,
+              "type": "log"
             },
             "thresholdsStyle": {
               "mode": "dashed"
@@ -124,46 +124,7 @@
           },
           "unit": "d"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Duration * 1.4 (median)"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "light-blue",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "displayName",
-                "value": "Cycle Time (median)"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Duration * 1.4 (mean)"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "light-orange",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "displayName",
-                "value": "Cycle Time (mean)"
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 15,
@@ -244,40 +205,20 @@
           }
         }
       ],
-      "title": "Sprints Cycle Time",
+      "title": "Sprint Median Cycle Time",
       "transformations": [
-        {
-          "id": "calculateField",
-          "options": {
-            "binary": {
-              "left": {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Duration"
-                }
-              },
-              "operator": "*",
-              "right": {
-                "fixed": "1.4"
-              }
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            },
-            "replaceFields": false
-          }
-        },
         {
           "id": "groupBy",
           "options": {
             "fields": {
               "Duration": {
-                "aggregations": []
+                "aggregations": [
+                  "median"
+                ],
+                "operation": "aggregate"
               },
               "Duration * 1.4": {
                 "aggregations": [
-                  "mean",
                   "median"
                 ],
                 "operation": "aggregate"
@@ -748,7 +689,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Sorted by story points. ",
+      "description": "Median cycle time in working days by story points, sorted by points asc.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1353,7 +1294,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Last 200 resolved tickets, sorted by duration desc.",
+      "description": "Last 200 resolved tickets, sorted by duration desc in calendar days.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1553,6 +1494,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 26,
+  "version": 27,
   "weekStart": "monday"
 }
