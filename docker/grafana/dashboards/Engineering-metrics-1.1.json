@@ -148,7 +148,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Duration (p85)"
+              "options": "Calendar Duration (p85)"
             },
             "properties": [
               {
@@ -421,6 +421,7 @@
           "sort": "none"
         },
         "xField": "Sprint",
+        "xTickLabelMaxLength": 25,
         "xTickLabelRotation": 30,
         "xTickLabelSpacing": 0
       },
@@ -1774,6 +1775,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 32,
+  "version": 33,
   "weekStart": "monday"
 }
