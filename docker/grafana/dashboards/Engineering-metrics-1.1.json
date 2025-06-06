@@ -82,7 +82,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Logarithmic representation of the median cycle time for the last 20 sprints, sorted chronologically.",
+      "description": "This chart displays the 85th percentile cycle time of completed tickets in each of the last 20 sprints. The data is grouped by sprint and sorted chronologically.\n\nThe y-axis uses a logarithmic scale to better visualize variations across a wide range of cycle times.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -124,7 +124,20 @@
           },
           "unit": "d"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Duration (p85)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Duration 85th Percentile"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 15,
@@ -140,12 +153,10 @@
         "fullHighlight": false,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [
-            "p80"
-          ],
+          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "orientation": "vertical",
         "showValue": "always",
@@ -205,7 +216,7 @@
           }
         }
       ],
-      "title": "Sprint Median Cycle Time",
+      "title": "85th Percentile Cycle Time In Working Days Per Sprint",
       "transformations": [
         {
           "id": "groupBy",
@@ -213,7 +224,7 @@
             "fields": {
               "Duration": {
                 "aggregations": [
-                  "median"
+                  "p85"
                 ],
                 "operation": "aggregate"
               },
@@ -296,34 +307,36 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Duration (median)"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "light-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
               "options": "Points (sum)"
             },
             "properties": [
               {
-                "id": "color",
-                "value": {
-                  "fixedColor": "light-orange",
-                  "mode": "fixed"
-                }
-              },
-              {
                 "id": "displayName",
                 "value": "Planned Story Points"
+              }
+            ]
+          },
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Planned Story Points"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
               }
             ]
           }
@@ -344,7 +357,7 @@
         "groupWidth": 0.7,
         "legend": {
           "calcs": [
-            "p80"
+            "p85"
           ],
           "displayMode": "list",
           "placement": "bottom",
@@ -463,7 +476,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Median story points per sprint.",
+      "description": "85th Percentile story points per sprint.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -497,7 +510,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "median"
+            "p85"
           ],
           "fields": "",
           "values": false
@@ -544,7 +557,7 @@
           }
         }
       ],
-      "title": "Median SPPS",
+      "title": "85th Percentile SPPS",
       "transformations": [
         {
           "id": "groupBy",
@@ -689,7 +702,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Median cycle time in working days by story points, sorted by points asc.",
+      "description": " 85th Percentile cycle time in working days by story points, sorted by points asc.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -841,7 +854,7 @@
           }
         }
       ],
-      "title": "Median Cycle Time by Story Points",
+      "title": " 85th Percentile Cycle Time by Story Points",
       "transformations": [
         {
           "id": "groupBy",
@@ -849,7 +862,7 @@
             "fields": {
               "Duration": {
                 "aggregations": [
-                  "median"
+                  "p85"
                 ],
                 "operation": "aggregate"
               },
@@ -1005,7 +1018,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Median duration of all tickets in working days.",
+      "description": "The 85th percentile of cycle times (in working days) for completed tickets. ",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1041,7 +1054,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "p85"
           ],
           "fields": "",
           "values": false
@@ -1054,16 +1067,6 @@
       "targets": [
         {
           "columns": [
-            {
-              "selector": "story_points",
-              "text": "Points",
-              "type": "number"
-            },
-            {
-              "selector": "sprint",
-              "text": "Sprint",
-              "type": "string"
-            },
             {
               "selector": "duration",
               "text": "Duration",
@@ -1098,26 +1101,7 @@
           }
         }
       ],
-      "title": "Median Ticket Duration",
-      "transformations": [
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Duration": {
-                "aggregations": [
-                  "median"
-                ],
-                "operation": "aggregate"
-              },
-              "Ticket": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        }
-      ],
+      "title": "85th Percentile Ticket Cycle Time",
       "type": "gauge"
     },
     {
@@ -1494,6 +1478,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 27,
+  "version": 28,
   "weekStart": "monday"
 }
