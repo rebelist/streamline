@@ -1385,7 +1385,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Last 20 sprint tickets, sorted by working days duration asc.",
+      "description": "Last 20 sprint tickets, sorted by working days duration asc.\n\n\"It tells how long does it take for a ticket to go from in progress to done\"",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1557,7 +1557,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Last 200 resolved tickets, sorted by duration desc in calendar days.",
+      "description": "Last 200 resolved tickets, sorted by duration desc in calendar days.\n\nIt tells how long it takes for a ticket to go from creation to done.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1775,6 +1775,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 33,
+  "version": 34,
   "weekStart": "monday"
 }
