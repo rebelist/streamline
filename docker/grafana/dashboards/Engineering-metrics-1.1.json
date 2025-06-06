@@ -78,11 +78,31 @@
       "type": "row"
     },
     {
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 10,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h2 style=\"font-style:italic;color:#eee; padding: .5em;text-align:center\">What's past is prologue...</h2>",
+        "mode": "html"
+      },
+      "pluginVersion": "12.0.0",
+      "type": "text"
+    },
+    {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "This chart displays the 85th percentile cycle time of completed tickets in each of the last 20 sprints. The data is grouped by sprint and sorted chronologically.\n\nThe y-axis uses a logarithmic scale to better visualize variations across a wide range of cycle times.",
+      "description": "Last 20 sprint sorted chronologically.\n\n\"At least 85% of the tickets planned for the given sprint were completed in less than the displayed cycle time expressed in calendar days.\"",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -143,7 +163,7 @@
         "h": 15,
         "w": 12,
         "x": 0,
-        "y": 1
+        "y": 3
       },
       "id": 1,
       "options": {
@@ -216,17 +236,45 @@
           }
         }
       ],
-      "title": "85th Percentile Cycle Time In Working Days Per Sprint",
+      "title": "85th Percentile Cycle Time In Calendar Days Per Sprint",
       "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Calendar Duration",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Duration"
+                }
+              },
+              "operator": "*",
+              "right": {
+                "fixed": "1.4"
+              }
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
         {
           "id": "groupBy",
           "options": {
             "fields": {
-              "Duration": {
+              "Calendar Duration": {
                 "aggregations": [
                   "p85"
                 ],
                 "operation": "aggregate"
+              },
+              "Duration": {
+                "aggregations": [
+                  "p85"
+                ]
               },
               "Duration * 1.4": {
                 "aggregations": [
@@ -263,7 +311,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "Last 20 sprints sorted chronologically. ",
+      "description": "Last 20 sprints sorted chronologically. \n\n\"How many story points were planned for each sprint?\"",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -346,7 +394,7 @@
         "h": 15,
         "w": 12,
         "x": 12,
-        "y": 1
+        "y": 3
       },
       "id": 4,
       "options": {
@@ -361,7 +409,7 @@
           ],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "orientation": "vertical",
         "showValue": "always",
@@ -456,9 +504,9 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 18
       },
-      "id": 10,
+      "id": 12,
       "options": {
         "code": {
           "language": "plaintext",
@@ -476,7 +524,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "85th Percentile story points per sprint.",
+      "description": "85th Percentile story points per sprint.\n\n\"At least 85% of the sprints included the given number of story points or more.\"",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -501,7 +549,7 @@
         "h": 9,
         "w": 4,
         "x": 0,
-        "y": 18
+        "y": 20
       },
       "id": 5,
       "options": {
@@ -614,7 +662,7 @@
         "h": 9,
         "w": 4,
         "x": 4,
-        "y": 18
+        "y": 20
       },
       "id": 7,
       "options": {
@@ -702,6 +750,221 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
+      "description": "Median cycle time in working days by story points, sorted by points asc.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-purple",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byType",
+              "options": "number"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "days"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Points"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "null": {
+                        "index": 0,
+                        "text": "Non-estimated"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Duration (p85)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "85th Percentile Cycle TIme"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 8,
+        "x": 8,
+        "y": 20
+      },
+      "id": 6,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "duration",
+              "text": "Duration",
+              "timestampFormat": "day",
+              "type": "number"
+            },
+            {
+              "selector": "key",
+              "text": "Ticket",
+              "type": "string"
+            },
+            {
+              "selector": "story_points",
+              "text": "Points",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_STREAMLINE-DATASOURCE}"
+          },
+          "filters": [],
+          "format": "as-is",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "datapoints",
+          "source": "url",
+          "summarizeBy": "Sprint",
+          "summarizeExpression": "",
+          "type": "json",
+          "uql": "parse-json",
+          "url": "/v1/metrics/flow/cycle-time",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Median Cycle Time by Story Points",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Duration": {
+                "aggregations": [
+                  "median"
+                ],
+                "operation": "aggregate"
+              },
+              "Points": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": false,
+                "field": "Points"
+              }
+            ]
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "string",
+                "targetField": "Points"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_STREAMLINE-DATASOURCE}"
+      },
       "description": " 85th Percentile cycle time in working days by story points, sorted by points asc.",
       "fieldConfig": {
         "defaults": {
@@ -777,16 +1040,28 @@
                 ]
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Duration (p85)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "85th Percentile Cycle TIme"
+              }
+            ]
           }
         ]
       },
       "gridPos": {
         "h": 18,
-        "w": 16,
-        "x": 8,
-        "y": 18
+        "w": 8,
+        "x": 16,
+        "y": 20
       },
-      "id": 6,
+      "id": 13,
       "options": {
         "barRadius": 0,
         "barWidth": 0.97,
@@ -796,7 +1071,7 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "auto",
@@ -930,7 +1205,7 @@
         "h": 9,
         "w": 4,
         "x": 0,
-        "y": 27
+        "y": 29
       },
       "id": 11,
       "options": {
@@ -1018,7 +1293,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "${DS_STREAMLINE-DATASOURCE}"
       },
-      "description": "The 85th percentile of cycle times (in working days) for completed tickets. ",
+      "description": "“85% of all tickets take the displayed amount of time or less to complete.”",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1045,7 +1320,7 @@
         "h": 9,
         "w": 4,
         "x": 4,
-        "y": 27
+        "y": 29
       },
       "id": 9,
       "options": {
@@ -1113,8 +1388,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "semi-dark-yellow",
-            "mode": "fixed"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
             "axisBorderShow": false,
@@ -1122,7 +1396,7 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "fillOpacity": 75,
+            "fillOpacity": 72,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -1131,17 +1405,18 @@
             },
             "lineWidth": 0,
             "scaleDistribution": {
-              "type": "linear"
+              "log": 2,
+              "type": "log"
             },
             "thresholdsStyle": {
               "mode": "off"
             }
           },
           "decimals": 1,
-          "fieldMinMax": true,
           "mappings": [],
+          "min": 0.1,
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
                 "color": "green"
@@ -1154,12 +1429,12 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Duration"
+              "options": "Story Points"
             },
             "properties": [
               {
-                "id": "displayName",
-                "value": "Duration (working days)"
+                "id": "unit",
+                "value": "string"
               }
             ]
           }
@@ -1169,25 +1444,23 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 36
+        "y": 38
       },
       "id": 2,
       "options": {
-        "barRadius": 0.2,
-        "barWidth": 0.54,
-        "colorByField": "Ticket",
+        "barRadius": 0.25,
+        "barWidth": 0.83,
+        "colorByField": "Duration",
         "fullHighlight": true,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [
-            "p80"
-          ],
+          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
-        "orientation": "auto",
-        "showValue": "auto",
+        "orientation": "vertical",
+        "showValue": "never",
         "stacking": "none",
         "tooltip": {
           "hideZeros": false,
@@ -1196,7 +1469,7 @@
         },
         "xField": "Ticket",
         "xTickLabelRotation": 90,
-        "xTickLabelSpacing": -100
+        "xTickLabelSpacing": 100
       },
       "pluginVersion": "12.0.0",
       "targets": [
@@ -1215,13 +1488,18 @@
             },
             {
               "selector": "resolved_at",
-              "text": "Resolved At",
+              "text": "Resolved On",
               "timestampFormat": "Jan _2 15:04:05.000",
               "type": "timestamp_epoch"
             },
             {
               "selector": "sprint",
               "text": "Sprint",
+              "type": "string"
+            },
+            {
+              "selector": "story_points",
+              "text": "Story Points",
               "type": "string"
             }
           ],
@@ -1248,13 +1526,13 @@
           }
         }
       ],
-      "title": "Sprint Tickets Cycle Time",
+      "title": "Tickets Cycle Time",
       "transformations": [
         {
           "id": "formatTime",
           "options": {
             "outputFormat": "DD.MM.YYYY HH:MM",
-            "timeField": "Resolved At",
+            "timeField": "Resolved On",
             "timezone": "Europe/Berlin",
             "useTimezone": true
           }
@@ -1299,7 +1577,8 @@
             },
             "lineWidth": 0,
             "scaleDistribution": {
-              "type": "linear"
+              "log": 2,
+              "type": "log"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -1318,30 +1597,41 @@
           },
           "unit": "d"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Story Points"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 50
+        "y": 52
       },
       "id": 3,
       "options": {
-        "barRadius": 0.2,
-        "barWidth": 0.54,
-        "colorByField": "Ticket",
+        "barRadius": 0.25,
+        "barWidth": 0.75,
+        "colorByField": "Duration (calendar days)",
         "fullHighlight": true,
         "groupWidth": 0.7,
         "legend": {
-          "calcs": [
-            "p80"
-          ],
+          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
-        "orientation": "auto",
+        "orientation": "vertical",
         "showValue": "auto",
         "stacking": "none",
         "tooltip": {
@@ -1351,7 +1641,7 @@
         },
         "xField": "Ticket",
         "xTickLabelRotation": 90,
-        "xTickLabelSpacing": -100
+        "xTickLabelSpacing": 100
       },
       "pluginVersion": "12.0.0",
       "targets": [
@@ -1372,6 +1662,11 @@
               "selector": "resolved_at",
               "text": "Resolved At",
               "type": "timestamp_epoch"
+            },
+            {
+              "selector": "story_points",
+              "text": "Story Points",
+              "type": "string"
             }
           ],
           "computed_columns": [],
@@ -1427,9 +1722,10 @@
           "options": {
             "include": {
               "names": [
+                "Resolved At",
                 "Ticket",
                 "Duration (calendar days)",
-                "Resolved At"
+                "Story Points"
               ]
             }
           }
@@ -1478,6 +1774,6 @@
   "timezone": "browser",
   "title": "Engineering Team Metrics",
   "uid": "deksp9xemrksga",
-  "version": 28,
+  "version": 32,
   "weekStart": "monday"
 }
