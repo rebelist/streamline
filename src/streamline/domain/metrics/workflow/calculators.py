@@ -1,3 +1,4 @@
+from streamline.domain.sprint import Sprint
 from streamline.domain.ticket import Ticket
 from streamline.domain.time import WorkTimeCalculator
 
@@ -22,3 +23,17 @@ class LeadTimeCalculator:
     def calculate(self, ticket: Ticket) -> float:
         """Calculate lead time, returns the number of working days."""
         return self.__calendar.get_working_days_delta(ticket.created_at, ticket.resolved_at)
+
+
+class ThroughputCalculator:
+    """Calculate throughput."""
+
+    def calculate(self, sprint: Sprint) -> int:
+        """Calculate the throughput of a sprint."""
+        count = 0
+
+        for ticket in sprint.tickets:
+            if ticket.resolved_at <= sprint.closed_at:
+                count += 1
+
+        return count

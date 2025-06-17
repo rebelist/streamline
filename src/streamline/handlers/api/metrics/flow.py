@@ -4,7 +4,7 @@ from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends
 
 from streamline.application.compute import FlowMetricsService
-from streamline.application.compute.models import CycleTimeDataPoint, LeadTimeDataPoint
+from streamline.application.compute.models import CycleTimeDataPoint, LeadTimeDataPoint, ThroughputDataPoint
 from streamline.config.container import Container
 from streamline.config.settings import Settings
 from streamline.handlers.api.metrics.models import TimeSeriesMetadata, TimeSeriesResponse, TimeUnit
@@ -46,5 +46,24 @@ def lead_time(
             metric='Lead Time',
             unit=TimeUnit.DAYS,
             description='Each item represents total working time a ticket spent from creation to completion.',
+        ),
+    )
+
+
+@router.get('/flow/throughput')
+@inject
+def throughput(
+    settings: Annotated[Settings, Depends(Provide[Container.settings])],
+    flow_metrics_service: Annotated[FlowMetricsService, Depends(Provide[Container.flow_metrics_service])],
+) -> TimeSeriesResponse[ThroughputDataPoint]:
+    """Get the lead time for all tickets."""
+    datapoints = flow_metrics_service.get_throughput(settings.jira.team)
+
+    return TimeSeriesResponse[ThroughputDataPoint](
+        datapoints=datapoints,
+        meta=TimeSeriesMetadata(
+            metric='Sprint Throughput',
+            unit=TimeUnit.DAYS,
+            description='Each item represents the number of tickets completed and not completed during a given sprint.',
         ),
     )

@@ -29,11 +29,17 @@ class TestCycleTimeDataPoint:
 
     def test_cycle_time_data_point_field_descriptions(self) -> None:
         """Tests that the field descriptions are correctly defined."""
-        assert CycleTimeDataPoint.model_fields['duration'].description == 'Ticket cycle time'
-        assert CycleTimeDataPoint.model_fields['resolved_at'].description == 'Epoch timestamp in seconds'
-        assert CycleTimeDataPoint.model_fields['key'].description == 'Ticket identifier'
-        assert CycleTimeDataPoint.model_fields['sprint'].description == 'Sprint in which the ticket was started.'
-        assert CycleTimeDataPoint.model_fields['story_points'].description == 'Estimated story points.'
+        assert CycleTimeDataPoint.model_fields['duration'].description == 'Time taken to complete the ticket (in days).'
+        assert (
+            CycleTimeDataPoint.model_fields['resolved_at'].description
+            == 'Epoch timestamp (in seconds) when the ticket was resolved.'
+        )
+        assert CycleTimeDataPoint.model_fields['key'].description == 'Unique identifier of the ticket.'
+        assert CycleTimeDataPoint.model_fields['sprint'].description == 'Sprint in which the ticket work started.'
+        assert (
+            CycleTimeDataPoint.model_fields['story_points'].description
+            == 'Estimated story points assigned to the ticket.'
+        )
 
     def test_cycle_time_data_point_type_hints(self) -> None:
         """Tests that the type hints for the fields are correctly defined."""
