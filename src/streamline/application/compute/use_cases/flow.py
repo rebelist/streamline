@@ -19,6 +19,9 @@ class GetCycleTimesUseCase:
         datapoints: list[CycleTimeDataPoint] = []
         for sprint in self.__repository.find_by_team_name(team):
             for ticket in sprint.tickets:
+                if not (sprint.opened_at <= ticket.started_at <= sprint.closed_at):
+                    continue
+
                 duration = self.__calculator.calculate(ticket)
 
                 datapoint = CycleTimeDataPoint(

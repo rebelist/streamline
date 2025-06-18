@@ -41,7 +41,7 @@ services:
       - streamline
 
   grafana:
-    image: grafana/grafana:12.0.0
+    image: grafana/grafana:12.0.1
     container_name: rebelist-streamline-grafana
     ports:
       - "80:3000"

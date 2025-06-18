@@ -41,16 +41,12 @@ class JiraGateway:
         self.__logger.info(f'Found {len(sprints)} sprints.')
 
         for sprint in sprints:
-            opened_at = date_parser.parse(sprint.startDate)
-            closed_at = date_parser.parse(sprint.completeDate)
             jql_str = (
                 f'Sprint = {sprint.id} '
                 f'AND status = Done '
                 f'AND project = {self.__settings.project} '
                 f'AND Teams = "{self.__settings.team}" '
                 f'AND issuetype IN ({self.__issue_types}) '
-                f'AND NOT status WAS "In Progress" BEFORE {opened_at:%Y-%m-%d} '
-                f'AND status CHANGED TO "In Progress" DURING ({opened_at:%Y-%m-%d}, {closed_at:%Y-%m-%d})'
             )
 
             self.__logger.info(f'Querying sprints tickets to JIRA: {jql_str}')

@@ -9,25 +9,8 @@ from streamline.application.compute.use_cases import GetCycleTimesUseCase
 from streamline.application.compute.use_cases.flow import GetLeadTimesUseCase
 from streamline.domain.metrics.workflow import CycleTimeCalculator
 from streamline.domain.metrics.workflow.calculators import LeadTimeCalculator
-from streamline.domain.sprint import SprintRepository
-from streamline.domain.ticket import TicketRepository
-
-
-class DummyTicket:
-    """A dummy ticket class for mocking purpose."""
-
-    def __init__(self, ticket_id: str, resolved_at: datetime):
-        self.id: str = ticket_id
-        self.resolved_at: datetime = resolved_at
-        self.story_points: int = 1
-
-
-class DummySprint:
-    """A dummy sprint class for mocking purpose."""
-
-    def __init__(self, name: str, tickets: list[DummyTicket]):
-        self.name: str = name
-        self.tickets: list[DummyTicket] = tickets
+from streamline.domain.sprint import Sprint, SprintRepository
+from streamline.domain.ticket import Ticket, TicketRepository
 
 
 @pytest.fixture
@@ -77,9 +60,10 @@ class TestGetCycleTimesUseCase:
     ) -> None:
         """Test that GetCycleTimesUseCase returns correct CycleTimeDataPoints."""
         team_name = 'backend'
+        created_at = started_at = datetime(2024, 4, 1, 12, 0)
         resolved_at = datetime(2024, 5, 1, 12, 0)
-        dummy_ticket = DummyTicket(ticket_id='ABC-123', resolved_at=resolved_at)
-        dummy_sprint = DummySprint(name='Sprint 1', tickets=[dummy_ticket])
+        dummy_ticket = Ticket('ABC-123', created_at, started_at, resolved_at, 1)
+        dummy_sprint = Sprint('Sprint 1', created_at, resolved_at, [dummy_ticket])
 
         sprint_repository_mock.find_by_team_name.return_value = [dummy_sprint]
         cycle_time_calculator_mock.calculate.return_value = 5.5
@@ -123,8 +107,9 @@ class TestGetLeadTimesUseCase:
     ) -> None:
         """Test that GetLeadTimesUseCase returns correct LeadTimeDataPoints."""
         team_name = 'backend'
+        created_at = started_at = datetime(2024, 4, 1, 12, 0)
         resolved_at = datetime(2024, 5, 1, 12, 0)
-        dummy_ticket = DummyTicket(ticket_id='ABC-123', resolved_at=resolved_at)
+        dummy_ticket = Ticket('ABC-123', created_at, started_at, resolved_at, 1)
 
         ticket_repository_mock.find_by_team_name.return_value = [dummy_ticket]
         lead_time_calculator_mock.calculate.return_value = 5.5
