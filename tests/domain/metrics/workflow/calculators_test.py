@@ -1,7 +1,13 @@
 from datetime import datetime, timedelta, timezone
 from unittest.mock import MagicMock
 
-from streamline.domain.metrics.workflow import CycleTimeCalculator
+from streamline.domain.metrics.workflow import (
+    CycleTimeCalculator,
+    LeadTimeCalculator,
+    ThroughputCalculator,
+    VelocityCalculator,
+)
+from streamline.domain.sprint import Sprint
 from streamline.domain.ticket import Ticket
 from streamline.domain.time import WorkTimeCalculator
 
@@ -81,3 +87,102 @@ class TestCycleTimeCalculator:
 
         assert cycle_time == expected_cycle_time
         mock_calendar_service.get_working_days_delta.assert_called_once_with(started_at, resolved_at)
+
+
+class TestLeadTimeCalculator:
+    """Tests for the LeadTimeCalculator class."""
+
+    def test_calculate_leadtime(self) -> None:
+        """Tests the calculation of lead time using the calendar service."""
+        mock_calendar_service = MagicMock(spec=WorkTimeCalculator)
+        created_at = datetime(2025, 5, 1, 10, 0, 0, tzinfo=timezone.utc)
+        resolved_at = datetime(2025, 5, 4, 16, 0, 0, tzinfo=timezone.utc)
+        mock_ticket = MagicMock(spec=Ticket)
+        mock_ticket.created_at = created_at
+        mock_ticket.resolved_at = resolved_at
+        expected_lead_time = 2.5
+
+        mock_calendar_service.get_working_days_delta.return_value = expected_lead_time
+
+        calculator = LeadTimeCalculator(mock_calendar_service)
+        lead_time = calculator.calculate(mock_ticket)
+
+        assert lead_time == expected_lead_time
+        mock_calendar_service.get_working_days_delta.assert_called_once_with(created_at, resolved_at)
+
+
+class TestThroughputCalculator:
+    """Tests for the ThroughputCalculator class."""
+
+    def test_calculate_throughput(self) -> None:
+        """Tests throughput calculation with resolved tickets within sprint."""
+        closed_at = datetime(2025, 6, 1, 18, 0, 0, tzinfo=timezone.utc)
+
+        ticket_1 = MagicMock(spec=Ticket)
+        ticket_1.resolved_at = datetime(2025, 5, 30, tzinfo=timezone.utc)
+
+        ticket_2 = MagicMock(spec=Ticket)
+        ticket_2.resolved_at = datetime(2025, 6, 1, tzinfo=timezone.utc)
+
+        ticket_3 = MagicMock(spec=Ticket)
+        ticket_3.resolved_at = datetime(2025, 6, 2, tzinfo=timezone.utc)  # after sprint end
+
+        sprint = MagicMock(spec=Sprint)
+        sprint.closed_at = closed_at
+        sprint.tickets = [ticket_1, ticket_2, ticket_3]
+
+        calculator = ThroughputCalculator()
+        throughput = calculator.calculate(sprint)
+
+        assert throughput == 2
+
+    def test_calculate_throughput_empty(self) -> None:
+        """Tests throughput calculation with no tickets in sprint."""
+        sprint = MagicMock(spec=Sprint)
+        sprint.closed_at = datetime(2025, 6, 1, tzinfo=timezone.utc)
+        sprint.tickets = []
+
+        calculator = ThroughputCalculator()
+        throughput = calculator.calculate(sprint)
+
+        assert throughput == 0
+
+
+class TestVelocityCalculator:
+    """Tests for the VelocityCalculator class."""
+
+    def test_calculate_velocity(self) -> None:
+        """Tests velocity calculation summing up story points of resolved tickets."""
+        closed_at = datetime(2025, 6, 1, tzinfo=timezone.utc)
+
+        ticket_1 = MagicMock(spec=Ticket)
+        ticket_1.resolved_at = datetime(2025, 5, 29, tzinfo=timezone.utc)
+        ticket_1.story_points = 3
+
+        ticket_2 = MagicMock(spec=Ticket)
+        ticket_2.resolved_at = datetime(2025, 6, 1, tzinfo=timezone.utc)
+        ticket_2.story_points = 5
+
+        ticket_3 = MagicMock(spec=Ticket)
+        ticket_3.resolved_at = datetime(2025, 6, 2, tzinfo=timezone.utc)  # after sprint
+        ticket_3.story_points = 8
+
+        sprint = MagicMock(spec=Sprint)
+        sprint.closed_at = closed_at
+        sprint.tickets = [ticket_1, ticket_2, ticket_3]
+
+        calculator = VelocityCalculator()
+        velocity = calculator.calculate(sprint)
+
+        assert velocity == 8
+
+    def test_calculate_velocity_empty(self) -> None:
+        """Tests velocity calculation when sprint has no tickets."""
+        sprint = MagicMock(spec=Sprint)
+        sprint.closed_at = datetime(2025, 6, 1, tzinfo=timezone.utc)
+        sprint.tickets = []
+
+        calculator = VelocityCalculator()
+        velocity = calculator.calculate(sprint)
+
+        assert velocity == 0

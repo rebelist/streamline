@@ -26,7 +26,7 @@ class LeadTimeCalculator:
 
 
 class ThroughputCalculator:
-    """Calculate throughput."""
+    """Calculate sprint throughput."""
 
     def calculate(self, sprint: Sprint) -> int:
         """Calculate the throughput of a sprint."""
@@ -35,5 +35,19 @@ class ThroughputCalculator:
         for ticket in sprint.tickets:
             if ticket.resolved_at <= sprint.closed_at:
                 count += 1
+
+        return count
+
+
+class VelocityCalculator:
+    """Calculate sprint velocity."""
+
+    def calculate(self, sprint: Sprint) -> int:
+        """Calculate the velocity of a sprint."""
+        count = 0
+
+        for ticket in sprint.tickets:
+            if ticket.resolved_at <= sprint.closed_at:
+                count += ticket.story_points
 
         return count

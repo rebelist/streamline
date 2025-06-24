@@ -8,7 +8,7 @@ from streamline.domain.ticket import Ticket, TicketRepository
 
 
 class MongoTicketDocumentRepository:
-    """Ticket document repository to store raw jira ticket documents."""
+    """Ticket document ticket_repository to store raw jira ticket documents."""
 
     COLLECTION_NAME: Final[str] = 'jira_tickets'
 
@@ -24,7 +24,7 @@ class MongoTicketDocumentRepository:
 
 
 class MongoTicketRepository(TicketRepository):
-    """Ticket repository."""
+    """Ticket ticket_repository."""
 
     COLLECTION_NAME: Final[str] = 'jira_tickets'
 

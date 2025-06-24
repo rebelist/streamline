@@ -54,7 +54,7 @@ class TestTimeSeriesModels:
 
         # Check if attempting to mutate the response object raises an error
         with pytest.raises(ValidationError):
-            response.datapoints = [DummyDataPoint(value=3)]  # Trying to change the datapoints list
+            response.datapoints = [DummyDataPoint(value=3)]
 
         # Check if attempting to mutate the `meta` object raises an error
         with pytest.raises(ValidationError):

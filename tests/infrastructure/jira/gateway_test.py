@@ -121,7 +121,7 @@ class TestGateway:
         mock_issue.fields = MagicMock()
         mock_issue.fields.resolutiondate = '2025-05-10T00:00:00.000+0000'
         mock_issue.fields.created = '2025-04-10T00:00:00.000+0000'
-        mock_issue.raw = {'key': 'TEST-2', 'fields': {'summary': 'Test Ticket'}}
+        mock_issue.raw = {'key': 'TEST-2', 'fields': {'summary': 'Test Ticket', 'status': {'name': 'Done'}}}
         mock_issue.changelog = MagicMock()
         mock_issue.changelog.histories = [
             MagicMock(
@@ -152,7 +152,7 @@ class TestGateway:
         mock_issue.fields = MagicMock()
         mock_issue.fields.resolutiondate = '2025-05-12T00:00:00.000+0000'
         mock_issue.fields.created = '2025-04-10T00:00:00.000+0000'
-        mock_issue.raw = {'key': 'TEST-3', 'fields': {'summary': 'Another Ticket'}}
+        mock_issue.raw = {'key': 'TEST-3', 'fields': {'summary': 'Another Ticket', 'status': {'name': 'Done'}}}
         mock_issue.changelog = MagicMock()
         mock_issue.changelog.histories = [
             MagicMock(
@@ -179,7 +179,7 @@ class TestGateway:
         mock_issue.fields = MagicMock()
         mock_issue.fields.resolutiondate = '2025-05-15T00:00:00.000+0000'
         mock_issue.fields.created = '2025-04-10T00:00:00.000+0000'
-        mock_issue.raw = {'key': 'TEST-4', 'fields': {'summary': 'Never Started'}}
+        mock_issue.raw = {'key': 'TEST-4', 'fields': {'summary': 'Never Started', 'status': {'name': 'Done'}}}
         mock_issue.changelog = MagicMock()
         mock_issue.changelog.histories = [
             MagicMock(created='2025-05-01T08:00:00.000+0000', items=[MagicMock(field='status', toString='Done')])

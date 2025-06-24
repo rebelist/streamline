@@ -43,7 +43,6 @@ class JiraGateway:
         for sprint in sprints:
             jql_str = (
                 f'Sprint = {sprint.id} '
-                f'AND status = Done '
                 f'AND project = {self.__settings.project} '
                 f'AND Teams = "{self.__settings.team}" '
                 f'AND issuetype IN ({self.__issue_types}) '
@@ -83,7 +82,6 @@ class JiraGateway:
         jql_str = (
             f'project = {self.__settings.project} '
             f'AND Sprint IN ({filter_sprints}) '
-            f'AND status = Done '
             f'AND Teams = "{self.__settings.team}" '
             f'AND issuetype IN ({self.__issue_types}) '
             f'{filter_done_at} '
@@ -94,7 +92,7 @@ class JiraGateway:
 
         issues = self.__jira.search_issues(
             jql_str=jql_str,
-            fields='key, summary, changelog, created, customfield_10002',
+            fields='key, status, summary, changelog, created, customfield_10002',
             expand='changelog',
             maxResults=False,
         )
@@ -116,7 +114,9 @@ class JiraGateway:
             document['created_at'] = date_parser.parse(issue.fields.created)
             document['started_at'] = started_at
             document['resolved_at'] = resolved_at
-            document['story_points'] = story_points or None
+            document['story_points'] = story_points or 0
+            document['status'] = document['fields']['status']['name']
+
             documents.append(document)
 
         self.__logger.info(f'Found {len(documents)} tickets.')

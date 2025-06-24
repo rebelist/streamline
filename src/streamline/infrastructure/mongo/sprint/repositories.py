@@ -10,7 +10,7 @@ from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
 class MongoSprintRepository(SprintRepository):
-    """Sprint repository."""
+    """Sprint ticket_repository."""
 
     COLLECTION_NAME: Final[str] = 'jira_sprints'
     LIMIT_SPRINTS: Final[int] = 20
@@ -66,7 +66,7 @@ class MongoSprintRepository(SprintRepository):
 
 
 class MongoSprintDocumentRepository:
-    """Sprint document repository to store raw jira sprint documents."""
+    """Sprint document ticket_repository to store raw jira sprint documents."""
 
     COLLECTION_NAME: Final[str] = 'jira_sprints'
 

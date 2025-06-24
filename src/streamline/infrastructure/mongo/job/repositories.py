@@ -38,7 +38,7 @@ class Job:
 
 
 class JobRepository:
-    """Sprint document repository to store raw jira sprint documents."""
+    """Sprint document ticket_repository to store raw jira sprint documents."""
 
     COLLECTION_NAME: Final[str] = 'jobs'
 

@@ -14,12 +14,21 @@ from workalendar.core import Calendar as WorkCalendar
 from workalendar.registry import registry
 
 from streamline.application.compute import FlowMetricsService
-from streamline.application.compute.use_cases import GetCycleTimesUseCase
-from streamline.application.compute.use_cases.flow import GetLeadTimesUseCase, GetThroughputUseCase
+from streamline.application.compute.use_cases import (
+    GetLeadTimesUseCase,
+    GetSprintCycleTimesUseCase,
+    GetThroughputUseCase,
+    GetVelocityUseCase,
+)
+from streamline.application.compute.use_cases.flow import GetCycleTimesUseCase
 from streamline.application.ingestion.jobs import SprintJob, TicketJob
 from streamline.config.settings import Settings, load_settings
-from streamline.domain.metrics.workflow import CycleTimeCalculator
-from streamline.domain.metrics.workflow.calculators import LeadTimeCalculator, ThroughputCalculator
+from streamline.domain.metrics.workflow import (
+    CycleTimeCalculator,
+    LeadTimeCalculator,
+    ThroughputCalculator,
+    VelocityCalculator,
+)
 from streamline.domain.time import WorkTimeCalculator
 from streamline.infrastructure.jira import JiraGateway
 from streamline.infrastructure.mongo.job import JobRepository
@@ -91,6 +100,8 @@ class Container(DeclarativeContainer):
 
     __throughput_calculator = Singleton(ThroughputCalculator)
 
+    __velocity_calculator = Singleton(VelocityCalculator)
+
     ### Public Services ###
     database = Singleton(_get_database, __mongo_client)
 
@@ -102,14 +113,23 @@ class Container(DeclarativeContainer):
 
     ticket_document_repository = Singleton(MongoTicketDocumentRepository, database)
 
-    get_cycle_time_use_case = Singleton(GetCycleTimesUseCase, __cycle_time_calculator, sprint_repository)
+    get_cycle_time_sprints_use_case = Singleton(GetSprintCycleTimesUseCase, __cycle_time_calculator, sprint_repository)
+
+    get_cycle_time_use_case = Singleton(GetCycleTimesUseCase, __cycle_time_calculator, ticket_repository)
 
     get_lead_time_use_case = Singleton(GetLeadTimesUseCase, __lead_time_calculator, ticket_repository)
 
     get_throughput_use_case = Singleton(GetThroughputUseCase, __throughput_calculator, sprint_repository)
 
+    get_velocity_use_case = Singleton(GetVelocityUseCase, __velocity_calculator, sprint_repository)
+
     flow_metrics_service = Singleton(
-        FlowMetricsService, get_cycle_time_use_case, get_lead_time_use_case, get_throughput_use_case
+        FlowMetricsService,
+        get_cycle_time_sprints_use_case,
+        get_cycle_time_use_case,
+        get_lead_time_use_case,
+        get_throughput_use_case,
+        get_velocity_use_case,
     )
 
     job_repository = Singleton(JobRepository, database)

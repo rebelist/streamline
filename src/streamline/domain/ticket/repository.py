@@ -4,7 +4,7 @@ from streamline.domain.ticket import Ticket
 
 
 class TicketRepository(ABC):
-    """Ticket repository."""
+    """Ticket ticket_repository."""
 
     @abstractmethod
     def find_by_team_name(self, team: str) -> list[Ticket]:

@@ -4,7 +4,7 @@ from streamline.domain.sprint.models import Sprint
 
 
 class SprintRepository(ABC):
-    """Sprint repository."""
+    """Sprint ticket_repository."""
 
     @abstractmethod
     def find_by_team_name(self, team: str) -> list[Sprint]:
