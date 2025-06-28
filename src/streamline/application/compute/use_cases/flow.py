@@ -16,7 +16,7 @@ from streamline.domain.ticket import TicketRepository
 
 
 class GetSprintCycleTimesUseCase:
-    """Compute sprint cycle time use case class."""
+    """Compute sprint cycle time use case."""
 
     __slots__ = ('__calculator', '__repository')
 

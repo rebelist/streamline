@@ -13,7 +13,7 @@ from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 class TestSprintJob:
     """Tests for the SprintJob class."""
 
-    def test_execute_new_job(self: 'TestSprintJob', mocker: MockerFixture) -> None:
+    def test_execute_new_job(self, mocker: MockerFixture) -> None:
         """Tests the execute method when no previous job exists."""
         mock_jira_gateway = mocker.Mock(spec=JiraGateway)
         mock_sprint_repo = mocker.Mock(spec=MongoSprintDocumentRepository)
@@ -52,7 +52,7 @@ class TestSprintJob:
         assert saved_job.metadata == {'sprint_index_start_at': 102}
         assert saved_job.executed_at is not None
 
-    def test_execute_existing_job(self: 'TestSprintJob', mocker: MockerFixture) -> None:
+    def test_execute_existing_job(self, mocker: MockerFixture) -> None:
         """Tests the execute method when a previous job exists."""
         mock_jira_gateway = mocker.Mock(spec=JiraGateway)
         mock_sprint_repo = mocker.Mock(spec=MongoSprintDocumentRepository)
@@ -84,7 +84,7 @@ class TestSprintJob:
         assert saved_job.metadata == {'sprint_index_start_at': 106}
         assert saved_job.executed_at is not None
 
-    def test_execute_no_new_sprints(self: 'TestSprintJob', mocker: MockerFixture) -> None:
+    def test_execute_no_new_sprints(self, mocker: MockerFixture) -> None:
         """Tests the execute method when no new sprints are found."""
         mock_jira_gateway = mocker.Mock(spec=JiraGateway)
         mock_sprint_repo = mocker.Mock(spec=MongoSprintDocumentRepository)
@@ -114,7 +114,7 @@ class TestSprintJob:
 class TestTicketJob:
     """Tests for the TicketJob class."""
 
-    def test_execute_new_job(self: 'TestTicketJob', mocker: MockerFixture) -> None:
+    def test_execute_new_job(self, mocker: MockerFixture) -> None:
         """Tests the execute method when no previous ticket job exists."""
         mock_jira_gateway = mocker.Mock(spec=JiraGateway)
         mock_ticket_repo = mocker.Mock(spec=MongoTicketDocumentRepository)
@@ -147,7 +147,7 @@ class TestTicketJob:
         assert saved_job.metadata == {'tickets_done_at': mock_now}
         assert saved_job.executed_at == mock_now
 
-    def test_execute_existing_job(self: 'TestTicketJob', mocker: MockerFixture) -> None:
+    def test_execute_existing_job(self, mocker: MockerFixture) -> None:
         """Tests the execute method when a previous ticket job exists."""
         mock_jira_gateway = mocker.Mock(spec=JiraGateway)
         mock_ticket_repo = mocker.Mock(spec=MongoTicketDocumentRepository)
@@ -179,7 +179,7 @@ class TestTicketJob:
         assert saved_job.metadata == {'tickets_done_at': mock_now}
         assert saved_job.executed_at == mock_now
 
-    def test_execute_no_new_tickets(self: 'TestTicketJob', mocker: MockerFixture) -> None:
+    def test_execute_no_new_tickets(self, mocker: MockerFixture) -> None:
         """Tests the execute method when no new tickets are found."""
         mock_jira_gateway = mocker.Mock(spec=JiraGateway)
         mock_ticket_repo = mocker.Mock(spec=MongoTicketDocumentRepository)

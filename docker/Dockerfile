@@ -1,35 +1,28 @@
-### Arguments ###
-ARG PYTHON_VERSION=3.13.3
-ARG POETRY_VERSION=2.1.3
+ARG PYTHON_VERSION=3.13.5
 
-### Build Stage ###
-FROM python:${PYTHON_VERSION}-slim AS builder
-ARG POETRY_VERSION
-
-WORKDIR /app
-COPY ../pyproject.toml poetry.lock /app/
-
-RUN pip install --no-cache-dir poetry==${POETRY_VERSION} \
-    && poetry config virtualenvs.create false  \
-    && poetry install --without dev --no-ansi --no-interaction \
-    && poetry export --without-hashes --without dev -f requirements.txt -o requirements.txt
-
-### Runtime Stage ###
-FROM python:${PYTHON_VERSION}-alpine AS runtime
+FROM python:${PYTHON_VERSION}-slim
 
 LABEL mantainer="Fran <rebelist.software@icloud.com>"
 
+ARG UV_VERSION=0.7.16
+
+ENV UV_COMPILE_BYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV TERM=xterm-256color
-RUN addgroup -S rebelist && adduser -S streamline -G rebelist
+ENV PATH=/home/streamline/.local/bin:$PATH
+
+RUN groupadd --system rebelist && useradd --system --create-home --gid rebelist streamline
+
+# Install uv as root first, or manage permissions carefully
+RUN pip install --no-cache-dir "uv==${UV_VERSION}"
 
 USER streamline
 WORKDIR /home/streamline/app
 
-COPY --from=builder /app/requirements.txt ./requirements.txt
-COPY --chown=streamline:rebelist ../ .
+COPY --chown=streamline:rebelist ./ .
 
-RUN pip install --no-cache-dir --user -r requirements.txt
+# Now uv is already installed, so you can just use it
+RUN uv sync --locked --no-dev
 
 EXPOSE 8000
-ENTRYPOINT ["python", "-m", "fastapi", "run", "src/streamline/handlers/api", "--port", "8000"]
+ENTRYPOINT ["uv", "run", "fastapi", "run", "src/streamline/handlers/api", "--port", "8000"]

@@ -2,51 +2,57 @@
 name = "rebelist-streamline"
 version = "0.1.0"
 description = "A free and open-source platform for collecting, visualizing, and analyzing engineering metrics, allowing teams to track performance, improve processes, and make data-driven decisions."
-authors = [
-    { name = "Fran", email = "rebelist.software@icloud.com" }
-]
-readme = "README.md"
+authors = [{ name = "Fran", email = "rebelist.software@icloud.com" }]
 requires-python = ">=3.13,<4.0"
+readme = "README.md"
+dependencies = [
+    "jira",
+    "dependency-injector>=4.47.1,<5",
+    "python-dotenv>=1.1.0,<2",
+    "workalendar>=17.0.0,<18",
+    "python-dateutil>=2.9.0.post0,<3",
+    "rich-click>=1.8.8,<2",
+    "pymongo>=4.12.1,<5",
+    "fastapi>=0.115.14,<0.116",
+    "fastapi-cli>=0.0.7,<0.0.8",
+    "loguru>=0.7.3,<0.8",
+    "pydantic-settings>=2.9.1,<3",
+    "pydantic>=2.11.4,<3",
+    "python-gitlab>=6.0.0,<7",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5,<9",
+    "pytest-mock>=3.14.0,<4",
+    "pyright>=1.1.399,<2",
+    "ruff>=0.11.4,<0.12",
+    "coverage>=7.8.0,<8",
+    "pre-commit>=4.2.0,<5",
+    "httpx>=0.28.1,<0.29",
+]
+
+[tool.uv]
+package = true
+
+[tool.uv.sources]
+jira = { url = "https://github.com/pycontribs/jira/releases/download/3.10.1/jira-3.10.1-py3-none-any.whl" }
+
+[tool.hatch.build.targets.sdist]
+include = ["src/streamline"]
+
+[tool.hatch.build.targets.wheel]
+include = ["src/streamline"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/streamline" = "streamline"
 
 [build-system]
-requires = ["poetry-core>=2.1.3,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-### poetry ###
-
-[tool.poetry.dependencies]
-poetry-core = "^2.1.3"
-jira = { url = "https://github.com/pycontribs/jira/releases/download/3.10.1/jira-3.10.1-py3-none-any.whl" }
-dependency-injector = "^4.47.1" # wait for updates
-python-dotenv = "^1.1.0"
-workalendar = "^17.0.0"
-python-dateutil = "^2.9.0.post0"
-rich-click = "^1.8.8"
-pymongo = "^4.12.1"
-fastapi = "^0.115.12"
-fastapi-cli = "^0.0.7"
-loguru = "^0.7.3"
-pydantic-settings = "^2.9.1"
-pydantic = "^2.11.4"
-python-gitlab = "^6.0.0"
-
-[tool.poetry]
-packages = [{ include = "streamline", from = "src" }]
-package-mode = false
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.5"
-pytest-mock = "^3.14.0"
-pyright = "^1.1.399"
-ruff = "^0.11.4"
-coverage = "^7.8.0"
-pre-commit = "^4.2.0"
-httpx = "^0.28.1"
-
-[tool.poetry.requires-plugins]
-poetry-plugin-export = ">=1.9"
-
-### pyright ###
+[project.scripts]
+streamline = "streamline.handlers.cli.console:console"
 
 [tool.pyright]
 venvPath = "."
@@ -59,8 +65,6 @@ reportUnknownLambdaType = false
 exclude = [
     "**/__pycache__"
 ]
-
-### ruff ###
 
 [tool.ruff]
 line-length = 120
@@ -93,8 +97,6 @@ ignore = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
-
-### pytest ###
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

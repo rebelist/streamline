@@ -14,7 +14,7 @@ dev:
 start:
 	@echo "\nRunning Streamline..."
 	@docker-compose --profile prod up -d
-	@docker-compose --profile prod exec -t api bin/console database:index
+	@docker-compose --profile prod exec -t api uv run streamline database:index
 	@sleep 3
 	@open http://localhost/dashboards
 
@@ -40,7 +40,7 @@ build:
 	@docker-compose --profile prod build
 
 enter:
-	@docker-compose --profile prod exec -it api sh
+	@docker-compose --profile prod exec -it api bash
 
 # Avoid treating the argument as a target
 %:
