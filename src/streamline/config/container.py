@@ -23,7 +23,7 @@ from streamline.application.compute.use_cases import (
 from streamline.application.compute.use_cases.flow import GetCycleTimesUseCase
 from streamline.application.ingestion.jobs import SprintJob, TicketJob
 from streamline.config.settings import Settings, load_settings
-from streamline.domain.metrics.workflow import (
+from streamline.domain.metrics.flow import (
     CycleTimeCalculator,
     LeadTimeCalculator,
     ThroughputCalculator,

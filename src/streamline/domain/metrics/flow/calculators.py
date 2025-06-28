@@ -4,7 +4,7 @@ from streamline.domain.time import WorkTimeCalculator
 
 
 class CycleTimeCalculator:
-    """Calculate cycletime."""
+    """Calculate ticket cycletime."""
 
     def __init__(self, calendar: WorkTimeCalculator) -> None:
         self.__calendar = calendar
@@ -15,7 +15,7 @@ class CycleTimeCalculator:
 
 
 class LeadTimeCalculator:
-    """Calculate lead time."""
+    """Calculate ticket lead time."""
 
     def __init__(self, calendar: WorkTimeCalculator) -> None:
         self.__calendar = calendar

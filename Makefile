@@ -13,7 +13,7 @@ dev:
 
 start:
 	@echo "\nRunning Streamline..."
-	@docker-compose --profile prod up -d
+	@docker-compose --profile prod up -d --remove-orphans
 	@docker-compose --profile prod exec -t api uv run streamline database:index
 	@sleep 3
 	@open http://localhost/dashboards

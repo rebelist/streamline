@@ -83,7 +83,6 @@ class TestFlowMetricsService:
                 resolved_at=1234567890,
                 key='ABC-1',
                 sprint='Sprint 1',
-                story_points=5,
             ),
         ]
         cycle_time_sprints_use_case.return_value = expected
@@ -139,7 +138,6 @@ class TestFlowMetricsService:
             ThroughputDataPoint(
                 sprint='Sprint 1',
                 completed=10,
-                closed_at=1234567893,
                 residuals=2,
             ),
         ]

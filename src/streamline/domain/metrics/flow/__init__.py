@@ -1,4 +1,4 @@
-from streamline.domain.metrics.workflow.calculators import (
+from streamline.domain.metrics.flow.calculators import (
     CycleTimeCalculator,
     LeadTimeCalculator,
     ThroughputCalculator,

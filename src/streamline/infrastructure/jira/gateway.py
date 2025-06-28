@@ -2,10 +2,10 @@ from datetime import datetime
 from typing import Any
 
 from dateutil import parser as date_parser
-from jira.client import JIRA
-from jira.resources import Issue
 from tenacity import retry, stop_after_attempt
 
+from jira.client import JIRA
+from jira.resources import Issue
 from streamline.config.settings import JiraSettings
 from streamline.infrastructure.monitoring import Logger
 

@@ -30,7 +30,6 @@ class TestTicket:
     def test_ticket_with_same_start_and_resolve_time(self: 'TestTicket') -> None:
         """Tests the creation of a Ticket where started and resolved times are the same."""
         same_time = datetime(2025, 5, 15, 12, 30, 0, tzinfo=timezone.utc)
-        same_time = datetime(2025, 5, 15, 12, 30, 0, tzinfo=timezone.utc)
         ticket = Ticket('SAME-TIME-1', same_time, same_time, same_time, 1)
         assert ticket.started_at == same_time
         assert ticket.resolved_at == same_time

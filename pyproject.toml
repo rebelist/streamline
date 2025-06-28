@@ -1,6 +1,6 @@
 [project]
 name = "rebelist-streamline"
-version = "0.1.0"
+version = "0.5.0"
 description = "A free and open-source platform for collecting, visualizing, and analyzing engineering metrics, allowing teams to track performance, improve processes, and make data-driven decisions."
 authors = [{ name = "Fran", email = "rebelist.software@icloud.com" }]
 requires-python = ">=3.13,<4.0"
@@ -101,6 +101,16 @@ convention = "google"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--strict-markers --strict-config"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "e2e: End-to-end tests"
+]
 
 [tool.coverage.run]
 branch = true

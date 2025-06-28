@@ -5,7 +5,7 @@ from streamline.application.compute import (
     ThroughputDataPoint,
     VelocityDataPoint,
 )
-from streamline.domain.metrics.workflow import (
+from streamline.domain.metrics.flow import (
     CycleTimeCalculator,
     LeadTimeCalculator,
     ThroughputCalculator,
@@ -17,8 +17,6 @@ from streamline.domain.ticket import TicketRepository
 
 class GetSprintCycleTimesUseCase:
     """Compute sprint cycle time use case."""
-
-    __slots__ = ('__calculator', '__repository')
 
     def __init__(self, calculator: CycleTimeCalculator, sprint_repository: SprintRepository) -> None:
         self.__calculator = calculator
@@ -34,8 +32,7 @@ class GetSprintCycleTimesUseCase:
                 datapoint = SprintCycleTimeDataPoint(
                     key=ticket.id,
                     duration=duration,
-                    resolved_at=int(ticket.resolved_at.timestamp() * 1000),
-                    story_points=ticket.story_points,
+                    resolved_at=int(ticket.resolved_at.timestamp()),
                     sprint=sprint.name,
                 )
 
@@ -46,8 +43,6 @@ class GetSprintCycleTimesUseCase:
 
 class GetCycleTimesUseCase:
     """Compute cycle time use case class."""
-
-    __slots__ = ('__calculator', '__repository')
 
     def __init__(self, calculator: CycleTimeCalculator, ticket_repository: TicketRepository) -> None:
         self.__calculator = calculator
@@ -62,7 +57,7 @@ class GetCycleTimesUseCase:
             datapoint = CycleTimeDataPoint(
                 key=ticket.id,
                 duration=duration,
-                resolved_at=int(ticket.resolved_at.timestamp() * 1000),
+                resolved_at=int(ticket.resolved_at.timestamp()),
                 story_points=ticket.story_points,
             )
 
@@ -73,8 +68,6 @@ class GetCycleTimesUseCase:
 
 class GetLeadTimesUseCase:
     """Compute lead time use case class."""
-
-    __slots__ = ('__calculator', '__repository')
 
     def __init__(self, calculator: LeadTimeCalculator, ticket_repository: TicketRepository) -> None:
         self.__calculator = calculator
@@ -89,7 +82,7 @@ class GetLeadTimesUseCase:
             datapoint = LeadTimeDataPoint(
                 key=ticket.id,
                 duration=duration,
-                resolved_at=int(ticket.resolved_at.timestamp() * 1000),
+                resolved_at=int(ticket.resolved_at.timestamp()),
                 story_points=ticket.story_points,
             )
 
@@ -100,8 +93,6 @@ class GetLeadTimesUseCase:
 
 class GetThroughputUseCase:
     """Get throughput use case class."""
-
-    __slots__ = ('__calculator', '__repository')
 
     def __init__(self, calculator: ThroughputCalculator, sprint_repository: SprintRepository) -> None:
         self.__calculator = calculator
@@ -115,7 +106,6 @@ class GetThroughputUseCase:
 
             datapoint = ThroughputDataPoint(
                 sprint=sprint.name,
-                closed_at=int(sprint.closed_at.timestamp() * 1000),
                 completed=throughput,
                 residuals=len(sprint.tickets) - throughput,
             )
@@ -126,16 +116,14 @@ class GetThroughputUseCase:
 
 
 class GetVelocityUseCase:
-    """Get throughput use case class."""
-
-    __slots__ = ('__calculator', '__repository')
+    """Get velocity use case class."""
 
     def __init__(self, calculator: VelocityCalculator, sprint_repository: SprintRepository) -> None:
         self.__calculator = calculator
         self.__repository = sprint_repository
 
     def __call__(self, team: str) -> list[VelocityDataPoint]:
-        """Compute sprint throughtput for a given team."""
+        """Compute sprint velocity for a given team."""
         datapoints: list[VelocityDataPoint] = []
         for sprint in self.__repository.find_by_team_name(team):
             velocity = self.__calculator.calculate(sprint)

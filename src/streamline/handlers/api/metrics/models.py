@@ -1,9 +1,7 @@
 from enum import Enum
 from typing import Generic, TypeVar
 
-from pydantic import BaseModel, Field
-
-T = TypeVar('T')
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class TimeUnit(Enum):
@@ -16,20 +14,29 @@ class TimeUnit(Enum):
     NONE = 'none'
 
 
-class TimeSeriesMetadata(BaseModel):
-    """Metadata for a time series metric."""
+class MetricMetadata(BaseModel):
+    """Metadata describing the metric and its semantic context, including domain dimensions grouping the datapoints."""
 
-    model_config = {'frozen': True}
+    model_config = ConfigDict(frozen=True)
 
     metric: str = Field(description='Name of the metric')
-    unit: TimeUnit = Field(default=TimeUnit.DAYS, description='Unit of the datapoint')
     description: str = Field(description='Human-readable description of the metric')
 
 
-class TimeSeriesResponse(BaseModel, Generic[T]):
-    """Generic response model for time series data in a format suitable for Grafana."""
+class TimeMetricMetadata(MetricMetadata):
+    """Metadata for time-indexed datapoints, including the unit of time measurement."""
 
-    model_config = {'frozen': True}
+    unit: TimeUnit = Field(default=TimeUnit.DAYS, description='Unit of the datapoint')
 
-    datapoints: list[T] = Field(description='List of data points for the time series')
-    meta: TimeSeriesMetadata = Field(description='Additional metadata about the response')
+
+T = TypeVar('T')
+M = TypeVar('M', bound=MetricMetadata)
+
+
+class MetricResponse(BaseModel, Generic[T, M]):
+    """Generic response model wrapping a list of datapoints and their associated metric metadata."""
+
+    model_config = ConfigDict(frozen=True)
+
+    datapoints: list[T] = Field(description='List of data points for the metric')
+    meta: M = Field(description='Metadata describing the metric and its context')

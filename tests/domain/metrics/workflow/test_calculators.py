@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from unittest.mock import MagicMock
 
-from streamline.domain.metrics.workflow import (
+from streamline.domain.metrics.flow import (
     CycleTimeCalculator,
     LeadTimeCalculator,
     ThroughputCalculator,

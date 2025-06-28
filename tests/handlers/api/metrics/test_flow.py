@@ -19,7 +19,6 @@ from streamline.config.container import Container
 from streamline.config.settings import Settings
 from streamline.handlers.api.metrics import flow
 from streamline.handlers.api.metrics.flow import router
-from streamline.handlers.api.metrics.models import TimeUnit
 
 
 class TestSprintCycleTimeEndpoint:
@@ -54,10 +53,16 @@ class TestSprintCycleTimeEndpoint:
         # Arrange
         mock_flow_metrics_service.get_sprints_cycle_times.return_value = [
             SprintCycleTimeDataPoint(
-                duration=5.5, resolved_at=1714924800, key='JIRA-123', sprint='Sprint 4', story_points=1
+                duration=5.5,
+                resolved_at=1714924800,
+                key='JIRA-123',
+                sprint='Sprint 4',
             ),
             SprintCycleTimeDataPoint(
-                duration=3.2, resolved_at=1715011200, key='JIRA-456', sprint='Sprint 4', story_points=1
+                duration=3.2,
+                resolved_at=1715011200,
+                key='JIRA-456',
+                sprint='Sprint 4',
             ),
         ]
 
@@ -72,11 +77,9 @@ class TestSprintCycleTimeEndpoint:
         assert 'datapoints' in data
         assert 'meta' in data
         assert data['meta']['metric'] == 'Sprint Cycle Time'
-        assert data['meta']['unit'] == TimeUnit.DAYS.value
         assert 'description' in data['meta']
         assert len(data['datapoints']) == 2
         assert data['datapoints'][0]['key'] == 'JIRA-123'
-        assert data['datapoints'][0]['story_points'] == 1
 
 
 class TestLeadTimeEndpoint:
@@ -125,7 +128,6 @@ class TestLeadTimeEndpoint:
         assert 'datapoints' in data
         assert 'meta' in data
         assert data['meta']['metric'] == 'Lead Time'
-        assert data['meta']['unit'] == TimeUnit.DAYS.value
         assert 'description' in data['meta']
         assert len(data['datapoints']) == 2
         assert data['datapoints'][0]['key'] == 'JIRA-123'
@@ -170,7 +172,6 @@ class TestCycleTimeEndpoint:
 
         assert response.status_code == 200
         assert data['meta']['metric'] == 'Cycle Time'
-        assert data['meta']['unit'] == TimeUnit.DAYS.value
         assert len(data['datapoints']) == 1
         assert data['datapoints'][0]['key'] == 'JIRA-2'
         assert data['datapoints'][0]['duration'] == 2.5
@@ -205,7 +206,7 @@ class TestThroughputEndpoint:
     def test_returns_valid_response(self, app: FastAPI, mock_flow_metrics_service: Mock) -> None:
         """Checks that the /flow/throughput endpoint returns expected data."""
         mock_flow_metrics_service.get_throughput.return_value = [
-            ThroughputDataPoint(sprint='Sprint 5', completed=8, closed_at=1715200000, residuals=2),
+            ThroughputDataPoint(sprint='Sprint 5', completed=8, residuals=2),
         ]
 
         client = TestClient(app)
@@ -214,7 +215,6 @@ class TestThroughputEndpoint:
 
         assert response.status_code == 200
         assert data['meta']['metric'] == 'Sprint Throughput'
-        assert data['meta']['unit'] == TimeUnit.DAYS.value
         assert len(data['datapoints']) == 1
         assert data['datapoints'][0]['sprint'] == 'Sprint 5'
         assert data['datapoints'][0]['completed'] == 8
@@ -258,7 +258,6 @@ class TestVelocityEndpoint:
 
         assert response.status_code == 200
         assert data['meta']['metric'] == 'Sprint Velocity'
-        assert data['meta']['unit'] == TimeUnit.DAYS.value
         assert len(data['datapoints']) == 1
         assert data['datapoints'][0]['sprint'] == 'Sprint 5'
         assert data['datapoints'][0]['story_points_completed'] == 21

@@ -17,7 +17,7 @@ from streamline.application.compute.use_cases import (
     GetThroughputUseCase,
     GetVelocityUseCase,
 )
-from streamline.domain.metrics.workflow import (
+from streamline.domain.metrics.flow import (
     CycleTimeCalculator,
     LeadTimeCalculator,
     ThroughputCalculator,
@@ -126,8 +126,7 @@ class TestGetSprintCycleTimesUseCase:
         assert datapoint.duration == 5.5
         assert datapoint.key == 'ABC-123'
         assert datapoint.sprint == 'Sprint 1'
-        assert datapoint.story_points == 1
-        assert datapoint.resolved_at == int(resolved_at.timestamp() * 1000)
+        assert datapoint.resolved_at == int(resolved_at.timestamp())
 
         cycle_time_calculator_mock.calculate.assert_called_once_with(ticket)
         sprint_repository_mock.find_by_team_name.assert_called_once_with(team_name)
@@ -172,7 +171,7 @@ class TestGetCycleTimesUseCase:
         assert datapoint.duration == 5.5
         assert datapoint.key == 'ABC-123'
         assert datapoint.story_points == 1
-        assert datapoint.resolved_at == int(resolved_at.timestamp() * 1000)
+        assert datapoint.resolved_at == int(resolved_at.timestamp())
 
         cycle_time_calculator_mock.calculate.assert_called_once_with(ticket)
         ticket_repository_mock.find_by_team_name.assert_called_once_with(team_name)
@@ -204,7 +203,7 @@ class TestGetLeadTimesUseCase:
         assert datapoint.duration == 5.5
         assert datapoint.key == 'ABC-123'
         assert datapoint.story_points == 1
-        assert datapoint.resolved_at == int(resolved_at.timestamp() * 1000)
+        assert datapoint.resolved_at == int(resolved_at.timestamp())
 
         lead_time_calculator_mock.calculate.assert_called_once_with(ticket)
         ticket_repository_mock.find_by_team_name.assert_called_once_with(team_name)
@@ -250,7 +249,6 @@ class TestGetThroughputUseCase:
         assert datapoint.sprint == 'Sprint 1'
         assert datapoint.residuals == 0
         assert datapoint.completed == 1
-        assert datapoint.closed_at == int(resolved_at.timestamp() * 1000)
 
         throughput_calculator_mock.calculate.assert_called_once_with(sprint)
         sprint_repository_mock.find_by_team_name.assert_called_once_with(team_name)

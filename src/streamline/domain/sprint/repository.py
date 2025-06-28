@@ -8,5 +8,5 @@ class SprintRepository(ABC):
 
     @abstractmethod
     def find_by_team_name(self, team: str) -> list[Sprint]:
-        """Find sprints."""
+        """Find all sprints for a team."""
         ...

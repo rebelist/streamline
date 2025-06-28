@@ -1,7 +1,7 @@
 import rich_click as click
 from click import Context
 
-from streamline.application.ingestion.models import Executable
+from streamline.application.ingestion.jobs.models import Executable
 from streamline.handlers.cli.commands.command import Command, CommandTask
 
 

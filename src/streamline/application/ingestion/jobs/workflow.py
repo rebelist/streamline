@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Final
 
-from streamline.application.ingestion.models import Executable
+from streamline.application.ingestion.jobs.models import Executable
 from streamline.config.settings import JiraSettings
 from streamline.infrastructure.jira.gateway import JiraGateway
 from streamline.infrastructure.mongo.job.repositories import Job, JobRepository

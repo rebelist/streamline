@@ -8,5 +8,5 @@ class TicketRepository(ABC):
 
     @abstractmethod
     def find_by_team_name(self, team: str) -> list[Ticket]:
-        """Find a;; tickets."""
+        """Find all tickets for a team."""
         ...

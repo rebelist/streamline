@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from streamline.domain.ticket import Ticket
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Sprint:
     """Represents an agile iteration."""
 

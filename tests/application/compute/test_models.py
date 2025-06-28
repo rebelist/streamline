@@ -18,7 +18,10 @@ class TestCycleTimeSprintDataPoint:
     def test_cycle_time_data_point_creation(self) -> None:
         """Tests the successful creation of a SprintCycleTimeDataPoint instance."""
         data_point = SprintCycleTimeDataPoint(
-            duration=5.2, resolved_at=1678886400, key='PROJ-123', sprint='Sprint 1', story_points=1
+            duration=5.2,
+            resolved_at=1678886400,
+            key='PROJ-123',
+            sprint='Sprint 1',
         )
         assert data_point.duration == 5.2
         assert data_point.resolved_at == 1678886400
@@ -28,7 +31,10 @@ class TestCycleTimeSprintDataPoint:
     def test_cycle_time_data_point_immutability(self) -> None:
         """Tests that a SprintCycleTimeDataPoint instance is immutable."""
         data_point = SprintCycleTimeDataPoint(
-            duration=3.1, resolved_at=1678972800, key='TASK-456', sprint='Sprint Alpha', story_points=1
+            duration=3.1,
+            resolved_at=1678972800,
+            key='TASK-456',
+            sprint='Sprint Alpha',
         )
         with pytest.raises(ValidationError):
             data_point.duration = 6.7
@@ -45,10 +51,6 @@ class TestCycleTimeSprintDataPoint:
         )
         assert SprintCycleTimeDataPoint.model_fields['key'].description == 'Unique identifier of the ticket.'
         assert SprintCycleTimeDataPoint.model_fields['sprint'].description == 'Sprint in which the ticket work started.'
-        assert (
-            SprintCycleTimeDataPoint.model_fields['story_points'].description
-            == 'Estimated story points assigned to the ticket.'
-        )
 
     def test_cycle_time_data_point_type_hints(self) -> None:
         """Tests that the type hints for the fields are correctly defined."""
@@ -56,7 +58,6 @@ class TestCycleTimeSprintDataPoint:
         assert SprintCycleTimeDataPoint.model_fields['resolved_at'].annotation is int
         assert SprintCycleTimeDataPoint.model_fields['key'].annotation is str
         assert SprintCycleTimeDataPoint.model_fields['sprint'].annotation is str
-        assert SprintCycleTimeDataPoint.model_fields['story_points'].annotation is Optional[int]
 
 
 class TestCycleTimeDataPoint:
@@ -143,15 +144,14 @@ class TestThroughputDataPoint:
 
     def test_creation(self) -> None:
         """Tests the successful creation of a ThroughputDataPoint instance."""
-        data_point = ThroughputDataPoint(sprint='Sprint 2', completed=12, closed_at=1679400000, residuals=3)
+        data_point = ThroughputDataPoint(sprint='Sprint 2', completed=12, residuals=3)
         assert data_point.sprint == 'Sprint 2'
         assert data_point.completed == 12
-        assert data_point.closed_at == 1679400000
         assert data_point.residuals == 3
 
     def test_immutability(self) -> None:
         """Tests that a ThroughputDataPoint instance is immutable."""
-        data_point = ThroughputDataPoint(sprint='Sprint X', completed=7, closed_at=1679500000, residuals=1)
+        data_point = ThroughputDataPoint(sprint='Sprint X', completed=7, residuals=1)
         with pytest.raises(ValidationError):
             data_point.completed = 9
 
@@ -163,10 +163,6 @@ class TestThroughputDataPoint:
             == 'Number of tickets completed during the sprint.'
         )
         assert (
-            ThroughputDataPoint.model_fields['closed_at'].description
-            == 'Epoch timestamp (in seconds) when the sprint was closed.'
-        )
-        assert (
             ThroughputDataPoint.model_fields['residuals'].description
             == 'Number of tickets not completed by the end of the sprint.'
         )
@@ -175,7 +171,6 @@ class TestThroughputDataPoint:
         """Tests that the type hints for the fields are correctly defined."""
         assert ThroughputDataPoint.model_fields['sprint'].annotation is str
         assert ThroughputDataPoint.model_fields['completed'].annotation is int
-        assert ThroughputDataPoint.model_fields['closed_at'].annotation is int
         assert ThroughputDataPoint.model_fields['residuals'].annotation is int
 
 
