@@ -4,6 +4,7 @@ from typing import Any
 from dateutil import parser as date_parser
 from jira.client import JIRA
 from jira.resources import Issue
+from tenacity import retry, stop_after_attempt
 
 from streamline.config.settings import JiraSettings
 from streamline.infrastructure.monitoring import Logger
@@ -34,6 +35,7 @@ class JiraGateway:
         self.__logger = logger
         self.__issue_types = ', '.join(f'"{status}"' for status in self.__settings.issue_types)
 
+    @retry(stop=stop_after_attempt(3))
     def find_sprints(self, start_at: int = 0) -> list[dict[str, Any]]:
         """Find all sprints."""
         sprints = self.__jira.sprints(self.__settings.board_id, startAt=start_at, maxResults=False, state='closed')
@@ -70,6 +72,7 @@ class JiraGateway:
 
         return documents
 
+    @retry(stop=stop_after_attempt(3))
     def find_tickets(self, done_at: datetime | None = None) -> list[dict[str, Any]]:
         """Find all done tickets after specific date."""
         documents: list[dict[str, Any]] = []

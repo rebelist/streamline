@@ -13,9 +13,7 @@ class MongoTicketDocumentRepository:
     COLLECTION_NAME: Final[str] = 'jira_tickets'
 
     def __init__(self, database: Database[Mapping[str, Any]]) -> None:
-        self.__collection: Collection[Mapping[str, Any]] = database.get_collection(
-            MongoTicketDocumentRepository.COLLECTION_NAME
-        )
+        self.__collection: Collection[Mapping[str, Any]] = database.get_collection(self.COLLECTION_NAME)
 
     def save(self, ticket_document: Mapping[str, Any]) -> None:
         """Adds a jira ticket document."""
@@ -29,9 +27,7 @@ class MongoTicketRepository(TicketRepository):
     COLLECTION_NAME: Final[str] = 'jira_tickets'
 
     def __init__(self, database: Database[Mapping[str, Any]]) -> None:
-        self.__collection: Collection[Mapping[str, Any]] = database.get_collection(
-            MongoTicketRepository.COLLECTION_NAME
-        )
+        self.__collection: Collection[Mapping[str, Any]] = database.get_collection(self.COLLECTION_NAME)
 
     def find_by_team_name(self, team: str) -> list[Ticket]:
         """Returns all tickets of a team."""
