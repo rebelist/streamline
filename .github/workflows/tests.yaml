@@ -23,23 +23,17 @@ jobs:
       - name: Check for changes in src/ or tests/
         id: filter
         run: |
-          git fetch --no-tags --depth=1 origin main
-          BASE=$(git merge-base HEAD FETCH_HEAD)
-          CHANGED=$(git diff --name-only $BASE HEAD -- 'src/**' 'tests/**' | wc -l)
-          echo "Detected $CHANGED relevant changed files"
-          if [ "$CHANGED" -gt 0 ]; then
-            echo "run-tests=true" >> $GITHUB_OUTPUT
-          else
-            echo "run-tests=false" >> $GITHUB_OUTPUT
-          fi
+          git fetch origin main --depth=20
+          BASE=$(git merge-base HEAD origin/main)
+          echo "Comparing changes between $BASE and HEAD"
 
-      - name: Check for changes in src/ or tests/
-        id: filter
-        run: |
-          git fetch --no-tags --depth=1 origin main
-          BASE=$(git merge-base HEAD FETCH_HEAD)
-          CHANGED=$(git diff --name-only $BASE HEAD -- 'src/**' 'tests/**' | wc -l)
-          if [ "$CHANGED" -gt 0 ]; then
+          # Show diff output for debugging
+          git diff --name-only $BASE HEAD
+
+          COUNT=$(git diff --name-only $BASE HEAD -- 'src/**' 'tests/**' | wc -l)
+          echo "Changed files count: $COUNT"
+
+          if [ "$COUNT" -gt 0 ]; then
             echo "run-tests=true" >> $GITHUB_OUTPUT
           else
             echo "run-tests=false" >> $GITHUB_OUTPUT
