@@ -128,6 +128,7 @@ class JiraGateway:
 
     @staticmethod
     def __get_started_and_resolved(issue: Issue) -> tuple[datetime, datetime]:
+        """Determines the start and resolution timestamps of a Jira issue based on its status changes."""
         changelog = sorted(issue.changelog.histories, key=lambda h: h.created)
         in_progress_times: list[tuple[str, int]] = []
         done_times: list[tuple[str, int]] = []
