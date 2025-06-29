@@ -4,7 +4,7 @@ import pytest
 from click.testing import CliRunner
 from pymongo import ASCENDING
 
-from streamline.handlers.cli.commands.database_index import DatabaseIndexer, IndexTask, database_index
+from rebelist.streamline.handlers.cli.commands.database_index import DatabaseIndexer, IndexTask, database_index
 
 
 @pytest.fixture
@@ -68,7 +68,7 @@ def test_database_indexer_run(mock_database: MagicMock):
 
 def test_database_index_command(runner: CliRunner, mock_database: MagicMock):
     """Test the database:index CLI command integration."""
-    with patch('streamline.handlers.cli.commands.database_index.DatabaseIndexer.run') as mock_run:
+    with patch('rebelist.streamline.handlers.cli.commands.database_index.DatabaseIndexer.run') as mock_run:
         result = runner.invoke(database_index, obj=MagicMock(database=lambda: mock_database))
 
         assert result.exit_code == 0

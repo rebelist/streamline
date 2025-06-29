@@ -4,7 +4,7 @@ from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
 from pytest_mock import MockerFixture
 
-from streamline.infrastructure.mongo.job import Job, JobRepository
+from rebelist.streamline.infrastructure.mongo.job import Job, JobRepository
 
 
 def test_job_to_dict():

@@ -4,7 +4,7 @@ import pytest
 from pydantic import BaseModel
 from pydantic_core import ValidationError
 
-from streamline.handlers.api.metrics.models import MetricMetadata, MetricResponse, TimeMetricMetadata, TimeUnit
+from rebelist.streamline.handlers.api.metrics.models import MetricMetadata, MetricResponse, TimeMetricMetadata, TimeUnit
 
 
 class DummyDataPoint(BaseModel):

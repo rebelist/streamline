@@ -1,7 +1,7 @@
 import pytest
 from click.testing import CliRunner
 
-from streamline.handlers.cli import console
+from rebelist.streamline.handlers.cli import console
 
 
 @pytest.fixture

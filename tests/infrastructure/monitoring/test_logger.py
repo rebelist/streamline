@@ -1,6 +1,6 @@
 from pytest_mock import MockerFixture
 
-from streamline.infrastructure.monitoring import Logger
+from rebelist.streamline.infrastructure.monitoring import Logger
 
 
 def test_logger_info_calls_loguru_info(mocker: MockerFixture) -> None:

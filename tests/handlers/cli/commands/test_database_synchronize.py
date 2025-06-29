@@ -4,8 +4,8 @@ import pytest
 from click.testing import CliRunner
 from pytest_mock import MockerFixture
 
-from streamline.application.ingestion.jobs.models import Executable
-from streamline.handlers.cli.commands.database_synchronize import Synchronizer, database_synchronize
+from rebelist.streamline.application.ingestion.jobs.models import Executable
+from rebelist.streamline.handlers.cli.commands.database_synchronize import Synchronizer, database_synchronize
 
 
 @pytest.fixture

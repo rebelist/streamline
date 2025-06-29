@@ -3,7 +3,7 @@ from typing import Optional
 import pytest
 from pydantic_core import ValidationError
 
-from streamline.application.compute.models import (
+from rebelist.streamline.application.compute.models import (
     CycleTimeDataPoint,
     LeadTimeDataPoint,
     SprintCycleTimeDataPoint,

@@ -25,4 +25,4 @@ COPY --chown=streamline:rebelist ./ .
 RUN uv sync --locked --no-dev
 
 EXPOSE 8000
-ENTRYPOINT ["uv", "run", "fastapi", "run", "src/streamline/handlers/api", "--port", "8000"]
+ENTRYPOINT ["uv", "run", "fastapi", "run", "src/rebelist/streamline/handlers/api", "--port", "8000"]

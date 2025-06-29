@@ -7,9 +7,9 @@ from jira.client import JIRA
 from jira.resources import Issue
 from pytest_mock import MockerFixture
 
-from streamline.config.settings import JiraSettings
-from streamline.infrastructure.jira.gateway import IssueNotFinishedError, IssueNotStartedError, JiraGateway
-from streamline.infrastructure.monitoring import Logger
+from rebelist.streamline.config.settings import JiraSettings
+from rebelist.streamline.infrastructure.jira.gateway import IssueNotFinishedError, IssueNotStartedError, JiraGateway
+from rebelist.streamline.infrastructure.monitoring import Logger
 
 
 class TestIssueNotStartedError:

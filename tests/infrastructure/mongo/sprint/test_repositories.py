@@ -6,10 +6,10 @@ from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
 from pytest_mock import MockerFixture
 
-from streamline.domain.sprint import Sprint
-from streamline.domain.ticket import Ticket
-from streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository, MongoSprintRepository
-from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
+from rebelist.streamline.domain.sprint import Sprint
+from rebelist.streamline.domain.ticket import Ticket
+from rebelist.streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository, MongoSprintRepository
+from rebelist.streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
 def test_mongo_sprint_repository_find_by_team_name(mocker: MockerFixture) -> None:

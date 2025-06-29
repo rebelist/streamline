@@ -2,12 +2,12 @@ from datetime import datetime, timezone
 
 from pytest_mock import MockerFixture
 
-from streamline.application.ingestion.jobs import SprintJob, TicketJob
-from streamline.config.settings import JiraSettings
-from streamline.infrastructure.jira.gateway import JiraGateway
-from streamline.infrastructure.mongo.job.repositories import Job, JobRepository
-from streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository
-from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
+from rebelist.streamline.application.ingestion.jobs import SprintJob, TicketJob
+from rebelist.streamline.config.settings import JiraSettings
+from rebelist.streamline.infrastructure.jira.gateway import JiraGateway
+from rebelist.streamline.infrastructure.mongo.job.repositories import Job, JobRepository
+from rebelist.streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository
+from rebelist.streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
 class TestSprintJob:
@@ -130,7 +130,7 @@ class TestTicketJob:
         mock_job_repo.find.return_value = None
         mock_job_repo.save.return_value = None
         mocker.patch(
-            'streamline.application.ingestion.jobs.workflow.datetime',
+            'rebelist.streamline.application.ingestion.jobs.workflow.datetime',
             mocker.Mock(now=mocker.Mock(return_value=mock_now)),
         )
 
@@ -165,7 +165,7 @@ class TestTicketJob:
         mock_job_repo.find.return_value = mock_existing_job
         mock_job_repo.save.return_value = None
         mocker.patch(
-            'streamline.application.ingestion.jobs.workflow.datetime',
+            'rebelist.streamline.application.ingestion.jobs.workflow.datetime',
             mocker.Mock(now=mocker.Mock(return_value=mock_now)),
         )
 
@@ -195,7 +195,7 @@ class TestTicketJob:
         mock_job_repo.find.return_value = mock_existing_job
         mock_job_repo.save.return_value = None
         mocker.patch(
-            'streamline.application.ingestion.jobs.workflow.datetime',
+            'rebelist.streamline.application.ingestion.jobs.workflow.datetime',
             mocker.Mock(now=mocker.Mock(return_value=mock_now)),
         )
 

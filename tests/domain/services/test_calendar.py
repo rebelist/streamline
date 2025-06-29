@@ -3,7 +3,7 @@ from datetime import date, datetime, time, timedelta, timezone
 import pytest
 from pytest_mock import MockerFixture
 
-from streamline.domain.time import WorkCalendarProtocol, WorkTimeCalculator
+from rebelist.streamline.domain.time import WorkCalendarProtocol, WorkTimeCalculator
 
 
 class MockWorkCalendar:

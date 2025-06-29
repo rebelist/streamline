@@ -7,9 +7,9 @@ from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
 from pytest_mock import MockerFixture
 
-from streamline.domain.ticket import Ticket
-from streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
-from streamline.infrastructure.mongo.ticket.repositories import MongoTicketRepository
+from rebelist.streamline.domain.ticket import Ticket
+from rebelist.streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
+from rebelist.streamline.infrastructure.mongo.ticket.repositories import MongoTicketRepository
 
 
 class TestMongoTicketDocumentRepository:

@@ -2,8 +2,8 @@ from datetime import datetime, timedelta, timezone
 from typing import List
 from unittest.mock import MagicMock
 
-from streamline.domain.sprint import Sprint
-from streamline.domain.ticket import Ticket
+from rebelist.streamline.domain.sprint import Sprint
+from rebelist.streamline.domain.ticket import Ticket
 
 
 class TestSprint:

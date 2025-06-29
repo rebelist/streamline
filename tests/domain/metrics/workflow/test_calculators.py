@@ -1,15 +1,15 @@
 from datetime import datetime, timedelta, timezone
 from unittest.mock import MagicMock
 
-from streamline.domain.metrics.flow import (
+from rebelist.streamline.domain.metrics.flow import (
     CycleTimeCalculator,
     LeadTimeCalculator,
     ThroughputCalculator,
     VelocityCalculator,
 )
-from streamline.domain.sprint import Sprint
-from streamline.domain.ticket import Ticket
-from streamline.domain.time import WorkTimeCalculator
+from rebelist.streamline.domain.sprint import Sprint
+from rebelist.streamline.domain.ticket import Ticket
+from rebelist.streamline.domain.time import WorkTimeCalculator
 
 
 class TestCycleTimeCalculator:

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 
-from streamline.domain.ticket import Ticket
+from rebelist.streamline.domain.ticket import Ticket
 
 
 class TestTicket:

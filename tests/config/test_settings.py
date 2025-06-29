@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from streamline.config.settings import AppSettings, JiraSettings, Settings, WorkflowSettings, load_settings
+from rebelist.streamline.config.settings import AppSettings, JiraSettings, Settings, WorkflowSettings, load_settings
 
 
 class TestAppSettings:

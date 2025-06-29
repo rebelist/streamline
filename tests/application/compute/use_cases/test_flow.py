@@ -3,28 +3,28 @@ from unittest.mock import MagicMock, create_autospec
 
 import pytest
 
-from streamline.application.compute import (
+from rebelist.streamline.application.compute import (
     CycleTimeDataPoint,
     LeadTimeDataPoint,
     SprintCycleTimeDataPoint,
     ThroughputDataPoint,
     VelocityDataPoint,
 )
-from streamline.application.compute.use_cases import (
+from rebelist.streamline.application.compute.use_cases import (
     GetCycleTimesUseCase,
     GetLeadTimesUseCase,
     GetSprintCycleTimesUseCase,
     GetThroughputUseCase,
     GetVelocityUseCase,
 )
-from streamline.domain.metrics.flow import (
+from rebelist.streamline.domain.metrics.flow import (
     CycleTimeCalculator,
     LeadTimeCalculator,
     ThroughputCalculator,
     VelocityCalculator,
 )
-from streamline.domain.sprint import Sprint, SprintRepository
-from streamline.domain.ticket import Ticket, TicketRepository
+from rebelist.streamline.domain.sprint import Sprint, SprintRepository
+from rebelist.streamline.domain.ticket import Ticket, TicketRepository
 
 
 @pytest.fixture

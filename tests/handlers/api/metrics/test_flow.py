@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from httpx import Response
 from pytest_mock import MockerFixture
 
-from streamline.application.compute import (
+from rebelist.streamline.application.compute import (
     CycleTimeDataPoint,
     FlowMetricsService,
     LeadTimeDataPoint,
@@ -15,10 +15,10 @@ from streamline.application.compute import (
     ThroughputDataPoint,
     VelocityDataPoint,
 )
-from streamline.config.container import Container
-from streamline.config.settings import Settings
-from streamline.handlers.api.metrics import flow
-from streamline.handlers.api.metrics.flow import router
+from rebelist.streamline.config.container import Container
+from rebelist.streamline.config.settings import Settings
+from rebelist.streamline.handlers.api.metrics import flow
+from rebelist.streamline.handlers.api.metrics.flow import router
 
 
 class TestSprintCycleTimeEndpoint:
