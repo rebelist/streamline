@@ -32,7 +32,7 @@ class TestMongoTicketDocumentRepository:
         repository = MongoTicketDocumentRepository(mock_database)
 
         ticket_document: dict[str, Any] = {
-            'id': 'TEST-123',
+            'id': 'TEST-111',
             'key': 'TEST-123',
             'team': 'Tito',
             'fields': {'summary': 'Some test ticket'},
@@ -42,7 +42,7 @@ class TestMongoTicketDocumentRepository:
         repository.save(ticket_document)
 
         mock_database.get_collection.assert_called_once_with(MongoTicketDocumentRepository.COLLECTION_NAME)
-        mock_collection.delete_one.assert_called_once_with({'id': 'TEST-123', 'team': 'Tito'})
+        mock_collection.delete_one.assert_called_once_with({'id': 'TEST-111', 'team': 'Tito'})
         mock_collection.insert_one.assert_called_once_with(ticket_document)
 
 
