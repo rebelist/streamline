@@ -28,12 +28,11 @@ check:
 
 tests:
 	@echo "\nRunning tests..."
-	@poetry run pytest -vv  --cache-clear --color=yes --no-header --maxfail=1 --failed-first
+	@uv run pytest -vv  --cache-clear --color=yes --no-header --maxfail=1 --failed-first
 
 coverage:
 	@echo "\nGenerating test coverage..."
-	@poetry run coverage run -m pytest --no-summary --quiet
-	@poetry run coverage html
+	@uv run pytest --no-summary --quiet --color=yes --no-header --cov=streamline --no-cov-on-fail --cov-report html
 
 build:
 	@echo "\nBuilding api image..."

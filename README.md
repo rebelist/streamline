@@ -1,4 +1,21 @@
-# Streamline
+<h1 align="center">
+<span style="color: HotPink;">Streamline</span></h1>
+
+<p align="center">
+    <em>Engineering and Management Metrics Platform for JSMD</em>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-0.5.0--dev-gold" alt="Version" />
+  <img src="https://codecov.io/gh/rebelist/streamline/branch/main/graph/badge.svg" alt="Coverage status"/>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Database-MongoDB-4ea94b?logo=mongodb&logoColor=white" alt="MongoDB" />
+  <img src="https://img.shields.io/badge/Container-Docker-2496ED?logo=docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/Frontend-Grafana-F46800?logo=grafana&logoColor=white" alt="Frontend" />
+</p>
 
 ## Engineering and Management Metrics Platform for JSMD
 
@@ -20,7 +37,7 @@ tools answer critical questions about team performance. The insights reveal how 
 from initial concept to final delivery, enabling continuous improvement and helping you measure the impact of process
 changes over time.
 
-### Sprint Cycle Time
+### <span style="color: SlateGray;">Sprint Cycle Time</span>
 
 Measures the average time it takes to complete a sprint, from the sprint’s start to its end date.
 
@@ -32,7 +49,7 @@ Measures the average time it takes to complete a sprint, from the sprint’s sta
 **Why it’s useful?** Identifies whether your sprint cadences are consistent and if your planning cycles align with
 delivery capacity.
 
-### Ticket Cycle Time
+### <span style="color: SlateGray;">Ticket Cycle Time</span>
 
 Measures the time a ticket takes from the moment it starts being worked on (e.g., moved to “In Progress”) to when it’s
 completed (e.g., moved to “Done”).
@@ -44,7 +61,7 @@ completed (e.g., moved to “Done”).
 
 **Why it’s useful?** Helps assess execution efficiency and spot delays in active development.
 
-### Ticket Lead Time
+### <span style="color: SlateGray;">Ticket Lead Time</span>
 
 Measures the total time from when a ticket is created (first entered the backlog) to when it is completed.
 
@@ -56,7 +73,7 @@ Measures the total time from when a ticket is created (first entered the backlog
 **Why it’s useful?** Reflects the overall responsiveness of the team and the efficiency of the planning to delivery
 pipeline.
 
-### Throughput
+### <span style="color: SlateGray;">Throughput</span>
 
 The total number of completed tickets in a given time frame (e.g., per sprint or per week).
 
@@ -68,7 +85,7 @@ The total number of completed tickets in a given time frame (e.g., per sprint or
 **Why it’s useful?** Useful for measuring team output and identifying trends over time (e.g., delivery dips,
 improvements, team changes).
 
-### Velocity (Scrum specific)
+### <span style="color: SlateGray;">Velocity</span>
 
 The sum of story points completed in a sprint. Only considers completed (done) tickets.
 
@@ -80,7 +97,7 @@ The sum of story points completed in a sprint. Only considers completed (done) t
 **Why it’s useful?** Enables sprint planning and forecasting by helping teams understand their capacity and delivery
 trends.
 
-## 1. How to run Streamline
+## ⚙ How to run Streamline
 
 1. Run `make init`
 2. Add `JIRA_HOST` and `JIRA_TOKEN` to the **.env** file.
@@ -93,12 +110,12 @@ trends.
 4. Run `make build`
 5. Run `make start`
 
-## 2. How to run fetch data
+## ⚙ How to run fetch data
 
 1. Run `bin/console database:synchronize`
 2. It will take a few seconds, then the data will be populated in mongo DB.
 
-## 3. How to configure Grafana & Disaply the Charts
+## ꩜ How to configure Grafana & Disaply the Charts
 
 1. Login to Grafana using _admin/admin_.
 2. Click _Skip_.
@@ -114,13 +131,13 @@ trends.
 12. Select **streamline-datasource** datasource.
 13. You can now see the metrics dashboard.
 
-## Optional: How to delete all the data
+## ⌥ Optional: How to delete all the data
 
 This applies to cases where you want to delete all data from the collections.
 
 1. Run `bin/console database:clear`
 2. All the collections are empty now.
 
-## Optional: How to shudown Streamline
+## ⌥ Optional: How to shudown Streamline
 
 Run `make shutdown`
