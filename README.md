@@ -1,5 +1,4 @@
-<h1 align="center">
-<span style="color: HotPink;">Streamline</span></h1>
+<h1 align="center" style="color: HotPink;">Streamline</h1>
 
 <p align="center">
     <em>Engineering and Management Metrics Platform for JSMD</em>
@@ -18,8 +17,7 @@
   <img src="https://img.shields.io/badge/Frontend-Grafana-F46800?logo=grafana&logoColor=white" alt="Frontend" />
 </p>
 
-## Engineering and Management Metrics Platform for JSMD
-
+---
 The **Streamline** project is about building a metrics platform that brings together data from Jira, GitLab, AWS,
 Datadog, and other tools used across Jochen Schweizer mydays (JSMD). The goal is to give teams and managers clear,
 data-driven insights into how work gets done, how fast code moves, how teams collaborate, how stable and costly systems
