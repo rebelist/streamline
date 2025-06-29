@@ -27,11 +27,14 @@ jobs:
           BASE=$(git merge-base HEAD origin/main)
           echo "Comparing changes between $BASE and HEAD"
 
-          # Show diff output for debugging
-          git diff --name-only $BASE HEAD
+          CHANGED_FILES=$(git diff --name-only $BASE HEAD)
+          echo "$CHANGED_FILES"
 
-          COUNT=$(git diff --name-only $BASE HEAD -- 'src/**' 'tests/**' | wc -l)
-          echo "Changed files count: $COUNT"
+          MATCHING_FILES=$(echo "$CHANGED_FILES" | grep -E '^src/|^tests/' || true)
+          COUNT=$(echo "$MATCHING_FILES" | wc -l)
+
+          echo "Matching files:"
+          echo "$MATCHING_FILES"
 
           if [ "$COUNT" -gt 0 ]; then
             echo "run-tests=true" >> $GITHUB_OUTPUT
