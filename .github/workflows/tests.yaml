@@ -18,27 +18,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 20
+          fetch-depth: 0  # Full history to make sure everything is available
 
       - name: Check for changes in src/ or tests/
         id: filter
         run: |
-          git fetch origin main --depth=20
-          BASE=$(git merge-base HEAD origin/main)
-          echo "Comparing changes between $BASE and HEAD"
+          echo "Event: ${{ github.event_name }}"
 
-          CHANGED_FILES=$(git diff --name-only $BASE HEAD)
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+          fi
+
+          echo "Using BASE commit: $BASE"
+          CHANGED_FILES=$(git diff --name-only "$BASE"...HEAD)
           echo "Changed files:"
           echo "$CHANGED_FILES"
 
           MATCHING_FILES=$(echo "$CHANGED_FILES" | grep -E '^src/|^tests/' || true)
 
           if [ -n "$MATCHING_FILES" ]; then
-            echo "Relevant changes found:"
-            echo "$MATCHING_FILES"
+            echo "Relevant changes detected"
             echo "run-tests=true" >> $GITHUB_OUTPUT
           else
-            echo "No relevant changes in src/ or tests/"
+            echo "No relevant changes"
             echo "run-tests=false" >> $GITHUB_OUTPUT
           fi
 
