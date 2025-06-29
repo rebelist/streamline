@@ -46,7 +46,7 @@ class JobRepository:
         self.__collection: Collection[Mapping[str, Any]] = database.get_collection(self.COLLECTION_NAME)
 
     def save(self, job: Job) -> None:
-        """Adds a job."""
+        """Saves a job."""
         self.__collection.delete_one({'team': job.team, 'name': job.name})
         self.__collection.insert_one(job.to_dict())
 
