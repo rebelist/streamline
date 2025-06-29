@@ -17,6 +17,21 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 20
+
+      - name: Check for changes in src/ or tests/
+        id: filter
+        run: |
+          git fetch --no-tags --depth=1 origin main
+          BASE=$(git merge-base HEAD FETCH_HEAD)
+          CHANGED=$(git diff --name-only $BASE HEAD -- 'src/**' 'tests/**' | wc -l)
+          echo "Detected $CHANGED relevant changed files"
+          if [ "$CHANGED" -gt 0 ]; then
+            echo "run-tests=true" >> $GITHUB_OUTPUT
+          else
+            echo "run-tests=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Check for changes in src/ or tests/
         id: filter
