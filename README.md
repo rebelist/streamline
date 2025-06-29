@@ -36,7 +36,7 @@ tools answer critical questions about team performance. The insights reveal how 
 from initial concept to final delivery, enabling continuous improvement and helping you measure the impact of process
 changes over time.
 
-### <span style="color: SlateGray;">Sprint Cycle Time</span>
+### <span style="color: #8a819c;">Sprint Cycle Time</span>
 
 Measures the average time it takes to complete a sprint, from the sprint’s start to its end date.
 
@@ -48,7 +48,7 @@ Measures the average time it takes to complete a sprint, from the sprint’s sta
 **Why it’s useful?** Identifies whether your sprint cadences are consistent and if your planning cycles align with
 delivery capacity.
 
-### <span style="color: SlateGray;">Ticket Cycle Time</span>
+### <span style="color: #8a819c">Ticket Cycle Time</span>
 
 Measures the time a ticket takes from the moment it starts being worked on (e.g., moved to “In Progress”) to when it’s
 completed (e.g., moved to “Done”).
@@ -60,7 +60,7 @@ completed (e.g., moved to “Done”).
 
 **Why it’s useful?** Helps assess execution efficiency and spot delays in active development.
 
-### <span style="color: SlateGray;">Ticket Lead Time</span>
+### <span style="color: #8a819c;">Ticket Lead Time</span>
 
 Measures the total time from when a ticket is created (first entered the backlog) to when it is completed.
 
@@ -72,7 +72,7 @@ Measures the total time from when a ticket is created (first entered the backlog
 **Why it’s useful?** Reflects the overall responsiveness of the team and the efficiency of the planning to delivery
 pipeline.
 
-### <span style="color: SlateGray;">Throughput</span>
+### <span style="color: #8a819c;">Throughput</span>
 
 The total number of completed tickets in a given time frame (e.g., per sprint or per week).
 
@@ -84,7 +84,7 @@ The total number of completed tickets in a given time frame (e.g., per sprint or
 **Why it’s useful?** Useful for measuring team output and identifying trends over time (e.g., delivery dips,
 improvements, team changes).
 
-### <span style="color: SlateGray;">Velocity</span>
+### <span style="color: #8a819c;">Velocity</span>
 
 The sum of story points completed in a sprint. Only considers completed (done) tickets.
 
