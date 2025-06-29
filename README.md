@@ -17,7 +17,6 @@
   <img src="https://img.shields.io/badge/Frontend-Grafana-F46800?logo=grafana&logoColor=white" alt="Frontend" />
 </p>
 
----
 The **Streamline** project is about building a metrics platform that brings together data from Jira, GitLab, AWS,
 Datadog, and other tools used across Jochen Schweizer mydays (JSMD). The goal is to give teams and managers clear,
 data-driven insights into how work gets done, how fast code moves, how teams collaborate, how stable and costly systems
@@ -28,6 +27,8 @@ into team health, workload patterns, and the results of decisions over time. Ins
 scattered reports, the platform helps everyone, developers, leads, and managers, make better calls based on real data.
 In the end, it’s a tool to support smarter decisions, continuous improvement, and a more transparent way of working.
 
+---
+
 ## Workflow Metrics
 
 Streamline supports Workflow Metrics, designed to help you understand and optimize how work flows through your
@@ -36,7 +37,7 @@ tools answer critical questions about team performance. The insights reveal how 
 from initial concept to final delivery, enabling continuous improvement and helping you measure the impact of process
 changes over time.
 
-### <span style="color: #8a819c;">Sprint Cycle Time</span>
+### Sprint Cycle Time
 
 Measures the average time it takes to complete a sprint, from the sprint’s start to its end date.
 
@@ -48,7 +49,7 @@ Measures the average time it takes to complete a sprint, from the sprint’s sta
 **Why it’s useful?** Identifies whether your sprint cadences are consistent and if your planning cycles align with
 delivery capacity.
 
-### <span style="color: #8a819c">Ticket Cycle Time</span>
+### Ticket Cycle Time
 
 Measures the time a ticket takes from the moment it starts being worked on (e.g., moved to “In Progress”) to when it’s
 completed (e.g., moved to “Done”).
@@ -60,7 +61,7 @@ completed (e.g., moved to “Done”).
 
 **Why it’s useful?** Helps assess execution efficiency and spot delays in active development.
 
-### <span style="color: #8a819c;">Ticket Lead Time</span>
+### Ticket Lead Time
 
 Measures the total time from when a ticket is created (first entered the backlog) to when it is completed.
 
@@ -72,7 +73,7 @@ Measures the total time from when a ticket is created (first entered the backlog
 **Why it’s useful?** Reflects the overall responsiveness of the team and the efficiency of the planning to delivery
 pipeline.
 
-### <span style="color: #8a819c;">Throughput</span>
+### Throughput
 
 The total number of completed tickets in a given time frame (e.g., per sprint or per week).
 
@@ -84,7 +85,7 @@ The total number of completed tickets in a given time frame (e.g., per sprint or
 **Why it’s useful?** Useful for measuring team output and identifying trends over time (e.g., delivery dips,
 improvements, team changes).
 
-### <span style="color: #8a819c;">Velocity</span>
+### Velocity
 
 The sum of story points completed in a sprint. Only considers completed (done) tickets.
 
@@ -95,6 +96,8 @@ The sum of story points completed in a sprint. Only considers completed (done) t
 
 **Why it’s useful?** Enables sprint planning and forecasting by helping teams understand their capacity and delivery
 trends.
+
+---
 
 ## ⚙ How to run Streamline
 
