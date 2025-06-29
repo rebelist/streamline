@@ -1,4 +1,4 @@
-name: Test & Coverage
+name: Tests
 
 on:
   push:
@@ -10,7 +10,28 @@ permissions:
   contents: read
 
 jobs:
+  check-diff:
+    runs-on: ubuntu-latest
+    outputs:
+      run-tests: ${{ steps.filter.outputs.run-tests }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for changes in src/ or tests/
+        id: filter
+        run: |
+          git fetch origin main
+          CHANGED=$(git diff --name-only origin/main...HEAD -- 'src/**' 'tests/**' | wc -l)
+          if [ "$CHANGED" -gt 0 ]; then
+            echo "run-tests=true" >> $GITHUB_OUTPUT
+          else
+            echo "run-tests=false" >> $GITHUB_OUTPUT
+          fi
+
   test:
+    needs: check-diff
+    if: needs.check-diff.outputs.run-tests == 'true'
     runs-on: ubuntu-latest
 
     steps:
