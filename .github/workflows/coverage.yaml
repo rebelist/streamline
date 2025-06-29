@@ -30,6 +30,11 @@ jobs:
           uv venv
           uv sync --dev
 
+      - name: Copy example config files if missing
+        run: |
+          cp -n .env.example .env || true
+          cp -n settings.ini.example settings.ini || true
+
       - name: Run tests with coverage
         run: |
           uv run pytest --color=yes --cov=streamline --no-cov-on-fail --cov-report xml
