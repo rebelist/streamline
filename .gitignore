@@ -107,14 +107,11 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# Poetry
-.poetry
 
-#Docker
-docker-compose.override.yml
+
+# Docker
 docker/mongo/db
 docker/grafana/data
 
-#Streamline
-
+# Streamline
 settings.ini

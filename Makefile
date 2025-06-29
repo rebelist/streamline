@@ -1,4 +1,4 @@
-.PHONY: init dev start shutdown check tests coverage enter
+.PHONY: init dev start shutdown check tests coverage
 
 init:
 	@echo "\nInitializing files..."
@@ -38,9 +38,6 @@ coverage:
 build:
 	@echo "\nBuilding api image..."
 	@docker-compose --profile prod build
-
-enter:
-	@docker-compose --profile prod exec -it api bash
 
 # Avoid treating the argument as a target
 %:
