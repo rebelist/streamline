@@ -1,7 +1,6 @@
-<h1 align="center" style="color: HotPink;">Streamline</h1>
-
+<h1 align="center"><img src="docs/images/streamline.png" alt="Streamline"/></h1>
 <p align="center">
-    <em>Engineering and Management Metrics Platform for JSMD</em>
+    <b>Engineering and Management Metrics Platform for JSMD</b>
 </p>
 
 <p align="center">
