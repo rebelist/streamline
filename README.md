@@ -4,9 +4,10 @@
 </p>
 
 <p align="center">
-   <img src="https://img.shields.io/badge/Version-0.5.0--dev-gold" alt="Version" />
-   <a href="https://github.com/rebelist/streamline/actions/workflows/tests.yaml"><img src="https://github.com/rebelist/streamline/actions/workflows/tests.yaml/badge.svg"/></a>
-   <a href="https://codecov.io/gh/rebelist/streamline" ><img src="https://codecov.io/gh/rebelist/streamline/graph/badge.svg?token=JU42524IZY"/></a>
+   <a href="https://github.com/rebelist/streamline/releases"><img src="https://img.shields.io/badge/Version-0.5.0--dev-gold" alt="Version" /></a>
+   <a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3" /></a>
+   <a href="https://github.com/rebelist/streamline/actions/workflows/tests.yaml"><img src="https://github.com/rebelist/streamline/actions/workflows/tests.yaml/badge.svg" /></a>
+   <a href="https://codecov.io/gh/rebelist/streamline" ><img src="https://codecov.io/gh/rebelist/streamline/graph/badge.svg?token=JU42524IZY" /></a>
 </p>
 
 <p align="center">
