@@ -99,6 +99,12 @@ trends.
 
 ---
 
+## Examples
+
+![Workflow Metrics 1](docs/images/screenshot-1.jpg)
+![Workflow Metrics 2](docs/images/screenshot-2.jpg)
+---
+
 ## ⚙ How to run Streamline
 
 1. Run `make init`
