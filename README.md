@@ -11,10 +11,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/Database-MongoDB-4ea94b?logo=mongodb&logoColor=white" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/Container-Docker-2496ED?logo=docker&logoColor=white" alt="Docker" />
-  <img src="https://img.shields.io/badge/Frontend-Grafana-F46800?logo=grafana&logoColor=white" alt="Frontend" />
+  <a href="https://www.python.org/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white" alt="Python" /></a>
+  <a href="https://www.mongodb.com/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Database-MongoDB-4ea94b?logo=mongodb&logoColor=white" alt="MongoDB" /></a>
+  <a href="https://www.docker.com/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Container-Docker-2496ED?logo=docker&logoColor=white" alt="Docker" /></a>
+  <a href="https://grafana.com/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Frontend-Grafana-F46800?logo=grafana&logoColor=white" alt="Frontend" /></a>
 </p>
 
 The **Streamline** project is about building a metrics platform that brings together data from Jira, GitLab, AWS,
