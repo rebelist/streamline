@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from typing import Any
 
 from dateutil import parser as date_parser
@@ -24,6 +25,13 @@ class IssueNotFinishedError(Exception):
     def __init__(self, issue: Issue) -> None:
         message = f"Ticket with ID '{issue.key}' has never set to done."
         super().__init__(message)
+
+
+class TicketStatus(Enum):
+    """Represent a Jira ticket status."""
+
+    IN_PROGRESS = 'In Progress'
+    DONE = 'Done'
 
 
 class JiraGateway:
@@ -137,9 +145,9 @@ class JiraGateway:
             for item in history.items:
                 if item.field != 'status':
                     continue
-                if item.toString == 'In Progress':
+                if item.toString == TicketStatus.IN_PROGRESS.value:
                     in_progress_times.append((history.created, i))
-                elif item.toString == 'Done':
+                elif item.toString == TicketStatus.DONE.value:
                     done_times.append((history.created, i))
 
         if not in_progress_times:
