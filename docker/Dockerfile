@@ -4,7 +4,7 @@ FROM python:${PYTHON_VERSION}-slim
 
 LABEL mantainer="Fran <rebelist.software@icloud.com>"
 
-ARG UV_VERSION=0.7.16
+ARG UV_VERSION=0.7
 
 ENV UV_COMPILE_BYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -14,7 +14,7 @@ ENV PATH=/home/streamline/.local/bin:$PATH
 RUN groupadd --system rebelist && useradd --system --create-home --gid rebelist streamline
 
 # Install uv as root first, or manage permissions carefully
-RUN pip install --no-cache-dir "uv==${UV_VERSION}"
+RUN pip install --no-cache-dir "uv~=${UV_VERSION}"
 
 USER streamline
 WORKDIR /home/streamline/app
