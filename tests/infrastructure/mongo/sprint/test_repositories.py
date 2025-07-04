@@ -12,7 +12,7 @@ from rebelist.streamline.infrastructure.mongo.sprint import MongoSprintDocumentR
 from rebelist.streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
-def test_mongo_sprint_repository_find_by_team_name(mocker: MockerFixture) -> None:
+def test_mongo_sprint_repository_find_by_team_name(mocker: MockerFixture, mock_datetime_normalizer: MagicMock) -> None:
     """Test the MongoSprintRepository.find_by_team_name method."""
     mock_collection: MagicMock = mocker.MagicMock(spec=Collection)
     mock_database: MagicMock = mocker.MagicMock(spec=Database)
@@ -59,7 +59,7 @@ def test_mongo_sprint_repository_find_by_team_name(mocker: MockerFixture) -> Non
     ]
     mock_collection.aggregate.return_value = mock_aggregate_result
 
-    repository: MongoSprintRepository = MongoSprintRepository(mock_database)
+    repository: MongoSprintRepository = MongoSprintRepository(mock_database, mock_datetime_normalizer)
     sprints: list[Sprint] = repository.find_by_team_name('TestTeam')
 
     mock_database.get_collection.assert_called_once_with(MongoSprintRepository.COLLECTION_NAME)

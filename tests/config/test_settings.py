@@ -1,5 +1,6 @@
 from datetime import time
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import pytest
 from pydantic import ValidationError
@@ -12,14 +13,14 @@ class TestAppSettings:
 
     def test_app_settings_creation(self: 'TestAppSettings') -> None:
         """Tests the successful creation of an AppSettings instance."""
-        settings = AppSettings(country='US', timezone='Europe/Berlin')
+        settings = AppSettings(country='US', timezone=ZoneInfo('Europe/Berlin'))
         assert settings.name == 'rebelist-streamline'
         assert settings.country == 'US'
-        assert settings.timezone == 'Europe/Berlin'
+        assert settings.timezone == ZoneInfo('Europe/Berlin')
 
     def test_app_settings_immutability(self: 'TestAppSettings') -> None:
         """Tests that an AppSettings instance is immutable."""
-        settings = AppSettings(country='GB', timezone='Europe/Berlin')
+        settings = AppSettings(country='GB', timezone=ZoneInfo('Europe/Berlin'))
         with pytest.raises(ValidationError):
             settings.country = 'NewName'
 
@@ -93,7 +94,7 @@ class TestSettings:
 
     def test_settings_creation(self: 'TestSettings') -> None:
         """Tests the successful creation of a Settings instance."""
-        app_settings = AppSettings(country='EU', timezone='Europe/Berlin')
+        app_settings = AppSettings(country='EU', timezone=ZoneInfo('Europe/Berlin'))
         workflow_settings = WorkflowSettings(
             workday_starts_at=time(8, 0), workday_ends_at=time(16, 0), workday_duration=8
         )
@@ -107,7 +108,7 @@ class TestSettings:
 
     def test_settings_immutability(self: 'TestSettings') -> None:
         """Tests that a Settings instance is immutable."""
-        app_settings = AppSettings(country='US', timezone='Europe/Berlin')
+        app_settings = AppSettings(country='US', timezone=ZoneInfo('Europe/Berlin'))
         workflow_settings = WorkflowSettings(
             workday_starts_at=time(9, 0), workday_ends_at=time(18, 0), workday_duration=9
         )
@@ -116,7 +117,7 @@ class TestSettings:
         )
         settings = Settings(app=app_settings, workflow=workflow_settings, jira=jira_settings)
         with pytest.raises(ValidationError):
-            settings.app = AppSettings(country='US', timezone='Europe/Berlin')
+            settings.app = AppSettings(country='US', timezone=ZoneInfo('Europe/Berlin'))
 
 
 class TestLoadSettings:
@@ -145,7 +146,7 @@ class TestLoadSettings:
         config_file.write_text(config_content)
 
         settings = load_settings(config_file)
-        assert settings.app == AppSettings(country='US', timezone='Europe/Berlin')
+        assert settings.app == AppSettings(country='US', timezone=ZoneInfo('Europe/Berlin'))
         assert settings.workflow == WorkflowSettings(
             workday_starts_at=time(9, 30), workday_ends_at=time(17, 30), workday_duration=8
         )

@@ -6,6 +6,7 @@ from pymongo.synchronous.database import Database
 
 from rebelist.streamline.domain.sprint import Sprint, SprintRepository
 from rebelist.streamline.domain.ticket import Ticket
+from rebelist.streamline.infrastructure.datetime import DateTimeNormalizer
 from rebelist.streamline.infrastructure.mongo.ticket import MongoTicketDocumentRepository
 
 
@@ -15,10 +16,9 @@ class MongoSprintRepository(SprintRepository):
     COLLECTION_NAME: Final[str] = 'jira_sprints'
     LIMIT_SPRINTS: Final[int] = 20
 
-    def __init__(self, database: Database[Mapping[str, Any]]) -> None:
-        self.__collection: Collection[Mapping[str, Any]] = database.get_collection(
-            MongoSprintRepository.COLLECTION_NAME
-        )
+    def __init__(self, database: Database[Mapping[str, Any]], datetime_normalizer: DateTimeNormalizer) -> None:
+        self.__collection: Collection[Mapping[str, Any]] = database.get_collection(self.COLLECTION_NAME)
+        self.__datetime_normalizer = datetime_normalizer
 
     def find_by_team_name(self, team: str) -> list[Sprint]:
         """Returns all sprints with its tickets."""
@@ -55,11 +55,20 @@ class MongoSprintRepository(SprintRepository):
             tickets: list[Ticket] = []
             for issue in document['issues']:
                 ticket = Ticket(
-                    issue['key'], issue['created_at'], issue['started_at'], issue['resolved_at'], issue['story_points']
+                    issue['key'],
+                    self.__datetime_normalizer.normalize(issue['created_at']),
+                    self.__datetime_normalizer.normalize(issue['started_at']),
+                    self.__datetime_normalizer.normalize(issue['resolved_at']),
+                    issue['story_points'],
                 )
                 tickets.append(ticket)
 
-            sprint = Sprint(document['name'], document['opened_at'], document['closed_at'], tickets)
+            sprint = Sprint(
+                document['name'],
+                self.__datetime_normalizer.normalize(document['opened_at']),
+                self.__datetime_normalizer.normalize(document['closed_at']),
+                tickets,
+            )
             sprints.append(sprint)
 
         return sprints

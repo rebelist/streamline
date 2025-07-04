@@ -30,6 +30,7 @@ from rebelist.streamline.domain.metrics.flow import (
     VelocityCalculator,
 )
 from rebelist.streamline.domain.time import WorkTimeCalculator
+from rebelist.streamline.infrastructure.datetime import DateTimeNormalizer
 from rebelist.streamline.infrastructure.jira import JiraGateway
 from rebelist.streamline.infrastructure.mongo.job import JobRepository
 from rebelist.streamline.infrastructure.mongo.sprint import MongoSprintDocumentRepository, MongoSprintRepository
@@ -61,10 +62,10 @@ class Container(DeclarativeContainer):
     @staticmethod
     def _get_calendar(settings: Settings) -> WorkTimeCalculator:
         """Provides a work_calendar instance for specific country."""
-        calendar_class = cast(Type[WorkCalendar], registry.get(settings.app.region))
+        calendar_class = cast(Type[WorkCalendar], registry.get(settings.app.country))
 
         if not calendar_class:
-            raise ValueError(f'No WorkCalendar class found for region {settings.app.region}')
+            raise ValueError(f'No WorkCalendar class found for region {settings.app.country}')
 
         workday_starts_at = settings.workflow.workday_starts_at
         workday_ends_at = settings.workflow.workday_ends_at
@@ -86,6 +87,8 @@ class Container(DeclarativeContainer):
 
     __logger = Singleton(Logger, logger)
 
+    __datetime_normalizer = Singleton(DateTimeNormalizer, settings.provided.app.timezone)
+
     __jira_client = Singleton(JIRA, server=config.jira_host, token_auth=config.jira_token)
 
     __mongo_client = Singleton(MongoClient, host=config.mongo_uri, tz_aware=True)
@@ -105,9 +108,9 @@ class Container(DeclarativeContainer):
     ### Public Services ###
     database = Singleton(_get_database, __mongo_client)
 
-    sprint_repository = Singleton(MongoSprintRepository, database)
+    sprint_repository = Singleton(MongoSprintRepository, database, __datetime_normalizer)
 
-    ticket_repository = Singleton(MongoTicketRepository, database)
+    ticket_repository = Singleton(MongoTicketRepository, database, __datetime_normalizer)
 
     sprint_document_repository = Singleton(MongoSprintDocumentRepository, database)
 

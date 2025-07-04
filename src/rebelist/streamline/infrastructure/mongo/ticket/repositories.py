@@ -5,6 +5,7 @@ from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
 
 from rebelist.streamline.domain.ticket import Ticket, TicketRepository
+from rebelist.streamline.infrastructure.datetime import DateTimeNormalizer
 
 
 class MongoTicketDocumentRepository:
@@ -26,8 +27,9 @@ class MongoTicketRepository(TicketRepository):
 
     COLLECTION_NAME: Final[str] = 'jira_tickets'
 
-    def __init__(self, database: Database[Mapping[str, Any]]) -> None:
+    def __init__(self, database: Database[Mapping[str, Any]], datetime_normalizer: DateTimeNormalizer) -> None:
         self.__collection: Collection[Mapping[str, Any]] = database.get_collection(self.COLLECTION_NAME)
+        self.__datetime_normalizer = datetime_normalizer
 
     def find_by_team_name(self, team: str) -> list[Ticket]:
         """Returns all tickets of a team."""
@@ -38,9 +40,9 @@ class MongoTicketRepository(TicketRepository):
         for document in documents:
             ticket = Ticket(
                 document['key'],
-                document['created_at'],
-                document['started_at'],
-                document['resolved_at'],
+                self.__datetime_normalizer.normalize(document['created_at']),
+                self.__datetime_normalizer.normalize(document['started_at']),
+                self.__datetime_normalizer.normalize(document['resolved_at']),
                 document['story_points'],
             )
             tickets.append(ticket)

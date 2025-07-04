@@ -57,7 +57,9 @@ class TestMongoTicketRepository:
         mock_db.get_collection.return_value = mock_collection
         yield mock_db
 
-    def test_find_by_team_name_returns_tickets(self, mock_database: MagicMock) -> None:
+    def test_find_by_team_name_returns_tickets(
+        self, mock_database: MagicMock, mock_datetime_normalizer: MagicMock
+    ) -> None:
         """Should return a list of Ticket instances sorted by resolved_at when documents are found for the team."""
         mock_collection: MagicMock = mock_database.get_collection.return_value
         team_name: str = 'Team Alpha'
@@ -86,7 +88,7 @@ class TestMongoTicketRepository:
         ]
         mock_sort_result.limit.return_value = mock_documents
 
-        repo: MongoTicketRepository = MongoTicketRepository(mock_database)
+        repo: MongoTicketRepository = MongoTicketRepository(mock_database, mock_datetime_normalizer)
         tickets: list[Ticket] = repo.find_by_team_name(team_name)
 
         assert len(tickets) == 2
@@ -99,14 +101,16 @@ class TestMongoTicketRepository:
         mock_find_result.sort.assert_called_once_with('resolved_at', DESCENDING)
         mock_sort_result.limit.assert_called_once()
 
-    def test_find_by_team_name_returns_empty_list(self, mock_database: MagicMock) -> None:
+    def test_find_by_team_name_returns_empty_list(
+        self, mock_database: MagicMock, mock_datetime_normalizer: MagicMock
+    ) -> None:
         """Should return an empty list when no documents are found for the team."""
         mock_collection: MagicMock = mock_database.get_collection.return_value
         mock_find_result = MagicMock()
         mock_collection.find.return_value = mock_find_result
         mock_find_result.sort.return_value.limit.return_value = []
 
-        repo: MongoTicketRepository = MongoTicketRepository(mock_database)
+        repo: MongoTicketRepository = MongoTicketRepository(mock_database, mock_datetime_normalizer)
         tickets: list[Ticket] = repo.find_by_team_name('GhostTeam')
 
         assert tickets == []

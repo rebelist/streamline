@@ -9,7 +9,7 @@ init:
 dev:
 	@echo "\nRunning Streamline in development mode..."
 	@docker-compose up -d
-	fastapi dev src/streamline/handlers/api
+	fastapi dev src/rebelist/streamline/handlers/api
 
 start:
 	@echo "\nRunning Streamline..."

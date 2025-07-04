@@ -4,6 +4,7 @@ from functools import cached_property
 from importlib import metadata
 from pathlib import Path
 from typing import Any, ClassVar
+from zoneinfo import ZoneInfo
 
 from pydantic import BaseModel, Field, TypeAdapter, ValidationError, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -17,7 +18,18 @@ class AppSettings(BaseModel):
     model_config = SettingsConfigDict(frozen=True)
 
     country: str
-    timezone: str
+    timezone: ZoneInfo
+
+    @field_validator('timezone', mode='before')
+    @classmethod
+    def parse_timezone(cls, value: str | ZoneInfo):
+        """Parse timezone string to get a ZoneInfo instance."""
+        if isinstance(value, str):
+            try:
+                return ZoneInfo(value)
+            except Exception as e:
+                raise ValueError(f'Invalid timezone string: {value}') from e
+        return value
 
     @cached_property
     def name(self) -> str:
