@@ -32,7 +32,7 @@ tests:
 
 coverage:
 	@echo "\nGenerating test coverage..."
-	@uv run pytest --no-summary --quiet --color=yes --no-header --cov=streamline --no-cov-on-fail --cov-report html
+	@uv run pytest --no-summary --quiet --color=yes --no-header --cov=rebelist.streamline --no-cov-on-fail --cov-report html
 
 build:
 	@echo "\nBuilding api image..."
