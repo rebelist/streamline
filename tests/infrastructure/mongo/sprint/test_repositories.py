@@ -20,7 +20,7 @@ def test_mongo_sprint_repository_find_by_team_name(mocker: MockerFixture, mock_d
 
     mock_aggregate_result = [
         {
-            '_id': {'$oid': '64567890abcdef1234567890'},
+            '_id': {'$oid': '64567890abcdef123456783'},
             'name': 'Sprint 1',
             'opened_at': datetime(2025, 5, 1, 0, 0),
             'closed_at': datetime(2025, 5, 15, 0, 0),
