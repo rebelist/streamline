@@ -1,7 +1,9 @@
 from configparser import ConfigParser
 from datetime import time
+from functools import cached_property
+from importlib import metadata
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 from pydantic import BaseModel, Field, TypeAdapter, ValidationError, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -10,11 +12,22 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class AppSettings(BaseModel):
     """Configuration settings for the application metadata."""
 
+    PACKAGE_NAME: ClassVar[str] = 'rebelist-streamline'
+
     model_config = SettingsConfigDict(frozen=True)
 
-    name: str
-    version: str
-    region: str
+    country: str
+    timezone: str
+
+    @cached_property
+    def name(self) -> str:
+        """Get application name."""
+        return self.PACKAGE_NAME
+
+    @cached_property
+    def version(self) -> str:
+        """Get application version."""
+        return metadata.version(self.PACKAGE_NAME)
 
 
 class WorkflowSettings(BaseModel):

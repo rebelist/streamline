@@ -12,16 +12,16 @@ class TestAppSettings:
 
     def test_app_settings_creation(self: 'TestAppSettings') -> None:
         """Tests the successful creation of an AppSettings instance."""
-        settings = AppSettings(name='Streamline', version='1.0.0', region='US')
-        assert settings.name == 'Streamline'
-        assert settings.version == '1.0.0'
-        assert settings.region == 'US'
+        settings = AppSettings(country='US', timezone='Europe/Berlin')
+        assert settings.name == 'rebelist-streamline'
+        assert settings.country == 'US'
+        assert settings.timezone == 'Europe/Berlin'
 
     def test_app_settings_immutability(self: 'TestAppSettings') -> None:
         """Tests that an AppSettings instance is immutable."""
-        settings = AppSettings(name='TestApp', version='0.1.0', region='GB')
+        settings = AppSettings(country='GB', timezone='Europe/Berlin')
         with pytest.raises(ValidationError):
-            settings.name = 'NewName'
+            settings.country = 'NewName'
 
 
 class TestWorkflowSettings:
@@ -93,7 +93,7 @@ class TestSettings:
 
     def test_settings_creation(self: 'TestSettings') -> None:
         """Tests the successful creation of a Settings instance."""
-        app_settings = AppSettings(name='Streamline', version='1.0.0', region='EU')
+        app_settings = AppSettings(country='EU', timezone='Europe/Berlin')
         workflow_settings = WorkflowSettings(
             workday_starts_at=time(8, 0), workday_ends_at=time(16, 0), workday_duration=8
         )
@@ -107,7 +107,7 @@ class TestSettings:
 
     def test_settings_immutability(self: 'TestSettings') -> None:
         """Tests that a Settings instance is immutable."""
-        app_settings = AppSettings(name='Test', version='1.0', region='NA')
+        app_settings = AppSettings(country='US', timezone='Europe/Berlin')
         workflow_settings = WorkflowSettings(
             workday_starts_at=time(9, 0), workday_ends_at=time(18, 0), workday_duration=9
         )
@@ -116,7 +116,7 @@ class TestSettings:
         )
         settings = Settings(app=app_settings, workflow=workflow_settings, jira=jira_settings)
         with pytest.raises(ValidationError):
-            settings.app = AppSettings(name='NewTest', version='2.0', region='SA')
+            settings.app = AppSettings(country='US', timezone='Europe/Berlin')
 
 
 class TestLoadSettings:
@@ -126,9 +126,8 @@ class TestLoadSettings:
         """Tests loading settings from a valid INI file."""
         config_content = """
         [app]
-        name = ExampleApp
-        version = 0.2.0
-        region = CA
+        country = US
+        timezone = Europe/Berlin
 
         [workflow]
         workday_starts_at = 09:30
@@ -146,7 +145,7 @@ class TestLoadSettings:
         config_file.write_text(config_content)
 
         settings = load_settings(config_file)
-        assert settings.app == AppSettings(name='ExampleApp', version='0.2.0', region='CA')
+        assert settings.app == AppSettings(country='US', timezone='Europe/Berlin')
         assert settings.workflow == WorkflowSettings(
             workday_starts_at=time(9, 30), workday_ends_at=time(17, 30), workday_duration=8
         )

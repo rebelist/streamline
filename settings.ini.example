@@ -1,7 +1,7 @@
 [app]
 name = Streamline
-version = 0.3.0
-region = DE
+country = DE
+timezone = Europe/Berlin
 
 [workflow]
 workday_starts_at = 08:00
