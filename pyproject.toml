@@ -1,6 +1,6 @@
 [project]
 name = "rebelist-streamline"
-version = "0.5.0"
+version = "0.5.1"
 description = "A free and open-source platform for collecting, visualizing, and analyzing engineering metrics, allowing teams to track performance, improve processes, and make data-driven decisions."
 authors = [{ name = "Fran", email = "rebelist.software@icloud.com" }]
 requires-python = ">=3.13,<4.0"
