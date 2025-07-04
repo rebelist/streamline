@@ -193,6 +193,7 @@ If a ticket is started or resolved outside working hours, only the overlapping p
 that day.
 
 **Sprint Inclusion Logic**
+
 A ticket is included in a sprint's metrics if its started_at is after the sprint's start (with a 6-hour offset before
 the sprint start to account for early work). Tickets started before this window are excluded from that sprint's metrics,
 even if resolved during the sprint.
