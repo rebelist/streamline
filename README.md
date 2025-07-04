@@ -203,10 +203,12 @@ Only tickets resolved before or at the sprint's close are counted as _completed_
 resolved after the sprint ends are not included, even if they were started during the sprint.
 
 **Story Points and Unestimated Tickets**
+
 Metrics that rely on story points (like velocity) will be affected if tickets lack story point estimates. Unestimated
 tickets may skew velocity and related metrics.
 
 **No Handling of Ticket Re-openings or Multiple State Changes**
+
 The system only considers the last time a ticket was set to _in progress_ and the last time it was set to _done_. If a
 ticket is reopened or moved between states multiple times, only the final transitions are used for metrics. This may not
 reflect the true time spent if tickets are frequently reopened.
