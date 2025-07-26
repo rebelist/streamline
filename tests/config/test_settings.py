@@ -164,7 +164,7 @@ class TestLoadSettings:
         project = ANALYTICS
         board_id = 999
         sprint_offset = 800
-        sprint_close_time = 18:00
+        sprint_close_time = 14:00
         issue_types = Open, In Review
         """
         config_file = tmp_path / 'settings.ini'
@@ -180,7 +180,7 @@ class TestLoadSettings:
             project='ANALYTICS',
             board_id=999,
             sprint_offset=800,
-            sprint_close_time=time(18, 00),
+            sprint_close_time=time(14, 00),
             issue_types=['Open', 'In Review'],
         )
 
