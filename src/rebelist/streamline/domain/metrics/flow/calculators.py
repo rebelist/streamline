@@ -1,3 +1,5 @@
+from datetime import datetime, time
+
 from rebelist.streamline.domain.sprint import Sprint
 from rebelist.streamline.domain.ticket import Ticket
 from rebelist.streamline.domain.time import WorkTimeCalculator
@@ -26,28 +28,47 @@ class LeadTimeCalculator:
 
 
 class ThroughputCalculator:
-    """Calculate sprint throughput."""
+    """Calculates the number of tickets resolved before the sprint officially ends."""
+
+    def __init__(self, sprint_close_time: time | None = None) -> None:
+        self._sprint_close_time = sprint_close_time
 
     def calculate(self, sprint: Sprint) -> int:
-        """Calculate the throughput of a sprint."""
-        count = 0
+        """Calculate the throughput of a sprint: tickets resolved before sprint close time."""
+        effective_close_time = self._get_effective_close_datetime(sprint.closed_at)
 
-        for ticket in sprint.tickets:
-            if ticket.resolved_at <= sprint.closed_at:
-                count += 1
+        return sum(1 for ticket in sprint.tickets if ticket.resolved_at and ticket.resolved_at <= effective_close_time)
 
-        return count
+    def _get_effective_close_datetime(self, closed_at: datetime) -> datetime:
+        """Combine the sprint's closed date with the configured closing time, if any."""
+        if not self._sprint_close_time:
+            return closed_at
+
+        return closed_at.replace(hour=self._sprint_close_time.hour, minute=self._sprint_close_time.minute)
 
 
 class VelocityCalculator:
-    """Calculate sprint velocity."""
+    """Calculates sprint velocity based on resolved story points before sprint closes."""
+
+    def __init__(self, sprint_close_time: time | None = None) -> None:
+        self._sprint_close_time = sprint_close_time
 
     def calculate(self, sprint: Sprint) -> int:
-        """Calculate the velocity of a sprint."""
-        count = 0
+        """Calculate the total story points of tickets resolved before sprint close time."""
+        effective_close_time = self._get_effective_close_datetime(sprint.closed_at)
 
-        for ticket in sprint.tickets:
-            if ticket.resolved_at <= sprint.closed_at:
-                count += ticket.story_points
+        return sum(
+            ticket.story_points
+            for ticket in sprint.tickets
+            if ticket.resolved_at and ticket.resolved_at <= effective_close_time
+        )
 
-        return count
+    def _get_effective_close_datetime(self, closed_at: datetime) -> datetime:
+        """Combine the sprint's close date with the configured closing time, if any."""
+        if not self._sprint_close_time:
+            return closed_at
+
+        return closed_at.replace(
+            hour=self._sprint_close_time.hour,
+            minute=self._sprint_close_time.minute,
+        )

@@ -3,7 +3,7 @@ from datetime import time
 from functools import cached_property
 from importlib import metadata
 from pathlib import Path
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Final
 from zoneinfo import ZoneInfo
 
 from pydantic import BaseModel, Field, TypeAdapter, ValidationError, field_validator
@@ -13,7 +13,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class AppSettings(BaseModel):
     """Configuration settings for the application metadata."""
 
-    PACKAGE_NAME: ClassVar[str] = 'rebelist-streamline'
+    PACKAGE_NAME: ClassVar[Final[str]] = 'rebelist-streamline'
 
     model_config = SettingsConfigDict(frozen=True)
 
@@ -60,7 +60,8 @@ class JiraSettings(BaseModel):
     team: str
     project: str
     board_id: int
-    sprint_start_at: int
+    sprint_offset: int
+    sprint_close_time: time
     issue_types: list[str]
 
     @field_validator('team')

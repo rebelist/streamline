@@ -58,32 +58,46 @@ class TestJiraSettings:
             team='development',
             project='PROJ',
             board_id=123,
-            sprint_start_at=100,
+            sprint_offset=100,
+            sprint_close_time=time(hour=18, minute=00),
             issue_types=['To Do', 'In Progress'],
         )
         assert settings.team == 'Development'
         assert settings.project == 'PROJ'
         assert settings.board_id == 123
-        assert settings.sprint_start_at == 100
+        assert settings.sprint_offset == 100
+        assert settings.sprint_close_time == time(hour=18, minute=00)
         assert settings.issue_types == ['To Do', 'In Progress']
 
     def test_jira_settings_team_capitalization(self: 'TestJiraSettings') -> None:
         """Tests that the 'team' field is automatically capitalized."""
         settings = JiraSettings(
-            team='operations', project='OPS', board_id=456, sprint_start_at=200, issue_types=['Open', 'Closed']
+            team='operations',
+            project='OPS',
+            board_id=456,
+            sprint_offset=200,
+            sprint_close_time=time(),
+            issue_types=['Open', 'Closed'],
         )
         assert settings.team == 'Operations'
 
     def test_jira_settings_split_issue_statuses_from_list(self: 'TestJiraSettings') -> None:
         """Tests handling issue_statuses when it's already a list."""
         statuses = ['Blocked', 'Review']
-        settings = JiraSettings(team='ux', project='UI', board_id=101, sprint_start_at=400, issue_types=statuses)
+        settings = JiraSettings(
+            team='ux', project='UI', board_id=101, sprint_offset=400, sprint_close_time=time(), issue_types=statuses
+        )
         assert settings.issue_types == statuses
 
     def test_jira_settings_immutability(self: 'TestJiraSettings') -> None:
         """Tests that a JiraSettings instance is immutable."""
         settings = JiraSettings(
-            team='design', project='DESIGN', board_id=222, sprint_start_at=500, issue_types=['Idea', 'Refinement']
+            team='design',
+            project='DESIGN',
+            board_id=222,
+            sprint_offset=500,
+            sprint_close_time=time(),
+            issue_types=['Idea', 'Refinement'],
         )
         with pytest.raises(ValidationError):
             settings.project = 'NEW_PROJ'
@@ -99,7 +113,12 @@ class TestSettings:
             workday_starts_at=time(8, 0), workday_ends_at=time(16, 0), workday_duration=8
         )
         jira_settings = JiraSettings(
-            team='backend', project='BE', board_id=555, sprint_start_at=600, issue_types=['Backlog', 'Dev']
+            team='backend',
+            project='BE',
+            board_id=555,
+            sprint_offset=600,
+            sprint_close_time=time(),
+            issue_types=['Backlog', 'Dev'],
         )
         settings = Settings(app=app_settings, workflow=workflow_settings, jira=jira_settings)
         assert settings.app == app_settings
@@ -113,7 +132,12 @@ class TestSettings:
             workday_starts_at=time(9, 0), workday_ends_at=time(18, 0), workday_duration=9
         )
         jira_settings = JiraSettings(
-            team='frontend', project='FE', board_id=666, sprint_start_at=700, issue_types=['Planned', 'Coding']
+            team='frontend',
+            project='FE',
+            board_id=666,
+            sprint_offset=700,
+            sprint_close_time=time(),
+            issue_types=['Planned', 'Coding'],
         )
         settings = Settings(app=app_settings, workflow=workflow_settings, jira=jira_settings)
         with pytest.raises(ValidationError):
@@ -139,7 +163,8 @@ class TestLoadSettings:
         team = analytics
         project = ANALYTICS
         board_id = 999
-        sprint_start_at = 800
+        sprint_offset = 800
+        sprint_close_time = 18:00
         issue_types = Open, In Review
         """
         config_file = tmp_path / 'settings.ini'
@@ -154,7 +179,8 @@ class TestLoadSettings:
             team='Analytics',
             project='ANALYTICS',
             board_id=999,
-            sprint_start_at=800,
+            sprint_offset=800,
+            sprint_close_time=time(18, 00),
             issue_types=['Open', 'In Review'],
         )
 
@@ -179,7 +205,8 @@ class TestLoadSettings:
         team = test
         project = INVALID
         board_id = abc
-        sprint_start_at = 1000
+        sprint_offset = 1000
+        sprint_close_time = 18:00
         issue_types = One
         """
         config_file = tmp_path / 'invalid.ini'
@@ -200,7 +227,8 @@ class TestLoadSettings:
         team = partial
         project = PART
         board_id = 111
-        sprint_start_at = 900
+        sprint_offset = 900
+        sprint_close_time = 18:00
         issue_types = Yes
         """
         config_file = tmp_path / 'partial.ini'
@@ -225,7 +253,8 @@ class TestLoadSettings:
         team = another
         project = OTHER
         board_id = 222
-        sprint_start_at = 1100
+        sprint_offset = 1100
+        sprint_close_time = 18:00
         issue_types = Two
         """
         config_file = tmp_path / 'missing_field.ini'

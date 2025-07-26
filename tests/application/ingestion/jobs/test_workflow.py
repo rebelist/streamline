@@ -21,7 +21,7 @@ class TestSprintJob:
         mock_settings = mocker.Mock(spec=JiraSettings)
 
         mock_settings.team = 'test_team'
-        mock_settings.sprint_start_at = 100
+        mock_settings.sprint_offset = 100
         mock_jira_gateway.find_sprints.return_value = [
             {
                 'id': '1',
@@ -49,7 +49,7 @@ class TestSprintJob:
         saved_job: Job = mock_job_repo.save.call_args[0][0]
         assert saved_job.name == SprintJob.JOB_NAME
         assert saved_job.team == 'test_team'
-        assert saved_job.metadata == {'sprint_index_start_at': 102}
+        assert saved_job.metadata == {'sprint_offset': 102}
         assert saved_job.executed_at is not None
 
     def test_execute_existing_job(self, mocker: MockerFixture) -> None:
@@ -61,8 +61,8 @@ class TestSprintJob:
         mock_existing_job = mocker.Mock(spec=Job)
 
         mock_settings.team = 'another_team'
-        mock_settings.sprint_start_at = 50
-        mock_existing_job.metadata = {'sprint_index_start_at': 105}
+        mock_settings.sprint_offset = 50
+        mock_existing_job.metadata = {'sprint_offset': 105}
         mock_jira_gateway.find_sprints.return_value = [
             {
                 'id': '3',
@@ -81,7 +81,7 @@ class TestSprintJob:
         mock_jira_gateway.find_sprints.assert_called_once_with(105)
         mock_sprint_repo.save.assert_called_once()
         saved_job: Job = mock_job_repo.save.call_args[0][0]
-        assert saved_job.metadata == {'sprint_index_start_at': 106}
+        assert saved_job.metadata == {'sprint_offset': 106}
         assert saved_job.executed_at is not None
 
     def test_execute_no_new_sprints(self, mocker: MockerFixture) -> None:
@@ -93,8 +93,8 @@ class TestSprintJob:
         mock_existing_job = mocker.Mock(spec=Job)
 
         mock_settings.team = 'yet_another_team'
-        mock_settings.sprint_start_at = 200
-        mock_existing_job.metadata = {'sprint_index_start_at': 200}
+        mock_settings.sprint_offset = 200
+        mock_existing_job.metadata = {'sprint_offset': 200}
         mock_jira_gateway.find_sprints.return_value = []
         mock_job_repo.find.return_value = mock_existing_job
         mock_job_repo.save.return_value = None
@@ -107,7 +107,7 @@ class TestSprintJob:
         mock_sprint_repo.save.assert_not_called()
         mock_job_repo.save.assert_called_once()
         saved_job: Job = mock_job_repo.save.call_args[0][0]
-        assert saved_job.metadata == {'sprint_index_start_at': 200}
+        assert saved_job.metadata == {'sprint_offset': 200}
         assert saved_job.executed_at is not None
 
 

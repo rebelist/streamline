@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, time, timedelta, timezone
 from unittest.mock import MagicMock
 
 from rebelist.streamline.domain.metrics.flow import (
@@ -153,25 +153,25 @@ class TestVelocityCalculator:
 
     def test_calculate_velocity(self) -> None:
         """Tests velocity calculation summing up story points of resolved tickets."""
-        closed_at = datetime(2025, 6, 1, tzinfo=timezone.utc)
+        closed_at = datetime(2025, 6, 1, 15, 00, tzinfo=timezone.utc)
 
         ticket_1 = MagicMock(spec=Ticket)
-        ticket_1.resolved_at = datetime(2025, 5, 29, tzinfo=timezone.utc)
+        ticket_1.resolved_at = datetime(2025, 5, 29, 14, 00, tzinfo=timezone.utc)
         ticket_1.story_points = 3
 
         ticket_2 = MagicMock(spec=Ticket)
-        ticket_2.resolved_at = datetime(2025, 6, 1, tzinfo=timezone.utc)
+        ticket_2.resolved_at = datetime(2025, 6, 1, 14, 00, tzinfo=timezone.utc)
         ticket_2.story_points = 5
 
         ticket_3 = MagicMock(spec=Ticket)
         ticket_3.resolved_at = datetime(2025, 6, 2, tzinfo=timezone.utc)  # after sprint
-        ticket_3.story_points = 8
+        ticket_3.story_points = 3
 
         sprint = MagicMock(spec=Sprint)
         sprint.closed_at = closed_at
         sprint.tickets = [ticket_1, ticket_2, ticket_3]
 
-        calculator = VelocityCalculator()
+        calculator = VelocityCalculator(sprint_close_time=time(18, 00))
         velocity = calculator.calculate(sprint)
 
         assert velocity == 8

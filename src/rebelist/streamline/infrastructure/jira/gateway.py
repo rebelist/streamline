@@ -85,7 +85,7 @@ class JiraGateway:
         """Find all done tickets after specific date."""
         documents: list[dict[str, Any]] = []
         sprints = self.__jira.sprints(
-            self.__settings.board_id, startAt=self.__settings.sprint_start_at, maxResults=False, state='closed'
+            self.__settings.board_id, startAt=self.__settings.sprint_offset, maxResults=False, state='closed'
         )
         filter_sprints = ','.join(str(sprint.id) for sprint in sprints)
         filter_done_at = f'AND status changed to Done AFTER "{done_at:%Y-%m-%d}"' if done_at else ''

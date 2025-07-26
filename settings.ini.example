@@ -11,5 +11,6 @@ workday_duration = 8
 team = Loki
 project = HIVE
 board_id = 533
-sprint_start_at = 30
+sprint_offset = 30
+sprint_close_time = 18:00
 issue_types = Bug, User Story, Spike, Technical Story, Task

@@ -34,15 +34,15 @@ class SprintJob(Executable):
         if not job:
             job = Job(name=SprintJob.JOB_NAME, team=team)
 
-        sprint_start_at = job.metadata.get('sprint_index_start_at', self.__settings.sprint_start_at)
-        sprints = self.__jira_gateway.find_sprints(sprint_start_at)
+        sprint_offset = job.metadata.get('sprint_offset', self.__settings.sprint_offset)
+        sprints = self.__jira_gateway.find_sprints(sprint_offset)
 
-        next_start_at = sprint_start_at
+        next_start_at = sprint_offset
         for sprint in sprints:
             self.__sprint_document_repository.save(sprint)
             next_start_at += 1
 
-        job.metadata = {'sprint_index_start_at': next_start_at}
+        job.metadata = {'sprint_offset': next_start_at}
         job.executed_at = datetime.now(timezone.utc)
         self.__job_repository.save(job)
 

@@ -101,9 +101,9 @@ class Container(DeclarativeContainer):
 
     __lead_time_calculator = Singleton(LeadTimeCalculator, __calendar_service)
 
-    __throughput_calculator = Singleton(ThroughputCalculator)
+    __throughput_calculator = Singleton(ThroughputCalculator, settings.provided.jira.sprint_close_time)
 
-    __velocity_calculator = Singleton(VelocityCalculator)
+    __velocity_calculator = Singleton(VelocityCalculator, settings.provided.jira.sprint_close_time)
 
     ### Public Services ###
     database = Singleton(_get_database, __mongo_client)

@@ -52,7 +52,7 @@ class TestGateway:
         settings.project = 'TEST'
         settings.team = 'TestTeam'
         settings.issue_types = ['Task', 'Bug']
-        settings.sprint_start_at = 30
+        settings.sprint_offset = 30
         return settings
 
     @pytest.fixture
