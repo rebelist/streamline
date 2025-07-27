@@ -39,7 +39,7 @@ dev = [
 package = true
 
 [tool.uv.sources]
-jira = { url = "https://github.com/pycontribs/jira/releases/download/3.10.1/jira-3.10.1-py3-none-any.whl" }
+jira = { url = "https://github.com/pycontribs/jira/releases/download/3.10.4/jira-3.10.4-py3-none-any.whl" }
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/rebelist"]

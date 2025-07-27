@@ -338,8 +338,8 @@ wheels = [
 
 [[package]]
 name = "jira"
-version = "3.10.1"
-source = { url = "https://github.com/pycontribs/jira/releases/download/3.10.1/jira-3.10.1-py3-none-any.whl" }
+version = "3.10.4"
+source = { url = "https://github.com/pycontribs/jira/releases/download/3.10.4/jira-3.10.4-py3-none-any.whl" }
 dependencies = [
     { name = "defusedxml" },
     { name = "packaging" },
@@ -349,7 +349,7 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://github.com/pycontribs/jira/releases/download/3.10.1/jira-3.10.1-py3-none-any.whl", hash = "sha256:48f1f7ef9d32c2d1e7607e9cb8e9218e6c339af8740186277964835e462aa28d" },
+    { url = "https://github.com/pycontribs/jira/releases/download/3.10.4/jira-3.10.4-py3-none-any.whl", hash = "sha256:5fe2e490ac3ecb7b7f99a874f383f83a870437e4cd17d1570b8701f78f65e684" },
 ]
 
 [package.metadata]
@@ -760,7 +760,7 @@ requires-dist = [
     { name = "dependency-injector", specifier = ">=4.47.1,<5" },
     { name = "fastapi", specifier = ">=0.115.14,<0.116" },
     { name = "fastapi-cli", specifier = ">=0.0.7,<0.0.8" },
-    { name = "jira", url = "https://github.com/pycontribs/jira/releases/download/3.10.1/jira-3.10.1-py3-none-any.whl" },
+    { name = "jira", url = "https://github.com/pycontribs/jira/releases/download/3.10.4/jira-3.10.4-py3-none-any.whl" },
     { name = "loguru", specifier = ">=0.7.3,<0.8" },
     { name = "pydantic", specifier = ">=2.11.4,<3" },
     { name = "pydantic-settings", specifier = ">=2.9.1,<3" },
