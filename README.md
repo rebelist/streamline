@@ -7,7 +7,7 @@
    <a href="https://github.com/rebelist/streamline/releases"><img src="https://img.shields.io/badge/Release-0.7.0--dev-e63946?logo=github&logoColor=white" alt="Release" /></a>
    <a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3" /></a>
    <a href="https://github.com/rebelist/streamline/actions/workflows/ci.yaml"><img src="https://github.com/rebelist/streamline/actions/workflows/ci.yaml/badge.svg" /></a>
-   <a href="https://codecov.io/gh/rebelist/streamline" ><img src="https://codecov.io/gh/rebelist/streamline/graph/badge.svg?token=JU42524IZY" /></a>
+   <a href="https://codecov.io/gh/rebelist/streamline" ><img src="https://codecov.io/gh/rebelist/streamline/graph/badge.svg?token=V4S567489L" /></a>
 </p>
 
 <p align="center">
