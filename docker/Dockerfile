@@ -13,6 +13,8 @@ ENV PATH=/home/streamline/.local/bin:$PATH
 
 RUN groupadd --system rebelist && useradd --system --create-home --gid rebelist streamline
 
+HEALTHCHECK NONE
+
 # Install uv as root first, or manage permissions carefully
 RUN pip install --no-cache-dir "uv~=${UV_VERSION}"
 

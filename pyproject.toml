@@ -41,7 +41,6 @@ package = true
 [tool.hatch.build.targets.wheel]
 packages = ["src/rebelist"]
 
-
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
