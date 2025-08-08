@@ -19,7 +19,7 @@ services:
       - ./.env.prod:/home/streamline/app/.env
 
   mongo:
-    image: mongodb/mongodb-community-server:8.0.9-ubi8
+    image: mongodb/mongodb-community-server:8.0.12-ubi9
     container_name: rebelist-streamline-mongo
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=admin
@@ -41,7 +41,7 @@ services:
       - streamline
 
   grafana:
-    image: grafana/grafana:12.0.1
+    image: grafana/grafana:12.0.4
     container_name: rebelist-streamline-grafana
     ports:
       - "80:3000"

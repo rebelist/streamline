@@ -4,7 +4,7 @@ FROM python:${PYTHON_VERSION}-slim
 
 LABEL mantainer="Fran <rebelist.software@icloud.com>"
 
-ARG UV_VERSION=0.7
+ARG UV_VERSION=0.8
 
 ENV UV_COMPILE_BYTECODE=1
 ENV PYTHONUNBUFFERED=1
