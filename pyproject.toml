@@ -22,14 +22,15 @@ dependencies = [
     "jira>=3.10.5,<4",
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
+    "pip>=25.2,<26",
     "pytest>=8.3.5,<9",
     "pytest-mock>=3.14.0,<4",
     "pytest-cov>=6.2.1,<7",
     "pyright>=1.1.399,<2",
     "codecov>=2.1.13,<3",
-    "ruff>=0.12.5,<0.13",
+    "ruff>=0.12.10,<0.13",
     "pre-commit>=4.2.0,<5",
     "httpx>=0.28.1,<0.29",
     "hatchling>=1.27.0,<2",

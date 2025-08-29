@@ -9,6 +9,7 @@ init:
 dev:
 	@echo "\nRunning Streamline in development mode..."
 	@docker-compose up -d
+	@uv sync --all-extras
 	fastapi dev src/rebelist/streamline/handlers/api
 
 start:
