@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Generic, TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -29,11 +28,7 @@ class TimeMetricMetadata(MetricMetadata):
     unit: TimeUnit = Field(default=TimeUnit.DAYS, description='Unit of the datapoint')
 
 
-T = TypeVar('T')
-M = TypeVar('M', bound=MetricMetadata)
-
-
-class MetricResponse(BaseModel, Generic[T, M]):
+class MetricResponse[T, M: MetricMetadata](BaseModel):
     """Generic response model wrapping a list of datapoints and their associated metric metadata."""
 
     model_config = ConfigDict(frozen=True)
