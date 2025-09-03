@@ -66,7 +66,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
-          uv sync --dev
+          uv sync --all-extras
 
       - name: Copy example config files if missing
         run: |

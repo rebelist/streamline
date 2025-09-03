@@ -29,7 +29,7 @@ class TimeMetricMetadata(MetricMetadata):
 
 
 class MetricResponse[T, M: MetricMetadata](BaseModel):
-    """Generic response model wrapping a list of datapoints and their associated metric metadata."""
+    """Generic response model to wrap a list of datapoints and their associated metric metadata."""
 
     model_config = ConfigDict(frozen=True)
 
