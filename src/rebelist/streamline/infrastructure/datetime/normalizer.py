@@ -12,5 +12,4 @@ class DateTimeNormalizer:
         """Convert the given datetime to the target timezone."""
         if target.tzinfo is None:
             target = target.replace(tzinfo=ZoneInfo('UTC'))
-        print(self.timezone)
         return target.astimezone(self.timezone)
