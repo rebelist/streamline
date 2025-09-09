@@ -6,32 +6,32 @@ authors = [{ name = "Fran", email = "rebelist.software@icloud.com" }]
 requires-python = ">=3.13,<4.0"
 readme = "README.md"
 dependencies = [
-    "dependency-injector>=4.47.1,<5",
-    "python-dotenv>=1.1.0,<2",
-    "workalendar>=17.0.0,<18",
-    "python-dateutil>=2.9.0.post0,<3",
-    "rich-click>=1.8.8,<2",
-    "pymongo>=4.14.1,<5",
+    "dependency-injector>=4.47.1,<5.0.0",
+    "python-dotenv>=1.1.0,<2.0.0",
+    "workalendar>=17.0.0,<18.0.0",
+    "python-dateutil>=2.9.0.post0,<3.0.0",
+    "rich-click>=1.8.8,<2.0.0",
+    "pymongo>=4.14.1,<5.0.0",
     "fastapi>=0.116.1,<0.117.0",
     "fastapi-cli>=0.0.10,<0.1.0",
-    "loguru>=0.7.3,<0.8",
-    "pydantic-settings>=2.9.1,<3",
-    "pydantic>=2.11.4,<3",
-    "python-gitlab>=6.2.0,<7",
-    "tenacity>=9.1.2,<10",
-    "jira>=3.10.5,<4",
+    "loguru>=0.7.3,<0.8.0",
+    "pydantic-settings>=2.9.1,<3.0.0",
+    "pydantic>=2.11.4,<3.0.0",
+    "python-gitlab>=6.2.0,<7.0.0",
+    "tenacity>=9.1.2,<10.0.0",
+    "jira>=3.10.5,<4.0.0"
 ]
 
 [dependency-groups]
 dev = [
-    "pre-commit>=4.3.0",
-    "pyright>=1.1.405",
-    "pytest>=8.4.2",
-    "pytest-cov>=6.3.0",
-    "pytest-mock>=3.15.0",
-    "ruff>=0.12.12",
-    "types-mock>=5.2.0.20250809",
-    "httpx>=0.28.1,<0.29"
+    "pre-commit>=4.3.0,<5.0.0",
+    "pyright>=1.1.405,<2.0.0",
+    "pytest>=8.4.2,<9.0.0",
+    "pytest-cov>=7.0.0,<8.0.0",
+    "pytest-mock>=3.15.0,<4.0.0",
+    "ruff>=0.12.12,<1.0.0",
+    "types-mock>=5.2.0.20250809,<6.0.0",
+    "httpx>=0.28.1,<0.29.0"
 ]
 
 [tool.uv]
