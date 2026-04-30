@@ -8,43 +8,25 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   check-diff:
     runs-on: ubuntu-latest
     outputs:
-      run-tests: ${{ steps.filter.outputs.run-tests }}
+      run-tests: ${{ steps.filter.outputs.code }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Full history to make sure everything is available
+      - uses: actions/checkout@v6
 
-      - name: Check for changes in src/ or tests/
+      - name: Check for changes
+        uses: dorny/paths-filter@v4
         id: filter
-        run: |
-          echo "Event: ${{ github.event_name }}"
-
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE="${{ github.event.pull_request.base.sha }}"
-          else
-            BASE="${{ github.event.before }}"
-          fi
-
-          echo "Using BASE commit: $BASE"
-          CHANGED_FILES=$(git diff --name-only "$BASE"...HEAD)
-          echo "Changed files:"
-          echo "$CHANGED_FILES"
-
-          MATCHING_FILES=$(echo "$CHANGED_FILES" | grep -E '^src/|^tests/' || true)
-
-          if [ -n "$MATCHING_FILES" ]; then
-            echo "Relevant changes detected"
-            echo "run-tests=true" >> $GITHUB_OUTPUT
-          else
-            echo "No relevant changes"
-            echo "run-tests=false" >> $GITHUB_OUTPUT
-          fi
+        with:
+          filters: |
+            code:
+              - 'src/**'
+              - 'tests/**'
+              - 'uv.lock'
 
   test:
     needs: check-diff
@@ -53,20 +35,20 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
 
       - name: Install dependencies
         run: |
           uv venv
-          uv sync --all-extras
+          uv sync --dev
 
       - name: Copy example config files if missing
         run: |
@@ -75,10 +57,11 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          uv run pytest --color=yes --cov=rebelist.streamline --no-cov-on-fail --cov-report xml
+          uv run pytest --cov=src/rebelist/streamline --no-cov-on-fail --cov-report xml
 
-      - name: Upload coverage to Codecov
+      - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
-          fail_ci_if_error: true
+          report_type: coverage
           token: ${{ secrets.CODECOV_TOKEN }}
+          slug: rebelist/streamline
