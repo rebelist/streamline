@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, Mock
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from httpx import Response
+from httpx2 import Response
 
 from rebelist.streamline.application.compute import (
     CycleTimeDataPoint,

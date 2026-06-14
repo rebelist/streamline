@@ -3,7 +3,7 @@ name = "rebelist-streamline"
 version = "0.7.1"
 description = "A free and open-source platform for collecting, visualizing, and analyzing engineering metrics, allowing teams to track performance, improve processes, and make data-driven decisions."
 authors = [{ name = "Fran", email = "rebelist.software@icloud.com" }]
-requires-python = ">=3.14,<4.0"
+requires-python = ">=3.14,<3.15"
 readme = "README.md"
 dependencies = [
     "dependency-injector>=4.47,<5.0",
@@ -23,6 +23,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "httpx2>=2.4.0,<3.0",
     "pre-commit>=4.3,<5.0",
     "pyright>=1.1,<2.0",
     "pytest>=9.0,<10.0",
@@ -30,7 +31,6 @@ dev = [
     "pytest-mock>=3.15,<4.0",
     "ruff>=0.15,<1.0",
     "types-mock>=5.2,<6.0",
-    "httpx>=0.28,<0.29"
 ]
 
 [tool.uv]
