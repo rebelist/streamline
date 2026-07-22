@@ -60,7 +60,7 @@ class TestSprintJob:
         mock_settings = mocker.Mock(spec=JiraSettings)
         mock_existing_job = mocker.Mock(spec=Job)
 
-        mock_settings.team = 'another_team'
+        mock_settings.team = 'another_team_x'
         mock_settings.sprint_offset = 50
         mock_existing_job.metadata = {'sprint_offset': 105}
         mock_jira_gateway.find_sprints.return_value = [
@@ -77,7 +77,7 @@ class TestSprintJob:
         job = SprintJob(mock_jira_gateway, mock_sprint_repo, mock_job_repo, mock_settings)
         job.execute()
 
-        mock_job_repo.find.assert_called_once_with(SprintJob.JOB_NAME, 'another_team')
+        mock_job_repo.find.assert_called_once_with(SprintJob.JOB_NAME, 'another_team_x')
         mock_jira_gateway.find_sprints.assert_called_once_with(105)
         mock_sprint_repo.save.assert_called_once()
         saved_job: Job = mock_job_repo.save.call_args[0][0]
